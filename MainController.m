@@ -16,6 +16,7 @@
 	_curTask = nil;
 	_curProject = nil;
 	timer = nil;
+	timeSinceSave = 0;
 	
 	return self;
 }
@@ -60,6 +61,7 @@
 		[statusItem setImage:playItemImage];
 		[statusItem setAlternateImage:playItemHighlightImage];
 		[self stopTimer];
+		[self saveData];
 		
 		[_curWorkPeriod setEndTime: [NSDate date]];
 		[_curTask updateTotalTime];
@@ -235,6 +237,8 @@
 	
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
+	
+	[tvProjects reloadData];
 }
 
 - (void) doubleClickWorkPeriod: (id) sender
@@ -280,6 +284,12 @@
 		[NSApp runModalForWindow: panelIdleNotification];
 		[panelIdleNotification orderOut: self];
 	}
+	
+	if (timeSinceSave > 5 * 60) {
+		[self saveData];
+	} else {
+		timeSinceSave++;
+	}
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -290,10 +300,17 @@
 		[NSApp stopModal];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+- (void)saveData
 {
 	NSData *theData=[NSArchiver archivedDataWithRootObject:_projects];
 	[[NSUserDefaults standardUserDefaults] setObject:theData forKey:@"ProjectTimes"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	timeSinceSave = 0;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	[self saveData];
 	if (timer != nil)
 		[self stopTimer];
 	return NSTerminateNow;

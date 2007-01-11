@@ -8,9 +8,7 @@
                 clickedChangeWorkPeriod = id; 
                 clickedCountIdleTimeNo = id; 
                 clickedCountIdleTimeYes = id; 
-                clickedDeleteProject = id; 
-                clickedDeleteTask = id; 
-                clickedDeleteWorkPeriod = id; 
+                clickedDelete = id; 
                 clickedStartStopTimer = id; 
             }; 
             CLASS = MainController; 

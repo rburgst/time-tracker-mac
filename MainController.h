@@ -46,6 +46,7 @@
 	TTask *_curTask;
 	
 	NSDate *_lastNonIdleTime;
+	int timeSinceSave;
 }
 
 // actions
@@ -60,5 +61,6 @@
 - (void) timerFunc: (NSTimer *) timer;
 - (void) stopTimer;
 - (int)idleTime;
+- (void) saveData;
 
 @end

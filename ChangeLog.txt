@@ -1,0 +1,9 @@
+
+2007-01-04: Aaron VonderHaar <vonderha@spawar.navy.mil>
+  * Data is now saved to disk every five minutes when the timer is running.
+  * Data is now saved when the timer is stopped.
+  * Project settings are changed to produce a universal binary.
+  * Changed the nib file for more efficient use of space.
+  * Made window resizable.
+  * Window size and position is saved in the system defaults.
+  * Ensures that the display is refreshed when the main window is first loaded (this was not the case when the window size/position was restored).
