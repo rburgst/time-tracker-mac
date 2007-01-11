@@ -1,0 +1,4 @@
+Time Tracker is licensed under the GPL license. For other licensing options, please
+email junker@slooz.com
+
+(c) 2006, Ivan Dramaliev
