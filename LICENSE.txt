@@ -1,4 +1,8 @@
-Time Tracker is licensed under the GPL license. For other licensing options, please
-email junker@slooz.com
+This release has been built and packaged by Aaron VonderHaar.
+Please email gruen0aermel@gmail.com for details.
 
+Time Tracker is licensed under the GPL license. For other licensing options, please email junker@slooz.com
 (c) 2006, Ivan Dramaliev
+
+Portions of the code in this release (see Changelog.txt) are 
+(c) 2007, Aaron VonderHaar
