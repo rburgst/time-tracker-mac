@@ -1,5 +1,5 @@
 This release has been built and packaged by Aaron VonderHaar.
-Please email gruen0aermel@gmail.com for details.
+Please see http://code.google.com/p/time-tracker-mac for details.
 
 Time Tracker is licensed under the GPL license. For other licensing options, please email junker@slooz.com
 (c) 2006, Ivan Dramaliev

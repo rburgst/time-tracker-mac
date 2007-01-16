@@ -1,4 +1,15 @@
-=== Version 1.1 === 2007-01-10
+=== Version 1.1.002 === 2007-01-15
+Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
+
+2007-01-15: Aaron VonderHaar <gruen0aermel@gmail.com>
+  * Fixed bug 5: When adding a new project or task, the new entry is
+    immediately selected for renaming.
+  * Fixed bug 6: When selecting a project, the task that was previoudly
+    selected is reselected.
+  * Fixed bug 2: It is no longer possible to add work periods that are
+    not associated with a task or project.
+
+=== Version 1.1.001 === 2007-01-10
 Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
 
 2007-01-04: Aaron VonderHaar <gruen0aermel@gmail.com>
@@ -8,4 +19,5 @@ Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
   * Changed the nib file for more efficient use of space.
   * Made window resizable.
   * Window size and position is saved in the system defaults.
-  * Ensures that the display is refreshed when the main window is first loaded (this was not the case when the window size/position was restored).
+  * Ensures that the display is refreshed when the main window is first
+    loaded (this was not the case when the window size/position was restored).

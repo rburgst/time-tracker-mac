@@ -6,6 +6,21 @@
 	objectVersion = 42;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		B19BDFB30B5C94F200465046 /* Release Package */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B19BDFBD0B5C955500465046 /* Build configuration list for PBXAggregateTarget "Release Package" */;
+			buildPhases = (
+				B19BDFB20B5C94F200465046 /* CopyFiles */,
+			);
+			dependencies = (
+				B19BDFB50B5C94FA00465046 /* PBXTargetDependency */,
+			);
+			name = "Release Package";
+			productName = "Release Package";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2C4528A70909AACB003C0369 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C4528A60909AACB003C0369 /* Carbon.framework */; };
 		2C4528B20909AAE5003C0369 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C4528B10909AAE5003C0369 /* IOKit.framework */; };
@@ -27,7 +42,35 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* Time Tracker.app */; };
+		B19BDFC50B5C956F00465046 /* ChangeLog.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC10B5C956700465046 /* ChangeLog.txt */; };
+		B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC20B5C956700465046 /* LICENSE.txt */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B19BDFB40B5C94FA00465046 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D1107260486CEB800E47090 /* Time Tracker */;
+			remoteInfo = "Time Tracker";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B19BDFB20B5C94F200465046 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Release;
+			dstSubfolderSpec = 16;
+			files = (
+				B19BDFC50B5C956F00465046 /* ChangeLog.txt in CopyFiles */,
+				B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */,
+				B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -61,6 +104,8 @@
 		32CA4F630368D1EE00C91783 /* Time Tracker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Time Tracker_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Time Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
+		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +192,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B19BDFC10B5C956700465046 /* ChangeLog.txt */,
+				B19BDFC20B5C956700465046 /* LICENSE.txt */,
 				2C9DB973090677B20039C62A /* Icon.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -211,6 +258,7 @@
 			projectDirPath = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Time Tracker */,
+				B19BDFB30B5C94F200465046 /* Release Package */,
 			);
 		};
 /* End PBXProject section */
@@ -251,6 +299,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B19BDFB50B5C94FA00465046 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D1107260486CEB800E47090 /* Time Tracker */;
+			targetProxy = B19BDFB40B5C94FA00465046 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -360,6 +416,35 @@
 			};
 			name = Default;
 		};
+		B19BDFBE0B5C955500465046 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Release Package";
+			};
+			name = Debug;
+		};
+		B19BDFBF0B5C955500465046 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Release Package";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		B19BDFC00B5C955500465046 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Release Package";
+			};
+			name = Default;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -379,6 +464,16 @@
 				2CFAEE2609042EE900131DD6 /* Debug */,
 				2CFAEE2709042EE900131DD6 /* Release */,
 				2CFAEE2809042EE900131DD6 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		B19BDFBD0B5C955500465046 /* Build configuration list for PBXAggregateTarget "Release Package" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B19BDFBE0B5C955500465046 /* Debug */,
+				B19BDFBF0B5C955500465046 /* Release */,
+				B19BDFC00B5C955500465046 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
