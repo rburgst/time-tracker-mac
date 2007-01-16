@@ -63,4 +63,6 @@
 - (int)idleTime;
 - (void) saveData;
 
+- (void) updateToolbarState;
+
 @end

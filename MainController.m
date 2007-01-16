@@ -403,10 +403,10 @@
 	if ([notification object] == tvProjects) {
 		if ([tvProjects selectedRow] == -1) {
 			_selProject = nil;
-			[addTaskToolbarItem setEnabled: NO];
+			[self updateToolbarState];
 		} else {
 			_selProject = [_projects objectAtIndex: [tvProjects selectedRow]];
-			[addTaskToolbarItem setEnabled: YES];
+			[self updateToolbarState];
 		}
 		[tvTasks deselectAll: self];
 		[tvTasks reloadData];
@@ -414,12 +414,11 @@
 	
 	if ([notification object] == tvTasks) {
 		if ([tvTasks selectedRow] == -1) {
-			if (timer == nil)
-				[startstopToolbarItem setEnabled: NO];
-			_selTask = nil;			
+			_selTask = nil;
+			[self updateToolbarState];
 		} else {
 			_selTask = [[_selProject tasks] objectAtIndex: [tvTasks selectedRow]];
-			[startstopToolbarItem setEnabled: YES];
+			[self updateToolbarState];
 		}
 		[tvWorkPeriods reloadData];
 	}
@@ -538,6 +537,34 @@
 {
 	[timer setFireDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
 	[NSApp stopModal];
+}
+
+- (void)updateToolbarState
+{
+	if (timer == nil) {
+	    // Timer is stopped
+		
+		
+		if (_selTask == nil) {
+			// No task is selected
+			[startstopToolbarItem setEnabled: NO];
+		} else {
+			// A task is selected
+			[startstopToolbarItem setEnabled: YES];
+		}
+	} else {
+		// Timer is running
+		[startstopToolbarItem setEnabled:YES];
+	}
+	
+	
+	// The Add Task button
+	if (_selProject == nil) {
+		// No project is selected
+		[addTaskToolbarItem setEnabled:NO];
+	} else {
+		[addTaskToolbarItem setEnabled:YES];
+	}
 }
 
 - (IBAction)clickedCountIdleTimeNo:(id)sender
