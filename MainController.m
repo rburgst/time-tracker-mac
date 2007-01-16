@@ -389,13 +389,17 @@
 	if ([notification object] == tvProjects) {
 		if ([tvProjects selectedRow] == -1) {
 			_selProject = nil;
-			[self updateToolbarState];
 		} else {
 			_selProject = [_projects objectAtIndex: [tvProjects selectedRow]];
-			[self updateToolbarState];
 		}
 		[tvTasks deselectAll: self];
 		[tvTasks reloadData];
+		
+		if (_selProject != nil && [[_selProject tasks] count] > 0) {
+			[tvTasks selectRow:0 byExtendingSelection:NO];
+		}
+		
+		[self updateToolbarState];
 	}
 	
 	if ([notification object] == tvTasks) {
