@@ -29,13 +29,8 @@
 		timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
 			userInfo: nil repeats: YES];
 			
-		[statusItem setImage:stopItemImage];
-		[statusItem setAlternateImage:stopItemHighlightImage];
-		
-		[startstopToolbarItem setLabel:@"Stop"];
-		[startstopToolbarItem setPaletteLabel:@"Stop"];
-		[startstopToolbarItem setToolTip:@"Stop timer"];
-		[startstopToolbarItem setImage: stopToolImage];
+		[self updateStartStopState];
+		[self updateToolbarState];
 		
 		_curWorkPeriod = [TWorkPeriod new];
 		[_curWorkPeriod setStartTime: [NSDate date]];
@@ -48,18 +43,13 @@
 	} else {
 		_curProject = nil;
 		_curTask = nil;
-		if (_selTask == nil)
-			[startstopToolbarItem setEnabled: NO];
-		[startstopToolbarItem setLabel:@"Start"];
-		[startstopToolbarItem setPaletteLabel:@"Start"];
-		[startstopToolbarItem setToolTip:@"Start timer"];
-		[startstopToolbarItem setImage: playToolImage];
 		
 		[timer invalidate];
 		timer = nil;
+		
+		[self updateStartStopState];
+		[self updateToolbarState];
 	
-		[statusItem setImage:playItemImage];
-		[statusItem setAlternateImage:playItemHighlightImage];
 		[self stopTimer];
 		[self saveData];
 		
@@ -92,14 +82,11 @@
     
 	if ([itemIdentifier isEqual: @"Startstop"]) {
 		startstopToolbarItem = toolbarItem;
-		[toolbarItem setLabel:@"Start"];
-		[toolbarItem setPaletteLabel:@"Start"];
-		[toolbarItem setToolTip:@"Start timer"];
-		[toolbarItem setImage: playToolImage];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedStartStopTimer:)];
 		[toolbarItem setAutovalidates: NO];
-		[toolbarItem setEnabled: NO];
+		[self updateStartStopState];
+		[self updateToolbarState];
     }
 	
 	if ([itemIdentifier isEqual: @"AddProject"]) {
@@ -110,6 +97,7 @@
 		[toolbarItem setImage: addProjectToolImage];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedAddProject:)];
+		[self updateToolbarState];
     }
 	
 	if ([itemIdentifier isEqual: @"AddTask"]) {
@@ -121,7 +109,7 @@
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedAddTask:)];
 		[toolbarItem setAutovalidates: NO];
-		[toolbarItem  setEnabled: NO];
+		[self updateToolbarState];
     }
     
     return toolbarItem;
@@ -220,10 +208,6 @@
 	addTaskToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"addtasktool" ofType:@"png"]];
 	addProjectToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"addprojecttool" ofType:@"png"]];
 
-
-	[statusItem setImage:playItemImage];
-	[statusItem setAlternateImage:playItemHighlightImage];
-
 	//[statusItem setMenu:m]; // retains m
 	[statusItem setToolTip:@"Time Tracker"];
 	[statusItem setHighlightMode:NO];
@@ -233,7 +217,9 @@
 	NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier: @"TimeTrackerToolbar"];
 	[toolbar setDelegate: self];
 	[mainWindow setToolbar: toolbar];	
-	[startstopToolbarItem setEnabled: NO];	
+
+	[self updateStartStopState];
+	[self updateToolbarState];
 	
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
@@ -539,6 +525,29 @@
 	[NSApp stopModal];
 }
 
+- (void)updateStartStopState
+{
+	if (timer == nil) {
+		// Timer is stopped: show the Start button
+		[startstopToolbarItem setLabel:@"Start"];
+		[startstopToolbarItem setPaletteLabel:@"Start"];
+		[startstopToolbarItem setToolTip:@"Start timer"];
+		[startstopToolbarItem setImage: playToolImage];
+		
+		[statusItem setImage:playItemImage];
+		[statusItem setAlternateImage:playItemHighlightImage];
+	} else {
+		[startstopToolbarItem setLabel:@"Stop"];
+		[startstopToolbarItem setPaletteLabel:@"Stop"];
+		[startstopToolbarItem setToolTip:@"Stop timer"];
+		[startstopToolbarItem setImage: stopToolImage];
+		
+		[statusItem setImage:stopItemImage];
+		[statusItem setAlternateImage:stopItemHighlightImage];
+	}
+	
+}
+
 - (void)updateToolbarState
 {
 	if (timer == nil) {
@@ -581,18 +590,13 @@
 	
 	_curProject = nil;
 		_curTask = nil;
-		if (_selTask == nil)
-			[startstopToolbarItem setEnabled: NO];
-		[startstopToolbarItem setLabel:@"Start"];
-		[startstopToolbarItem setPaletteLabel:@"Start"];
-		[startstopToolbarItem setToolTip:@"Start timer"];
-		[startstopToolbarItem setImage: playToolImage];
 		
 		[timer invalidate];
 		timer = nil;
-	
-		[statusItem setImage:playItemImage];
-		[statusItem setAlternateImage:playItemHighlightImage];
+		
+		[self updateStartStopState];
+		[self updateToolbarState];
+
 		[self stopTimer];
 		
 		[_curTask updateTotalTime];
