@@ -39,6 +39,7 @@
 	NSToolbarItem *addTaskToolbarItem;
 	
 	NSMutableArray *_projects;
+	NSMutableDictionary *_projects_lastTask;
 	TProject *_selProject;
 	TTask *_selTask;
 	TWorkPeriod *_curWorkPeriod;

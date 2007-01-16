@@ -139,6 +139,8 @@
 	if (theData != nil)
 		_projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
 	
+	_projects_lastTask = [[NSMutableDictionary alloc] initWithCapacity:[_projects count]];
+	
 	//NSNumber *numTotalTime = [defaults objectForKey: @"TotalTime"];
 	
 	/*NSZone *menuZone = [NSMenu menuZone];
@@ -387,16 +389,29 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == tvProjects) {
+		// Save the last task for the old project
+		if (_selProject != nil) {
+			NSNumber *index = [NSNumber numberWithInt:[tvTasks selectedRow]];
+			[_projects_lastTask setValue:index forKey:[_selProject name]];
+		}
+	
+		// Update the new selection
 		if ([tvProjects selectedRow] == -1) {
 			_selProject = nil;
 		} else {
 			_selProject = [_projects objectAtIndex: [tvProjects selectedRow]];
 		}
+
 		[tvTasks deselectAll: self];
 		[tvTasks reloadData];
 		
 		if (_selProject != nil && [[_selProject tasks] count] > 0) {
-			[tvTasks selectRow:0 byExtendingSelection:NO];
+			NSNumber *lastTask = [_projects_lastTask valueForKey:[_selProject name]];
+			if (lastTask == nil || [lastTask intValue] == -1) {
+				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+			} else {
+				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:[lastTask intValue]] byExtendingSelection:NO];
+			}
 		}
 		
 		[self updateToolbarState];
