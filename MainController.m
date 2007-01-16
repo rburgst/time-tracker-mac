@@ -384,6 +384,9 @@
 	TTask *task = [TTask new];
 	[_selProject addTask: task];
 	[tvTasks reloadData];
+	int newTaskIndex = [[_selProject tasks] count] - 1;
+	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:newTaskIndex] byExtendingSelection:NO];
+	[tvTasks editColumn:0 row:newTaskIndex withEvent:nil select:YES];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
