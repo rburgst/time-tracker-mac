@@ -377,6 +377,9 @@
 	TProject *proj = [TProject new];
 	[_projects addObject: proj];
 	[tvProjects reloadData];
+	int index = [_projects count] - 1;
+	[tvProjects selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[tvProjects editColumn:[tvProjects columnWithIdentifier:@"ProjectName"] row:index withEvent:nil select:YES];
 }
 
 - (IBAction)clickedAddTask:(id)sender
@@ -384,9 +387,9 @@
 	TTask *task = [TTask new];
 	[_selProject addTask: task];
 	[tvTasks reloadData];
-	int newTaskIndex = [[_selProject tasks] count] - 1;
-	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:newTaskIndex] byExtendingSelection:NO];
-	[tvTasks editColumn:0 row:newTaskIndex withEvent:nil select:YES];
+	int index = [[_selProject tasks] count] - 1;
+	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
+	[tvTasks editColumn:[tvTasks columnWithIdentifier:@"TaskName"] row:index withEvent:nil select:YES];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
