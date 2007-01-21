@@ -60,7 +60,9 @@
 - (IBAction)clickedCountIdleTimeNo:(id)sender;
 
 - (void) timerFunc: (NSTimer *) timer;
+- (void) stopTimer:(NSDate*)endTime;
 - (void) stopTimer;
+- (void) startTimer;
 - (int)idleTime;
 - (void) saveData;
 

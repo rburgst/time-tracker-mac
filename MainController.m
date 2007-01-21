@@ -24,46 +24,60 @@
 - (IBAction)clickedStartStopTimer:(id)sender
 {
 	if (timer == nil) {
-		if (_selTask == nil)
-			return;
-		timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
-			userInfo: nil repeats: YES];
-			
-		[self updateStartStopState];
-		[self updateToolbarState];
-		
-		_curWorkPeriod = [TWorkPeriod new];
-		[_curWorkPeriod setStartTime: [NSDate date]];
-		[_curWorkPeriod setEndTime: [NSDate date]];
-		
-		[_selTask addWorkPeriod: _curWorkPeriod];
-		[tvWorkPeriods reloadData];	
-		_curProject = _selProject;
-		_curTask = _selTask;	
+		[self startTimer];
 	} else {
-		_curProject = nil;
-		_curTask = nil;
-		
-		[timer invalidate];
-		timer = nil;
-		
-		[self updateStartStopState];
-		[self updateToolbarState];
-	
 		[self stopTimer];
-		[self saveData];
-		
-		[_curWorkPeriod setEndTime: [NSDate date]];
-		[_curTask updateTotalTime];
-		[_curProject updateTotalTime];
-		[tvProjects reloadData];
-		[tvTasks reloadData];
-		[tvWorkPeriods reloadData];
 	}
 }
 
-- (void) stopTimer
+- (void)startTimer
 {
+	// assert _selProject != nil
+	if (_selTask == nil)
+		return;
+	timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
+					userInfo: nil repeats: YES];
+	
+	[self updateStartStopState];
+	[self updateToolbarState];
+	
+	_curWorkPeriod = [TWorkPeriod new];
+	[_curWorkPeriod setStartTime: [NSDate date]];
+	[_curWorkPeriod setEndTime: [NSDate date]];
+	
+	[_selTask addWorkPeriod: _curWorkPeriod];
+	[tvWorkPeriods reloadData];	
+	_curProject = _selProject;
+	_curTask = _selTask;
+}
+
+- (void)stopTimer
+{
+	[self stopTimer:[NSDate date]];
+}
+
+- (void)stopTimer:(NSDate*)endTime
+{
+	if (timer == nil) return;
+	
+	[timer invalidate];
+	timer = nil;
+	
+	[_curWorkPeriod setEndTime:endTime];
+	[_curTask updateTotalTime];
+	[_curProject updateTotalTime];
+	_curProject = nil;
+	_curTask = nil;
+	
+	[self saveData];
+	
+	[self updateStartStopState];
+	[self updateToolbarState];
+	
+	[tvProjects reloadData];
+	[tvTasks reloadData];
+	[tvWorkPeriods reloadData];
+	
 	//[defaults setObject: [NSNumber numberWithInt: totalTime] forKey: @"TotalTime"];
 	
 }
@@ -298,9 +312,9 @@
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-	[self saveData];
 	if (timer != nil)
 		[self stopTimer];
+	[self saveData];
 	return NSTerminateNow;
 }
 
@@ -398,7 +412,7 @@
 		// Save the last task for the old project
 		if (_selProject != nil) {
 			NSNumber *index = [NSNumber numberWithInt:[tvTasks selectedRow]];
-			[_projects_lastTask setValue:index forKey:[_selProject name]];
+			[_projects_lastTask setObject:index forKey:[_selProject name]];
 		}
 	
 		// Update the new selection
@@ -412,7 +426,7 @@
 		[tvTasks reloadData];
 		
 		if (_selProject != nil && [[_selProject tasks] count] > 0) {
-			NSNumber *lastTask = [_projects_lastTask valueForKey:[_selProject name]];
+			NSNumber *lastTask = [_projects_lastTask objectForKey:[_selProject name]];
 			if (lastTask == nil || [lastTask intValue] == -1) {
 				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 			} else {
@@ -463,15 +477,23 @@
 		[tvProjects reloadData];
 	}
 	if ([mainWindow firstResponder] == tvTasks) {
-		[[_selProject tasks] removeObject: _selTask];
-		[_selProject updateTotalTime];
+		if (_selTask == _curTask) {
+			[self stopTimer];
+		}
+		TTask *delTask = _selTask;
 		[tvTasks deselectAll: self];
+		[[_selProject tasks] removeObject: delTask];
+		[_selProject updateTotalTime];
 		[tvTasks reloadData];
 		[tvProjects reloadData];
 	}
 	if ([mainWindow firstResponder] == tvProjects) {
-		[_projects removeObject: _selProject];
+		if (_selProject == _curProject) {
+			[self stopTimer];
+		}
+		TProject *delProject = _selProject;
 		[tvProjects deselectAll: self];
+		[_projects removeObject: delProject];
 		[tvProjects reloadData];
 	}
 }
@@ -607,30 +629,15 @@
 	[_curWorkPeriod setEndTime: _lastNonIdleTime];
 	[_lastNonIdleTime release];
 	_lastNonIdleTime = nil;
+	
+	//XXX this code is duplicated from stopTimer: ??
 	[_curTask updateTotalTime];
 	[_curProject updateTotalTime];
 	[tvProjects reloadData];
 	[tvTasks reloadData];
 	[tvWorkPeriods reloadData];
 	
-	_curProject = nil;
-		_curTask = nil;
-		
-		[timer invalidate];
-		timer = nil;
-		
-		[self updateStartStopState];
-		[self updateToolbarState];
-
-		[self stopTimer];
-		
-		[_curTask updateTotalTime];
-		[_curProject updateTotalTime];
-		[tvProjects reloadData];
-		[tvTasks reloadData];
-		[tvWorkPeriods reloadData];
-	
-	
+	[self stopTimer:_lastNonIdleTime];
 }
 
 
