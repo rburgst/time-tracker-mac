@@ -39,7 +39,6 @@
 					userInfo: nil repeats: YES];
 	
 	[self updateStartStopState];
-	[self updateToolbarState];
 	
 	_curWorkPeriod = [TWorkPeriod new];
 	[_curWorkPeriod setStartTime: [NSDate date]];
@@ -72,7 +71,6 @@
 	[self saveData];
 	
 	[self updateStartStopState];
-	[self updateToolbarState];
 	
 	[tvProjects reloadData];
 	[tvTasks reloadData];
@@ -98,32 +96,27 @@
 		startstopToolbarItem = toolbarItem;
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedStartStopTimer:)];
-		[toolbarItem setAutovalidates: NO];
 		[self updateStartStopState];
-		[self updateToolbarState];
     }
 	
 	if ([itemIdentifier isEqual: @"AddProject"]) {
 		addProjectToolbarItem = toolbarItem;
-		[toolbarItem setLabel:@"Add project"];
-		[toolbarItem setPaletteLabel:@"Add project"];
-		[toolbarItem setToolTip:@"Add project"];
+		[toolbarItem setLabel:@"New project"];
+		[toolbarItem setPaletteLabel:@"New project"];
+		[toolbarItem setToolTip:@"New project"];
 		[toolbarItem setImage: addProjectToolImage];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedAddProject:)];
-		[self updateToolbarState];
     }
 	
 	if ([itemIdentifier isEqual: @"AddTask"]) {
 		addTaskToolbarItem = toolbarItem;
-		[toolbarItem setLabel:@"Add task"];
-		[toolbarItem setPaletteLabel:@"Add task"];
-		[toolbarItem setToolTip:@"Add task"];
+		[toolbarItem setLabel:@"New task"];
+		[toolbarItem setPaletteLabel:@"New task"];
+		[toolbarItem setToolTip:@"New task"];
 		[toolbarItem setImage: addTaskToolImage];
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedAddTask:)];
-		[toolbarItem setAutovalidates: NO];
-		[self updateToolbarState];
     }
     
     return toolbarItem;
@@ -235,7 +228,6 @@
 	[mainWindow setToolbar: toolbar];	
 
 	[self updateStartStopState];
-	[self updateToolbarState];
 	
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
@@ -433,17 +425,13 @@
 				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:[lastTask intValue]] byExtendingSelection:NO];
 			}
 		}
-		
-		[self updateToolbarState];
 	}
 	
 	if ([notification object] == tvTasks) {
 		if ([tvTasks selectedRow] == -1) {
 			_selTask = nil;
-			[self updateToolbarState];
 		} else {
 			_selTask = [[_selProject tasks] objectAtIndex: [tvTasks selectedRow]];
-			[self updateToolbarState];
 		}
 		[tvWorkPeriods reloadData];
 	}
@@ -572,6 +560,23 @@
 	[NSApp stopModal];
 }
 
+- (BOOL) validateUserInterfaceItem:(id)anItem
+{
+	if ([anItem action] == @selector(clickedStartStopTimer:)) {
+		if (timer != nil) return YES;
+		if (_selTask != nil) return YES;
+		return NO;
+	} else
+	if ([anItem action] == @selector(clickedAddProject:)) {
+		return YES;
+	} else
+	if ([anItem action] == @selector(clickedAddTask:)) {
+		if (_selProject != nil) return YES;
+		return NO;
+	}
+	return YES;
+}
+
 - (void)updateStartStopState
 {
 	if (timer == nil) {
@@ -583,6 +588,8 @@
 		
 		[statusItem setImage:playItemImage];
 		[statusItem setAlternateImage:playItemHighlightImage];
+		
+		[startMenuItem setTitle:@"Start Timer"];
 	} else {
 		[startstopToolbarItem setLabel:@"Stop"];
 		[startstopToolbarItem setPaletteLabel:@"Stop"];
@@ -591,36 +598,10 @@
 		
 		[statusItem setImage:stopItemImage];
 		[statusItem setAlternateImage:stopItemHighlightImage];
-	}
-	
-}
-
-- (void)updateToolbarState
-{
-	if (timer == nil) {
-	    // Timer is stopped
 		
-		
-		if (_selTask == nil) {
-			// No task is selected
-			[startstopToolbarItem setEnabled: NO];
-		} else {
-			// A task is selected
-			[startstopToolbarItem setEnabled: YES];
-		}
-	} else {
-		// Timer is running
-		[startstopToolbarItem setEnabled:YES];
+		[startMenuItem setTitle:@"Stop Timer"];
 	}
 	
-	
-	// The Add Task button
-	if (_selProject == nil) {
-		// No project is selected
-		[addTaskToolbarItem setEnabled:NO];
-	} else {
-		[addTaskToolbarItem setEnabled:YES];
-	}
 }
 
 - (IBAction)clickedCountIdleTimeNo:(id)sender

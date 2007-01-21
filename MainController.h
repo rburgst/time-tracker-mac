@@ -34,6 +34,8 @@
 	IBOutlet NSDatePicker *dtpEditWorkPeriodStartTime;
 	IBOutlet NSDatePicker *dtpEditWorkPeriodEndTime;
 	
+	IBOutlet NSMenuItem *startMenuItem;
+	
 	NSToolbarItem *startstopToolbarItem;
 	NSToolbarItem *addProjectToolbarItem;
 	NSToolbarItem *addTaskToolbarItem;
@@ -67,6 +69,7 @@
 - (void) saveData;
 
 - (void) updateStartStopState;
-- (void) updateToolbarState;
+
+- (BOOL) validateUserInterfaceItem:(id)anItem;
 
 @end

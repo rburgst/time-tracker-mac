@@ -14,14 +14,15 @@
             CLASS = MainController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
-                dtpEditWorkPeriodEndTime = id; 
-                dtpEditWorkPeriodStartTime = id; 
-                mainWindow = id; 
-                panelEditWorkPeriod = id; 
-                panelIdleNotification = id; 
-                tvProjects = id; 
-                tvTasks = id; 
-                tvWorkPeriods = id; 
+                dtpEditWorkPeriodEndTime = NSDatePicker; 
+                dtpEditWorkPeriodStartTime = NSDatePicker; 
+                mainWindow = NSWindow; 
+                panelEditWorkPeriod = NSPanel; 
+                panelIdleNotification = NSPanel; 
+                startMenuItem = NSMenuItem; 
+                tvProjects = NSTableView; 
+                tvTasks = NSTableView; 
+                tvWorkPeriods = NSTableView; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
