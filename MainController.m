@@ -15,6 +15,7 @@
 	_selTask = nil;
 	_curTask = nil;
 	_curProject = nil;
+	_curWorkPeriod = nil;
 	timer = nil;
 	timeSinceSave = 0;
 	
@@ -32,9 +33,12 @@
 
 - (void)startTimer
 {
+	// assert timer == nil
+	if (timer != nil) return;
 	// assert _selProject != nil
-	if (_selTask == nil)
-		return;
+	// assert _selTask != nil
+	if (_selTask == nil) return;
+	
 	timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
 					userInfo: nil repeats: YES];
 	
@@ -48,6 +52,10 @@
 	[tvWorkPeriods reloadData];	
 	_curProject = _selProject;
 	_curTask = _selTask;
+	
+	// assert timer != nil
+	// assert _curProject != nil
+	// assert _curTask != nil
 }
 
 - (void)stopTimer
@@ -57,6 +65,7 @@
 
 - (void)stopTimer:(NSDate*)endTime
 {
+	// assert timer != nil
 	if (timer == nil) return;
 	
 	[timer invalidate];
@@ -65,6 +74,7 @@
 	[_curWorkPeriod setEndTime:endTime];
 	[_curTask updateTotalTime];
 	[_curProject updateTotalTime];
+	_curWorkPeriod = nil;
 	_curProject = nil;
 	_curTask = nil;
 	
@@ -78,6 +88,9 @@
 	
 	//[defaults setObject: [NSNumber numberWithInt: totalTime] forKey: @"TotalTime"];
 	
+	// assert timer == nil
+	// assert _curProject == nil
+	// assert _curTask == nil
 }
 
 - (void)toolbarWillAddItem:(NSNotification *)notification
@@ -100,7 +113,6 @@
     }
 	
 	if ([itemIdentifier isEqual: @"AddProject"]) {
-		addProjectToolbarItem = toolbarItem;
 		[toolbarItem setLabel:@"New project"];
 		[toolbarItem setPaletteLabel:@"New project"];
 		[toolbarItem setToolTip:@"New project"];
@@ -110,7 +122,6 @@
     }
 	
 	if ([itemIdentifier isEqual: @"AddTask"]) {
-		addTaskToolbarItem = toolbarItem;
 		[toolbarItem setLabel:@"New task"];
 		[toolbarItem setPaletteLabel:@"New task"];
 		[toolbarItem setToolTip:@"New task"];
@@ -237,6 +248,8 @@
 
 - (void) doubleClickWorkPeriod: (id) sender
 {
+	// assert _selProject != nil
+	// assert _selTask != nil
 	TWorkPeriod *wp = [[_selTask workPeriods] objectAtIndex: [tvWorkPeriods selectedRow]];
 	[dtpEditWorkPeriodStartTime setDateValue: [wp startTime]];
 	[dtpEditWorkPeriodEndTime setDateValue: [wp endTime]];
@@ -246,6 +259,8 @@
 
 - (IBAction)clickedChangeWorkPeriod:(id)sender
 {
+	// assert _selProject != nil
+	// assert _selTask != nil
 	TWorkPeriod *wp = [[_selTask workPeriods] objectAtIndex: [tvWorkPeriods selectedRow]];
 	[wp setStartTime: [dtpEditWorkPeriodStartTime dateValue]];
 	[wp setEndTime: [dtpEditWorkPeriodEndTime dateValue]];
@@ -260,6 +275,10 @@
 
 - (void) timerFunc: (NSTimer *) atimer
 {	
+	// assert timer != nil
+	// assert timer == atimer
+	if (timer != atimer) return;
+	
 	[_curWorkPeriod setEndTime: [NSDate date]];
 	[_curTask updateTotalTime];
 	[_curProject updateTotalTime];
@@ -269,7 +288,6 @@
 	int idleTime = [self idleTime];
 	if (idleTime == 0) {
 		[_lastNonIdleTime release];
-		_lastNonIdleTime = nil;
 		_lastNonIdleTime = [[NSDate date] retain];
 	}
 	if (idleTime > 5 * 60) {
@@ -390,6 +408,9 @@
 
 - (IBAction)clickedAddTask:(id)sender
 {
+	// assert _selProject != nil
+	if (_selProject == nil) return;
+	
 	TTask *task = [TTask new];
 	[_selProject addTask: task];
 	[tvTasks reloadData];
@@ -431,6 +452,7 @@
 		if ([tvTasks selectedRow] == -1) {
 			_selTask = nil;
 		} else {
+			// assert _selProject != nil
 			_selTask = [[_selProject tasks] objectAtIndex: [tvTasks selectedRow]];
 		}
 		[tvWorkPeriods reloadData];
@@ -456,6 +478,13 @@
 - (IBAction)clickedDelete:(id)sender
 {
 	if ([mainWindow firstResponder] == tvWorkPeriods) {
+		// assert _selTask != nil
+		// assert _selProject != nil
+		TWorkPeriod *_selWorkPeriod = [[_selTask workPeriods] objectAtIndex:[tvWorkPeriods selectedRow]];
+		// assert _selWorkPeriod != nil
+		if (_selWorkPeriod == _curWorkPeriod) {
+			[self stopTimer];
+		}
 		[[_selTask workPeriods] removeObjectAtIndex: [tvWorkPeriods selectedRow]];
 		[_selTask updateTotalTime];
 		[_selProject updateTotalTime];
@@ -465,6 +494,8 @@
 		[tvProjects reloadData];
 	}
 	if ([mainWindow firstResponder] == tvTasks) {
+		// assert _selTask != nil
+		// assert _selProject != nil
 		if (_selTask == _curTask) {
 			[self stopTimer];
 		}
@@ -476,6 +507,7 @@
 		[tvProjects reloadData];
 	}
 	if ([mainWindow firstResponder] == tvProjects) {
+		// assert _selProject != nil
 		if (_selProject == _curProject) {
 			[self stopTimer];
 		}
@@ -556,6 +588,7 @@
 
 - (IBAction)clickedCountIdleTimeYes:(id)sender
 {
+	// assert timer != nil
 	[timer setFireDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
 	[NSApp stopModal];
 }
@@ -581,24 +614,32 @@
 {
 	if (timer == nil) {
 		// Timer is stopped: show the Start button
-		[startstopToolbarItem setLabel:@"Start"];
-		[startstopToolbarItem setPaletteLabel:@"Start"];
-		[startstopToolbarItem setToolTip:@"Start timer"];
-		[startstopToolbarItem setImage: playToolImage];
+		if (startstopToolbarItem != nil) {
+			[startstopToolbarItem setLabel:@"Start"];
+			[startstopToolbarItem setPaletteLabel:@"Start"];
+			[startstopToolbarItem setToolTip:@"Start timer"];
+			[startstopToolbarItem setImage: playToolImage];
+		}
 		
+		// assert statusItem != nil
 		[statusItem setImage:playItemImage];
 		[statusItem setAlternateImage:playItemHighlightImage];
 		
+		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Start Timer"];
 	} else {
-		[startstopToolbarItem setLabel:@"Stop"];
-		[startstopToolbarItem setPaletteLabel:@"Stop"];
-		[startstopToolbarItem setToolTip:@"Stop timer"];
-		[startstopToolbarItem setImage: stopToolImage];
+		if (startstopToolbarItem != nil) {
+			[startstopToolbarItem setLabel:@"Stop"];
+			[startstopToolbarItem setPaletteLabel:@"Stop"];
+			[startstopToolbarItem setToolTip:@"Stop timer"];
+			[startstopToolbarItem setImage: stopToolImage];
+		}
 		
+		// assert statusItem != nil
 		[statusItem setImage:stopItemImage];
 		[statusItem setAlternateImage:stopItemHighlightImage];
 		
+		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Stop Timer"];
 	}
 	
@@ -607,18 +648,10 @@
 - (IBAction)clickedCountIdleTimeNo:(id)sender
 {
 	[NSApp stopModal];
-	[_curWorkPeriod setEndTime: _lastNonIdleTime];
+	// assert _lastNonIdleTime != nil
+	[self stopTimer:_lastNonIdleTime];
 	[_lastNonIdleTime release];
 	_lastNonIdleTime = nil;
-	
-	//XXX this code is duplicated from stopTimer: ??
-	[_curTask updateTotalTime];
-	[_curProject updateTotalTime];
-	[tvProjects reloadData];
-	[tvTasks reloadData];
-	[tvWorkPeriods reloadData];
-	
-	[self stopTimer:_lastNonIdleTime];
 }
 
 

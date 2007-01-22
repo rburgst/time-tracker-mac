@@ -10,7 +10,6 @@
 	NSUserDefaults *defaults;
 	NSTimer *timer;
 	NSStatusItem *statusItem;
-	NSMenuItem *startStopMenuItem;
 	
 	NSImage *playItemImage;
 	NSImage *playItemHighlightImage;
@@ -37,8 +36,6 @@
 	IBOutlet NSMenuItem *startMenuItem;
 	
 	NSToolbarItem *startstopToolbarItem;
-	NSToolbarItem *addProjectToolbarItem;
-	NSToolbarItem *addTaskToolbarItem;
 	
 	NSMutableArray *_projects;
 	NSMutableDictionary *_projects_lastTask;
