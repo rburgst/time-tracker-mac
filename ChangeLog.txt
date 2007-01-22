@@ -1,4 +1,12 @@
+=== Version 1.2 === 2007-01-21
+Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
+
+  * Fixed bug 9: Fixed occasional crashes when deleting tasks.
+  * Fixed bug 10: Added menu items and keyboard shortcuts for
+    starting/stopping the timer and creating new projects and tasks.
+
 === Version 1.1.002 === 2007-01-15
+NOT OFFICIALLY RELEASED, due to bug 9
 Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
 
 2007-01-15: Aaron VonderHaar <gruen0aermel@gmail.com>
@@ -9,7 +17,7 @@ Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
   * Fixed bug 2: It is no longer possible to add work periods that are
     not associated with a task or project.
 
-=== Version 1.1.001 === 2007-01-10
+=== Version 1.1 === 2007-01-10
 Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
 
 2007-01-04: Aaron VonderHaar <gruen0aermel@gmail.com>
