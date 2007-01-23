@@ -1,3 +1,9 @@
+=== Version 1.2.1 === 2007-01-22
+Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
+
+  * Fixed bug 19: Re-enable basic print functionality that was present in
+    version 1.1.  Complete printing support will be added in version 1.3.
+
 === Version 1.2 === 2007-01-21
 Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
 
