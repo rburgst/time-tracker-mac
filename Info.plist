@@ -22,5 +22,7 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SUFeedURL</key>
+	<string>http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
 </dict>
 </plist>
