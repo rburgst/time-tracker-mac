@@ -1,0 +1,9 @@
+This file contains information for developing and testing Time Tracker.
+
+== Appcast updates with Sparkle ==
+
+There is a dummy appcast which will alway contain a fake "update" for Time
+Tracker.  To use this to test the Sparkle updating, edit Info.plist and change
+"SUFeedURL" to point to "timetracker-test.xml" instead of
+"timetracker-stable.xml"
+
