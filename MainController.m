@@ -36,8 +36,10 @@
 	// assert timer == nil
 	if (timer != nil) return;
 	// assert _selProject != nil
-	// assert _selTask != nil
-	if (_selTask == nil) return;
+
+	// if there is no task selected, create a new one
+	if (_selTask == nil)
+		[self createTask];
 	
 	timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
 					userInfo: nil repeats: YES];
@@ -408,15 +410,24 @@
 
 - (IBAction)clickedAddTask:(id)sender
 {
+	[self createTask];
+
+	int index = [[_selProject tasks] count] - 1;
+	[tvTasks editColumn:[tvTasks columnWithIdentifier:@"TaskName"] row:index withEvent:nil select:YES];
+}
+
+- (void)createTask
+{
 	// assert _selProject != nil
 	if (_selProject == nil) return;
 	
 	TTask *task = [TTask new];
 	[_selProject addTask: task];
 	[tvTasks reloadData];
+	
 	int index = [[_selProject tasks] count] - 1;
 	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[tvTasks editColumn:[tvTasks columnWithIdentifier:@"TaskName"] row:index withEvent:nil select:YES];
+	[mainWindow makeFirstResponder:tvTasks];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
@@ -595,11 +606,6 @@
 
 - (BOOL) validateUserInterfaceItem:(id)anItem
 {
-	if ([anItem action] == @selector(clickedStartStopTimer:)) {
-		if (timer != nil) return YES;
-		if (_selTask != nil) return YES;
-		return NO;
-	} else
 	if ([anItem action] == @selector(clickedAddProject:)) {
 		return YES;
 	} else

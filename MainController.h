@@ -62,6 +62,7 @@
 - (void) stopTimer:(NSDate*)endTime;
 - (void) stopTimer;
 - (void) startTimer;
+- (void) createTask;
 - (int)idleTime;
 - (void) saveData;
 

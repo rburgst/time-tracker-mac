@@ -13,7 +13,7 @@
 
 - (id) init
 {
-	[self setName: @"Untitled"];
+	[self setName: @"New Task"];
 	_totalTime = 0;
 	_workPeriods = [NSMutableArray new];
 	return self;
