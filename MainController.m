@@ -35,7 +35,10 @@
 {
 	// assert timer == nil
 	if (timer != nil) return;
-	// assert _selProject != nil
+	
+	// if there is no project selected, create a new one
+	if (_selProject == nil)
+		[self createProject];
 
 	// if there is no task selected, create a new one
 	if (_selTask == nil)
@@ -400,12 +403,20 @@
 
 - (IBAction)clickedAddProject:(id)sender
 {
+	[self createProject];
+
+	int index = [_projects count] - 1;
+	[tvProjects editColumn:[tvProjects columnWithIdentifier:@"ProjectName"] row:index withEvent:nil select:YES];
+}
+
+- (void)createProject
+{
 	TProject *proj = [TProject new];
 	[_projects addObject: proj];
 	[tvProjects reloadData];
 	int index = [_projects count] - 1;
 	[tvProjects selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[tvProjects editColumn:[tvProjects columnWithIdentifier:@"ProjectName"] row:index withEvent:nil select:YES];
+	[mainWindow makeFirstResponder:tvProjects];
 }
 
 - (IBAction)clickedAddTask:(id)sender
