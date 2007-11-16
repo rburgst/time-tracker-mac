@@ -19,6 +19,11 @@
 	timer = nil;
 	timeSinceSave = 0;
 	
+	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
+	_dateFormatter = [[NSDateFormatter alloc] init];
+	[_dateFormatter setDateStyle:NSDateFormatterShortStyle];
+	[_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+	
 	return self;
 }
 
@@ -375,11 +380,8 @@
 	
 	if (tableView == tvWorkPeriods) {
 		if ([[tableColumn identifier] isEqualToString: @"Date"]) {
-			[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
-			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-			[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-			return [dateFormatter stringFromDate:[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime]];
+			// assert _dateFormatter != nil
+			return [_dateFormatter stringFromDate:[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime]];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"StartTime"]) {
 			return [[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime] 

@@ -44,6 +44,7 @@
 	TWorkPeriod *_curWorkPeriod;
 	TProject *_curProject;
 	TTask *_curTask;
+	NSDateFormatter *_dateFormatter;
 	
 	NSDate *_lastNonIdleTime;
 	int timeSinceSave;
