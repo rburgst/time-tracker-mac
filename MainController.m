@@ -375,9 +375,11 @@
 	
 	if (tableView == tvWorkPeriods) {
 		if ([[tableColumn identifier] isEqualToString: @"Date"]) {
-			return [[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime] 
-				descriptionWithCalendarFormat: @"%m/%d/%Y"
-				timeZone: nil locale: nil];
+			[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
+			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+			[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+			return [dateFormatter stringFromDate:[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime]];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"StartTime"]) {
 			return [[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime] 
