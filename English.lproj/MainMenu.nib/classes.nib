@@ -20,6 +20,8 @@
                 panelEditWorkPeriod = NSPanel; 
                 panelIdleNotification = NSPanel; 
                 startMenuItem = NSMenuItem; 
+                tfActiveProject = NSTextField; 
+                tfActiveTask = NSTextField; 
                 tvProjects = NSTableView; 
                 tvTasks = NSTableView; 
                 tvWorkPeriods = NSTableView; 

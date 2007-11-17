@@ -22,7 +22,8 @@
 	NSImage *addTaskToolImage;
 	NSImage *addProjectToolImage;
 
-	
+	IBOutlet NSTextField *tfActiveProject;
+	IBOutlet NSTextField *tfActiveTask;
     IBOutlet NSTableView *tvProjects;
     IBOutlet NSTableView *tvTasks;
     IBOutlet NSTableView *tvWorkPeriods;
