@@ -70,6 +70,7 @@
 - (void) saveData;
 
 - (void) updateStartStopState;
+- (void) updateProminentDisplay;
 
 - (BOOL) validateUserInterfaceItem:(id)anItem;
 

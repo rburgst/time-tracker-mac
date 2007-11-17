@@ -63,6 +63,8 @@
 	_curProject = _selProject;
 	_curTask = _selTask;
 	
+	[self updateProminentDisplay];
+	
 	// assert timer != nil
 	// assert _curProject != nil
 	// assert _curTask != nil
@@ -95,6 +97,8 @@
 	[tvProjects reloadData];
 	[tvTasks reloadData];
 	[tvWorkPeriods reloadData];
+	
+	[self updateProminentDisplay];
 	
 	//[defaults setObject: [NSNumber numberWithInt: totalTime] forKey: @"TotalTime"];
 	
@@ -249,6 +253,7 @@
 	[mainWindow setToolbar: toolbar];	
 
 	[self updateStartStopState];
+	[self updateProminentDisplay];
 	
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
@@ -306,6 +311,8 @@
 		[NSApp runModalForWindow: panelIdleNotification];
 		[panelIdleNotification orderOut: self];
 	}
+	
+	[self updateProminentDisplay];
 	
 	if (timeSinceSave > 5 * 60) {
 		[self saveData];
@@ -472,6 +479,8 @@
 				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:[lastTask intValue]] byExtendingSelection:NO];
 			}
 		}
+		
+		[self updateProminentDisplay];
 	}
 	
 	if ([notification object] == tvTasks) {
@@ -482,6 +491,7 @@
 			_selTask = [[_selProject tasks] objectAtIndex: [tvTasks selectedRow]];
 		}
 		[tvWorkPeriods reloadData];
+		[self updateProminentDisplay];
 	}
 
 }
@@ -662,6 +672,40 @@
 		
 		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Stop Timer"];
+	}
+	
+}
+
+- (void)updateProminentDisplay
+{
+	if (_curTask != nil) {
+		NSString *s = [[_curTask name] stringByAppendingString:@" - "];
+		s = [s stringByAppendingString:[TimeIntervalFormatter secondsToString:[_curTask totalTime]]];
+		[tfActiveTask setStringValue:s];
+		[tfActiveTask setTextColor:[NSColor blackColor]];
+	} else if (_selTask != nil) {
+		NSString *s = [[_selTask name] stringByAppendingString:@" - "];
+		s = [s stringByAppendingString:[TimeIntervalFormatter secondsToString:[_selTask totalTime]]];
+		[tfActiveTask setStringValue:s];
+		[tfActiveTask setTextColor:[NSColor lightGrayColor]];
+	} else {
+		[tfActiveTask setStringValue:@"New Task - 00:00:00"];
+		[tfActiveTask setTextColor:[NSColor lightGrayColor]];
+	}
+
+	if (_curProject != nil) {
+		NSString *s = [[_curProject name] stringByAppendingString:@" - "];
+		s = [s stringByAppendingString:[TimeIntervalFormatter secondsToString:[_curProject totalTime]]];
+		[tfActiveProject setStringValue:s];
+		[tfActiveProject setTextColor:[NSColor blackColor]];
+	} else if (_selProject != nil) {
+		NSString *s = [[_selProject name] stringByAppendingString:@" - "];
+		s = [s stringByAppendingString:[TimeIntervalFormatter secondsToString:[_selProject totalTime]]];
+		[tfActiveProject setStringValue:s];
+		[tfActiveProject setTextColor:[NSColor lightGrayColor]];	
+	} else {
+		[tfActiveProject setStringValue:@"New Project - 00:00:00"];
+		[tfActiveProject setTextColor:[NSColor lightGrayColor]];
 	}
 	
 }
