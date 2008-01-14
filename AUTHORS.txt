@@ -1,3 +1,6 @@
+Some more enhancements
+Rainer burgstaller <rburgst@gmail.com>
+
 Changes since Time Tracker 1.1 were written by
 Aaron VonderHaar <gruen0aermel@gmail.com> (2007)
 
