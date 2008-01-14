@@ -7,22 +7,31 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/NSPredicate.h>
 #import "TWorkPeriod.h"
+#import "ITask.h"
 
-@interface TTask : NSObject <NSCoding> {
+@class TProject;
+
+@interface TTask : NSObject <NSCoding, ITask> {
 	NSString *_name;
 	int _totalTime;
 	NSMutableArray *_workPeriods;
+	TProject* _parent;
 }
 
 - (NSString *) name;
 - (void) setName: (NSString *) name;
+- (void) setParentProject: (TProject*) project;
 
 - (void) addWorkPeriod: (TWorkPeriod *) workPeriod;
 - (NSMutableArray *) workPeriods;
+- (NSMutableArray *) matchingWorkPeriods:(NSPredicate*) filter;
 
 - (int) totalTime;
+- (int) filteredTime:(NSPredicate*) filter;
 - (void) updateTotalTime;
-
-
+- (NSString*) serializeData:(NSString*) prefix;
+- (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period;
+- (TProject*) parentProject;
 @end

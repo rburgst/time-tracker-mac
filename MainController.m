@@ -1,12 +1,21 @@
 #include <IOKit/IOKitLib.h>
+#import <AppKit/NSTableColumn.h>
+#include <assert.h>
 
 #import "MainController.h"
 #import "TTask.h"
 #import "TProject.h"
 #import "TimeIntervalFormatter.h"
 #import "TWorkPeriod.h"
+#import "TMetaProject.h"
+#import "TDateTransformer.h"
 
 @implementation MainController
+
+// this flag toggles whether we show tasks in the "All Projects View"
+// that have no matching time entries (1 means that these will NOT be shown)
+// 0 means that empty tasks will also be shown.
+#define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
 
 - (id) init
 {
@@ -18,14 +27,80 @@
 	_curWorkPeriod = nil;
 	timer = nil;
 	timeSinceSave = 0;
+	_metaProject = [[TMetaProject alloc] init];
+	_metaTask = [[TMetaTask alloc] init];
+	[_metaProject setProjects: _projects];
+	[_metaTask setTasks: [_metaProject tasks]];
 	
 	[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
 	_dateFormatter = [[NSDateFormatter alloc] init];
 	[_dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[_dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-	
+	_timeValueFormatter = [[TTimeTransformer alloc] init];
+	_dateValueFormatter = [[TDateTransformer alloc] init];
+	_intervalValueFormatter = [[TimeIntervalFormatter alloc] init];
+	[NSValueTransformer setValueTransformer:_timeValueFormatter forName:@"TimeToStringFormatter"];
+	[NSValueTransformer setValueTransformer:_dateValueFormatter forName:@"DateToStringFormatter"];
+	[NSValueTransformer setValueTransformer:_intervalValueFormatter forName:@"TimeIntervalToStringFormatter"];
+	_selectedfilterDate = nil;
 	return self;
 }
+
+- (void) applyFilter:(NSDate*)startDate endDate:(NSDate*)anEndDate 
+{
+	[_currentPredicate release];
+	_currentPredicate = nil;
+	NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+
+	_currentPredicate = [[NSPredicate predicateWithFormat:@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate] retain];
+	[workPeriodController setFilterPredicate:_currentPredicate];	
+	[tvTasks reloadData];
+	[tvProjects reloadData];
+}
+
+
+- (void) clearFilter
+{
+	[workPeriodController setFilterPredicate:nil];
+	[_currentPredicate release];
+	_currentPredicate = nil;
+
+	[tvTasks reloadData];
+	[tvProjects reloadData];
+}
+
+- (void) applyDateFilter
+{
+
+	[_dayToolbarItem setImage: (_filterMode == FILTER_MODE_DAY)? dayToolImageUnsel : dayToolImage];
+	[_weekToolbarItem setImage: (_filterMode == FILTER_MODE_WEEK)? weekToolImageUnsel : weekToolImage];
+	[_monthToolbarItem setImage: (_filterMode == FILTER_MODE_MONTH)? monthToolImageUnsel : monthToolImage];
+
+	if (_filterMode == FILTER_MODE_NONE) {
+		[self clearFilter];
+		return;
+	}
+	[self determineFilterStartDate];
+	[self determineFilterEndDate];
+	[self applyFilter:_filterStartDate endDate:_filterEndDate];	
+}
+
+- (int)selectedTaskRow 
+{
+	return [tvTasks selectedRow] - 1;
+}
+
+- (int)selectedProjectRow
+{
+	return [tvProjects selectedRow] - 1;
+}
+
+- (int)selectedWorkPeriodRow
+{
+	
+	return [workPeriodController selectionIndex];
+}
+
 
 - (IBAction)clickedStartStopTimer:(id)sender
 {
@@ -36,8 +111,15 @@
 	}
 }
 
+
+- (BOOL)validateMenuItem:(NSMenuItem *) anItem {
+	return YES;
+}
+
+
 - (void)startTimer
 {
+	assert([_selTask isKindOfClass:[TTask class]]);
 	// assert timer == nil
 	if (timer != nil) return;
 	
@@ -58,8 +140,10 @@
 	[_curWorkPeriod setStartTime: [NSDate date]];
 	[_curWorkPeriod setEndTime: [NSDate date]];
 	
-	[_selTask addWorkPeriod: _curWorkPeriod];
+	[(TTask*)_selTask addWorkPeriod: _curWorkPeriod];
 	[tvWorkPeriods reloadData];	
+	// make sure the controller knows about the new object
+	[workPeriodController rearrangeObjects];
 	_curProject = _selProject;
 	_curTask = _selTask;
 	
@@ -143,18 +227,60 @@
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedAddTask:)];
     }
+    	
+	if ([itemIdentifier isEqual: @"Day"]) {
+		_dayToolbarItem = [toolbarItem retain];
+		[toolbarItem setLabel:@"Day"];
+		[toolbarItem setPaletteLabel:@"Day"];
+		[toolbarItem setToolTip:@"Filter Day"];
+		[toolbarItem setImage: dayToolImage];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(clickedFilterDay:)];
+    }
+
+	if ([itemIdentifier isEqual: @"Week"]) {
+		_weekToolbarItem = [toolbarItem retain];
+		[toolbarItem setLabel:@"Week"];
+		[toolbarItem setPaletteLabel:@"Week"];
+		[toolbarItem setToolTip:@"Filter Week"];
+		[toolbarItem setImage: weekToolImage];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(clickedFilterWeek:)];
+    }
+
+	if ([itemIdentifier isEqual: @"Month"]) {
+		_monthToolbarItem = [toolbarItem retain];
+		[toolbarItem setLabel:@"Month"];
+		[toolbarItem setPaletteLabel:@"Month"];
+		[toolbarItem setToolTip:@"Filter Month"];
+		[toolbarItem setImage: monthToolImage];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(clickedFilterMonth:)];
+    }
+
+	if ([itemIdentifier isEqual: @"PickDate"]) {
+		[toolbarItem setLabel:@"PickDate"];
+		[toolbarItem setPaletteLabel:@"PickDate"];
+		[toolbarItem setToolTip:@"PickDate to filter"];
+		[toolbarItem setImage: pickDateToolImage];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(clickedFilterPickDate:)];
+		_tbPickDateItem = toolbarItem;
+    }
     
     return toolbarItem;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", nil];
+	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
+			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
-	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", nil];
+	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
+			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", nil];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
@@ -168,9 +294,11 @@
 	defaults = [NSUserDefaults standardUserDefaults];
 	
 	NSData *theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"ProjectTimes"];
-	if (theData != nil)
-		_projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
-	
+	if (theData != nil) {
+		_projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithData:theData]] retain];
+		[_metaProject setProjects:_projects];
+		[_metaTask setTasks:[_metaProject tasks]];
+	}
 	_projects_lastTask = [[NSMutableDictionary alloc] initWithCapacity:[_projects count]];
 	
 	//NSNumber *numTotalTime = [defaults objectForKey: @"TotalTime"];
@@ -241,7 +369,14 @@
 	stopToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"stoptool" ofType:@"png"]];
 	addTaskToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"addtasktool" ofType:@"png"]];
 	addProjectToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"addprojecttool" ofType:@"png"]];
-
+	
+	dayToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"daytool" ofType:@"png"]];
+	weekToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"weektool" ofType:@"png"]];
+	monthToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"monthtool" ofType:@"png"]];
+	dayToolImageUnsel = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"dayofftool" ofType:@"png"]];
+	weekToolImageUnsel = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"weekofftool" ofType:@"png"]];
+	monthToolImageUnsel = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"monthofftool" ofType:@"png"]];
+	pickDateToolImage = [[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"pickdatetool" ofType:@"png"]];
 	//[statusItem setMenu:m]; // retains m
 	[statusItem setToolTip:@"Time Tracker"];
 	[statusItem setHighlightMode:NO];
@@ -261,40 +396,133 @@
 	[tvProjects reloadData];
 }
 
+- (TWorkPeriod*) workPeriodAtIndex:(int) index
+{
+	TWorkPeriod *wp = nil;
+	
+	int result = [self selectedWorkPeriodRow];
+	TTask *task = [self taskForWorkTimeIndex:index timeIndex:&result];
+	wp = [[task workPeriods] objectAtIndex:result];
+	return wp;
+}
+
+- (TWorkPeriod*) selectedWorkPeriod 
+{
+	return [[workPeriodController arrangedObjects] objectAtIndex:[tvWorkPeriods selectedRow]];
+}
+
+- (IBAction)okClicked:(id) sender
+{
+	[NSApp endSheet:panelEditWorkPeriod returnCode:NSOKButton];
+}
+
+- (IBAction)cancelClicked:(id) sender
+{
+	[NSApp endSheet:panelEditWorkPeriod returnCode:NSCancelButton];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	if (sheet == panelPickFilterDate) {
+		if (returnCode == NSOKButton) {			
+			[_tbPickDateItem setLabel:[_dateFormatter stringFromDate:_selectedfilterDate]];
+		} else {
+			_filterMode = FILTER_MODE_NONE;
+			[_selectedfilterDate release];
+			_selectedfilterDate = nil;
+			[_tbPickDateItem setLabel:@"Pick Date"];
+		}
+		[self applyDateFilter];
+	} else {
+		if (returnCode == NSOKButton) {
+			[self clickedChangeWorkPeriod: nil];
+		}
+	}
+	// hide the window
+	[sheet orderOut:nil];
+}
+
 - (void) doubleClickWorkPeriod: (id) sender
 {
 	// assert _selProject != nil
 	// assert _selTask != nil
-	TWorkPeriod *wp = [[_selTask workPeriods] objectAtIndex: [tvWorkPeriods selectedRow]];
+	TWorkPeriod *wp = [self selectedWorkPeriod];
 	[dtpEditWorkPeriodStartTime setDateValue: [wp startTime]];
 	[dtpEditWorkPeriodEndTime setDateValue: [wp endTime]];
-	[panelEditWorkPeriod makeKeyAndOrderFront: self];
+	[dtpEditWorkPeriodComment setString: [[wp comment] string]];
+	[changeProjectController setSelectionIndex:[_projects indexOfObject:[[wp parentTask] parentProject]]];
+	[self provideProjectsForEditWpDialog:[[wp parentTask] parentProject]];
+	[self provideTasksForEditWpDialog:[[wp parentTask] parentProject]];
+	[_taskPopupButton selectItemWithTitle:[[wp parentTask] name]];
+
+/*	[panelEditWorkPeriod makeKeyAndOrderFront: self];
 	[NSApp runModalForWindow: panelEditWorkPeriod];
+*/
+	[NSApp beginSheet:panelEditWorkPeriod modalForWindow:mainWindow modalDelegate:self 
+			didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
+- (void) moveWorkPeriodToNewTask:(TWorkPeriod*) wp task:(TTask*) newParent
+{
+	// first remove the workperiod from the old parent
+	TTask *oldParent = [wp parentTask];
+	[oldParent removeWorkPeriod:wp];
+	[newParent addWorkPeriod:wp];
+}
+ 
 - (IBAction)clickedChangeWorkPeriod:(id)sender
 {
 	// assert _selProject != nil
 	// assert _selTask != nil
-	TWorkPeriod *wp = [[_selTask workPeriods] objectAtIndex: [tvWorkPeriods selectedRow]];
+	TWorkPeriod *wp = [self selectedWorkPeriod];
 	[wp setStartTime: [dtpEditWorkPeriodStartTime dateValue]];
 	[wp setEndTime: [dtpEditWorkPeriodEndTime dateValue]];
+	[wp setComment: [[[NSAttributedString alloc] initWithString:[dtpEditWorkPeriodComment string]] autorelease]];
+	
+	// move the workperiod to a different task / project
+	if ([_taskPopupButton indexOfSelectedItem] > 0) {
+		TProject *selectedProject = [_projects objectAtIndex:[_projectPopupButton indexOfSelectedItem]];
+		TTask *selectedTask = [[selectedProject tasks] objectAtIndex:([_taskPopupButton indexOfSelectedItem] - 1)];
+		[self moveWorkPeriodToNewTask:wp task:selectedTask];
+	}
+	
 	[_selTask updateTotalTime];
 	[_selProject updateTotalTime];
 	[tvProjects reloadData];
 	[tvTasks reloadData];
-	[tvWorkPeriods reloadData];
+	[self reloadWorkPeriods];
 	[NSApp stopModal];
 	[panelEditWorkPeriod orderOut: self];
 }
 
+- (void) showIdleNotification
+{
+		[NSApp activateIgnoringOtherApps: YES];
+		[NSApp runModalForWindow: panelIdleNotification];
+		[panelIdleNotification orderOut: self];
+}
+
 - (void) timerFunc: (NSTimer *) atimer
 {	
+	if ([panelIdleNotification isVisible]) {
+		return;
+	}
 	// assert timer != nil
 	// assert timer == atimer
 	if (timer != atimer) return;
 	
-	[_curWorkPeriod setEndTime: [NSDate date]];
+	// determine if the computer was on standby
+	NSDate *lastEndTime = [_curWorkPeriod endTime];
+	NSDate *curTime = [NSDate date];
+	if ([curTime timeIntervalSinceDate:lastEndTime] > 60) {
+		[timer setFireDate: [NSDate distantFuture]];
+		// time jumped by 60 seconds, probably the computer was on standby
+		[_lastNonIdleTime release];
+		_lastNonIdleTime = [lastEndTime retain];
+		[self showIdleNotification];
+		return;
+	}
+	[_curWorkPeriod setEndTime: curTime];
 	[_curTask updateTotalTime];
 	[_curProject updateTotalTime];
 	[tvProjects reloadData];
@@ -307,9 +535,7 @@
 	}
 	if (idleTime > 5 * 60) {
 		[timer setFireDate: [NSDate distantFuture]];
-		[NSApp activateIgnoringOtherApps: YES];
-		[NSApp runModalForWindow: panelIdleNotification];
-		[panelIdleNotification orderOut: self];
+		[self showIdleNotification];
 	}
 	
 	[self updateProminentDisplay];
@@ -329,13 +555,38 @@
 		[NSApp stopModal];
 }
 
+- (NSString*)serializeData 
+{
+	NSMutableString *result = [NSMutableString stringWithString:@"\"Project\";\"Task\";\"Date\";\"Start\";\"End\";\"Duration\";\"Comment\"\n"];
+	NSEnumerator *enumerator = [_projects objectEnumerator];
+	id anObject;
+ 
+	while (anObject = [enumerator nextObject])
+	{
+		[result appendString:[anObject serializeData]];
+	}
+	return result;
+}
+
 - (void)saveData
 {
-	NSData *theData=[NSArchiver archivedDataWithRootObject:_projects];
+	NSData *theData=[NSKeyedArchiver archivedDataWithRootObject:_projects];
 	[[NSUserDefaults standardUserDefaults] setObject:theData forKey:@"ProjectTimes"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	timeSinceSave = 0;
+	
+	NSString *data = [self serializeData];
+	[data writeToFile:[@"~/times.csv" stringByExpandingTildeInPath] atomically:YES];
+/*	NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:@"data.txt"];
+	[fileHandle writ]
+	/*
+	NSData *xmlData = [NSPropertyListSerialization dataFromPropertyList:_projects 
+		format:kCFPropertyListXMLFormat_v1_0 errorDescription:&error];
+	[xmlData writeToFile:@"testdata.xml" atomically:YES];
+//	[fileHandle file]*/
 }
+
+
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
@@ -345,16 +596,40 @@
 	return NSTerminateNow;
 }
 
+
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(unsigned)rowIndex {
+	if (_normalCol == nil) {
+		_normalCol = [[aCell textColor] retain];
+		_highlightCol = [[_normalCol highlightWithLevel:0.5] retain];
+	}
+	if (aTableView != tvWorkPeriods) {
+		return;
+	}
+	TWorkPeriod *wp = [[workPeriodController arrangedObjects] objectAtIndex:rowIndex];
+	// if we are showing the current task, apply different text color
+	if (wp == _curWorkPeriod) {
+		[aCell setTextColor:_highlightCol];
+	}
+	else {
+		[aCell setTextColor:_normalCol];
+	}
+}
+
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == tvProjects) {
-		return [_projects count];
+		return [_projects count] + 1;
 	}
 	if (tableView == tvTasks) {
 		if (_selProject == nil)
 			return 0;
-		else
-			return [[_selProject tasks] count];
+		else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
+			if (_selProject == _metaProject) {
+				// TODO this should be cached.
+				return [[_selProject matchingTasks:_currentPredicate] count];
+			}
+		} 
+		return [[_selProject tasks] count] + 1;
 	}
 	if (tableView == tvWorkPeriods) {
 		if (_selTask == nil)
@@ -364,39 +639,88 @@
 	}
 	return 0;
 }
+- (TTask*) taskForWorkTimeIndex: (int) rowIndex timeIndex:(int*)resultIndex {
+	NSEnumerator *enumerator = [[_selProject tasks] objectEnumerator];
+	id aTask;
+	*resultIndex = rowIndex;
+	
+	while (aTask = [enumerator nextObject])
+	{
+		int count = [[aTask workPeriods] count];
+		if (count > *resultIndex) {
+			break;
+		}
+		*resultIndex -= count;
+	}
+	return aTask;
+}
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
 {
 	if (tableView == tvProjects) {
+		id project = nil;
+		if (rowIndex == 0) {
+			project = _metaProject;
+		} else {
+			project = [_projects objectAtIndex: rowIndex - 1];
+		}
 		if ([[tableColumn identifier] isEqualToString: @"ProjectName"]) {
-			return [[_projects objectAtIndex: rowIndex] name];
+			return [project name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [[_projects objectAtIndex: rowIndex] totalTime]];
+			return [TimeIntervalFormatter secondsToString: [project filteredTime:_currentPredicate]];
 		}
 	}
 	
 	if (tableView == tvTasks) {
+		id<ITask> task = nil;
+		if (rowIndex == 0) {
+			task = _metaTask;
+		} else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW 
+				&& _selProject == _metaProject) {
+			task = [[_selProject matchingTasks:_currentPredicate] objectAtIndex: rowIndex - 1];
+		} else {
+			task = [[_selProject tasks] objectAtIndex: rowIndex - 1];
+		}
 		if ([[tableColumn identifier] isEqualToString: @"TaskName"]) {
-			return [[[_selProject tasks] objectAtIndex: rowIndex] name];
+			if (_selProject == _metaProject && rowIndex > 0) {
+				NSMutableString *name = [NSMutableString stringWithFormat:@"%@ (%@)", [task name], [[((TTask*)task) parentProject] name]];
+				return name;
+			}
+			return [task name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [[[_selProject tasks] objectAtIndex: rowIndex] totalTime]];
+			return [TimeIntervalFormatter secondsToString: [task filteredTime:_currentPredicate]];
 		}
 	}
-	
+	/*
 	if (tableView == tvWorkPeriods) {
+		TWorkPeriod *period = nil;
+		
+		// find out which task contains the correct period
+		if (_selProject == nil) 
+			// should not happen
+			return nil;
+		int workIndex = rowIndex;
+		
+		id aTask;
+		aTask = [self taskForWorkTimeIndex:rowIndex timeIndex:&workIndex];
+		if ([[tableColumn identifier] isEqualToString:@"Task"]) {
+			return [aTask name];
+		}
+		period = [[aTask workPeriods] objectAtIndex:workIndex];
+		
 		if ([[tableColumn identifier] isEqualToString: @"Date"]) {
 			// assert _dateFormatter != nil
-			return [_dateFormatter stringFromDate:[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime]];
+			return [_dateFormatter stringFromDate:[period startTime]];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"StartTime"]) {
-			return [[[[_selTask workPeriods] objectAtIndex: rowIndex] startTime] 
+			return [[period startTime] 
 				descriptionWithCalendarFormat: @"%H:%M:%S"
 				timeZone: nil locale: nil];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"EndTime"]) {
-			NSDate *endTime = [[[_selTask workPeriods] objectAtIndex: rowIndex] endTime];
+			NSDate *endTime = [period endTime];
 			if (endTime == nil)
 				return @"";
 			else
@@ -405,10 +729,13 @@
 					timeZone: nil locale: nil];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"Duration"]) {
-			return [TimeIntervalFormatter secondsToString: [[[_selTask workPeriods] objectAtIndex: rowIndex] totalTime]];
+			return [TimeIntervalFormatter secondsToString: [period totalTime]];
+		}
+		if ([[tableColumn identifier] isEqualToString:@"Comment"]) {
+			return [period comment];
 		}
 	}
-	
+	*/
 	return nil;
 }
 
@@ -416,7 +743,7 @@
 {
 	[self createProject];
 
-	int index = [_projects count] - 1;
+	int index = [_projects count];
 	[tvProjects editColumn:[tvProjects columnWithIdentifier:@"ProjectName"] row:index withEvent:nil select:YES];
 }
 
@@ -425,7 +752,7 @@
 	TProject *proj = [TProject new];
 	[_projects addObject: proj];
 	[tvProjects reloadData];
-	int index = [_projects count] - 1;
+	int index = [_projects count];
 	[tvProjects selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	[mainWindow makeFirstResponder:tvProjects];
 }
@@ -434,8 +761,105 @@
 {
 	[self createTask];
 
-	int index = [[_selProject tasks] count] - 1;
+	int index = [[_selProject tasks] count];
 	[tvTasks editColumn:[tvTasks columnWithIdentifier:@"TaskName"] row:index withEvent:nil select:YES];
+}
+
+-(NSDate*) determineFilterEndDate
+{
+	NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
+	switch (_filterMode) {
+		case FILTER_MODE_DAY:			
+			[comps setDay:1];
+			break;
+		case FILTER_MODE_WEEK:
+			[comps setWeek:1];
+			break;
+		case FILTER_MODE_MONTH:
+			[comps setMonth:1];
+			break;
+	}
+	_filterEndDate = [[[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:_filterStartDate options:0] retain];
+	NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+	NSLog(@"objects %@", [workPeriodController content]);
+	return _filterEndDate;
+}
+
+-(NSDate*) determineFilterStartDate 
+{
+	if (_selectedfilterDate == nil) 
+	{
+		return nil;
+	}
+	[_filterStartDate release];
+	_filterStartDate = nil;
+	NSCalendar *cal = [NSCalendar currentCalendar];
+	NSDateComponents *comps = [cal components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:_selectedfilterDate];
+	_filterStartDate = [[cal dateFromComponents:comps] retain];
+	return _filterStartDate;
+}
+
+
+- (IBAction)clickedFilterDay:(id)sender 
+{
+	NSLog(@"Day filter clicked");
+	if (_selectedfilterDate == nil) {
+		// no valid selection
+		NSBeep();
+		return;
+	}
+	_filterMode = FILTER_MODE_DAY;
+	[self applyDateFilter];
+	NSLog(@"day filter done");
+}
+
+- (IBAction)clickedFilterWeek:(id)sender 
+{
+	NSLog(@"week filter clicked %@", _selectedfilterDate);
+	if (_selectedfilterDate == nil) {
+		// no valid selection
+		NSBeep();
+		return;
+	}
+	_filterMode = FILTER_MODE_WEEK;
+	[self applyDateFilter];
+	NSLog(@"Week filter done");
+}
+
+- (IBAction)clickedFilterMonth:(id)sender 
+{
+	if (_selectedfilterDate == nil) {
+		// no valid selection
+		NSBeep();
+		return;
+	}
+	_filterMode = FILTER_MODE_MONTH;
+	NSLog(@"Month filter clicked %@", _selectedfilterDate);
+	[self applyDateFilter];
+	NSLog(@"month filter done");
+}
+
+- (IBAction)clickedFilterPickDate:(id)sender 
+{
+	NSLog(@"Pick Date filter clicked");
+	if (_selectedfilterDate == nil) {
+		_selectedfilterDate = [[NSDate date] retain];
+		[dtpFilterDate setDateValue:_selectedfilterDate];
+	}
+	//[dtpFilterDate setDateValue:[NSDate date]];
+	[NSApp beginSheet:panelPickFilterDate modalForWindow:mainWindow modalDelegate:self 
+			didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+
+- (IBAction)clickedFilterDateOk:(id) sender
+{
+	[NSApp endSheet:panelPickFilterDate returnCode:NSOKButton];
+}
+
+- (IBAction)clickedFilterDateCancel:(id)sender 
+{
+	[NSApp endSheet:panelPickFilterDate returnCode:NSCancelButton];
 }
 
 - (void)createTask
@@ -444,12 +868,23 @@
 	if (_selProject == nil) return;
 	
 	TTask *task = [TTask new];
-	[_selProject addTask: task];
+	[(TProject*)_selProject addTask: task];
 	[tvTasks reloadData];
-	
-	int index = [[_selProject tasks] count] - 1;
+	int index = [[_selProject tasks] count];
 	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	[mainWindow makeFirstResponder:tvTasks];
+}
+
+- (void)selectAndUpdateMetaTask {
+	[_metaTask setTasks:[_selProject tasks]];
+	_selTask = _metaTask;
+}
+
+- (void)reloadWorkPeriods
+{
+	NSLog(@"Updating workperiods...........");
+	[workPeriodController setContent:[_selTask workPeriods]];
+	[tvWorkPeriods reloadData];
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
@@ -457,15 +892,22 @@
 	if ([notification object] == tvProjects) {
 		// Save the last task for the old project
 		if (_selProject != nil) {
-			NSNumber *index = [NSNumber numberWithInt:[tvTasks selectedRow]];
-			[_projects_lastTask setObject:index forKey:[_selProject name]];
+			NSNumber *index = [NSNumber numberWithInt:[self selectedTaskRow]];
+			if ([self selectedTaskRow] >= 0) {
+				[_projects_lastTask setObject:index forKey:[_selProject name]];
+			}
 		}
 	
 		// Update the new selection
-		if ([tvProjects selectedRow] == -1) {
+		if ([self selectedProjectRow] == -2) {
 			_selProject = nil;
+		} else if ([self selectedProjectRow] == -1) {
+			_selProject = _metaProject;
+			// all projects was selected, so show the project column
+			[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
 		} else {
-			_selProject = [_projects objectAtIndex: [tvProjects selectedRow]];
+			_selProject = [_projects objectAtIndex: [self selectedProjectRow]];
+			[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:YES];
 		}
 
 		[tvTasks deselectAll: self];
@@ -484,13 +926,18 @@
 	}
 	
 	if ([notification object] == tvTasks) {
-		if ([tvTasks selectedRow] == -1) {
+		if ([self selectedTaskRow] == -2) {
 			_selTask = nil;
+		} else if ([self selectedTaskRow] == -1) {
+			[self selectAndUpdateMetaTask];
+			[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:NO];
+
 		} else {
 			// assert _selProject != nil
-			_selTask = [[_selProject tasks] objectAtIndex: [tvTasks selectedRow]];
+			_selTask = [[_selProject tasks] objectAtIndex: [self selectedTaskRow]];
+			[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:YES];
 		}
-		[tvWorkPeriods reloadData];
+		[self reloadWorkPeriods];
 		[self updateProminentDisplay];
 	}
 
@@ -502,52 +949,113 @@
 	row:(int)rowIndex
 {
 	if (tableView == tvProjects) {
-		if ([[tableColumn identifier] isEqualToString: @"ProjectName"])
-			[_selProject setName: obj];
+		if ([[tableColumn identifier] isEqualToString: @"ProjectName"] && [_selProject isKindOfClass:[TProject class]]) {
+			[(TProject*)_selProject setName: obj];
+		}
 	}
 	if (tableView == tvTasks) {
-		if ([[tableColumn identifier] isEqualToString: @"TaskName"])
-			[_selTask setName: obj];
+		if ([[tableColumn identifier] isEqualToString: @"TaskName"] && [_selTask isKindOfClass:[TTask class]]) {
+			[(TTask*)_selTask setName: obj];
+		}
 	}
+}
+
+- (void) provideProjectsForEditWpDialog:(TProject*) selectedProject
+{
+	[_projectPopupButton removeAllItems];
+	NSEnumerator *enumProjects = [_projects objectEnumerator];
+	TProject *project = nil;
+	int i = 0;
+	while ((project = [enumProjects nextObject]) != nil) {
+		[_projectPopupButton addItemWithTitle:[project name]];
+		if (selectedProject == project) {
+			[_projectPopupButton selectItemAtIndex:i];
+		}
+		i++;
+	}
+	
+}
+
+- (void) provideTasksForEditWpDialog:(TProject*)project 
+{
+	[_taskPopupButton removeAllItems];
+	NSEnumerator *enumTasks = [[project tasks] objectEnumerator];
+	TTask *task = nil;
+	[_taskPopupButton addItemWithTitle:@"Select"];
+	while ((task = [enumTasks nextObject]) != nil) {
+		[_taskPopupButton addItemWithTitle:[task name]];
+	}
+}
+
+- (IBAction)changedProjectInEditWpDialog:(id) sender
+{
+	TProject *selectedProject = [_projects objectAtIndex:[_projectPopupButton indexOfSelectedItem]];
+	[self provideTasksForEditWpDialog:selectedProject];
 }
 
 - (IBAction)clickedDelete:(id)sender
 {
+	int iResponse = 
+        NSRunAlertPanel(@"Delete selection", 
+                        @"Are you sure to delete the selected item(s)?",
+                        @"YES", @"NO", /*ThirdButtonHere:*/nil
+                        /*, args for a printf-style msg go here */);
+	switch(iResponse) {
+    case NSAlertDefaultReturn:    /* user pressed OK */
+		break;
+    case NSAlertAlternateReturn:  /* user pressed Cancel */
+		return;
+	case NSAlertErrorReturn:      /* an error occurred */
+		return;
+	}
 	if ([mainWindow firstResponder] == tvWorkPeriods) {
 		// assert _selTask != nil
 		// assert _selProject != nil
-		TWorkPeriod *_selWorkPeriod = [[_selTask workPeriods] objectAtIndex:[tvWorkPeriods selectedRow]];
-		// assert _selWorkPeriod != nil
-		if (_selWorkPeriod == _curWorkPeriod) {
+		
+
+		TWorkPeriod *selPeriod = [self selectedWorkPeriod];
+		if (selPeriod == _curWorkPeriod) {
 			[self stopTimer];
 		}
-		[[_selTask workPeriods] removeObjectAtIndex: [tvWorkPeriods selectedRow]];
+		TTask* parentTask = [selPeriod parentTask];			
+		[parentTask removeWorkPeriod:selPeriod];
 		[_selTask updateTotalTime];
 		[_selProject updateTotalTime];
 		[tvWorkPeriods deselectAll: self];
 		[tvWorkPeriods reloadData];
 		[tvTasks reloadData];
 		[tvProjects reloadData];
+		
+		[self reloadWorkPeriods];
 	}
 	if ([mainWindow firstResponder] == tvTasks) {
-		// assert _selTask != nil
-		// assert _selProject != nil
-		if (_selTask == _curTask) {
-			[self stopTimer];
+		if ([_selProject isKindOfClass: [TProject class]]) {
+			if ([_selTask isKindOfClass:[TMetaTask class]]) {
+				return;
+			}
+			TProject *project = (TProject*) _selProject;
+			// assert _selTask != nil
+			// assert _selProject != nil
+			if (_selTask == _curTask) {
+				[self stopTimer];
+			}
+			TTask *delTask = (TTask*)_selTask;
+			[tvTasks deselectAll: self];
+			[[project tasks] removeObject: delTask];
+			[project updateTotalTime];
+			[tvTasks reloadData];
+			[tvProjects reloadData];
 		}
-		TTask *delTask = _selTask;
-		[tvTasks deselectAll: self];
-		[[_selProject tasks] removeObject: delTask];
-		[_selProject updateTotalTime];
-		[tvTasks reloadData];
-		[tvProjects reloadData];
 	}
 	if ([mainWindow firstResponder] == tvProjects) {
+		if ([_selProject isKindOfClass:[TMetaProject class]]) {
+			return;
+		}
 		// assert _selProject != nil
-		if (_selProject == _curProject) {
+		if (_selProject == _curProject || _selTask == _curProject) {
 			[self stopTimer];
 		}
-		TProject *delProject = _selProject;
+		TProject *delProject = (TProject*)_selProject;
 		[tvProjects deselectAll: self];
 		[_projects removeObject: delProject];
 		[tvProjects reloadData];
@@ -624,6 +1132,10 @@
 
 - (IBAction)clickedCountIdleTimeYes:(id)sender
 {
+	// update the current end time in order not to let the
+	// standby timer go off
+	[_curWorkPeriod setEndTime: [NSDate date]];
+
 	// assert timer != nil
 	[timer setFireDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
 	[NSApp stopModal];
@@ -631,11 +1143,19 @@
 
 - (BOOL) validateUserInterfaceItem:(id)anItem
 {
-	if ([anItem action] == @selector(clickedAddProject:)) {
+	if ([anItem action] == @selector(clickedStartStopTimer:)) {
+		if (timer != nil) return YES;
+		if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
+				&& _selProject != _metaProject) {
+			return YES;
+		}
+		return NO;
+	} else if ([anItem action] == @selector(clickedAddProject:)) {
 		return YES;
-	} else
-	if ([anItem action] == @selector(clickedAddTask:)) {
-		if (_selProject != nil) return YES;
+	} else if ([anItem action] == @selector(clickedAddTask:)) {
+		if (_selProject != nil && [_selProject isKindOfClass:[TProject class]]) {
+			return YES;
+		}
 		return NO;
 	}
 	return YES;

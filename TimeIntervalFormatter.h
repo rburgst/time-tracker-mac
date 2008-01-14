@@ -9,10 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface TimeIntervalFormatter : NSObject {
-
+@interface TimeIntervalFormatter : NSValueTransformer 
+{
 }
 
 + (NSString *) secondsToString: (int) seconds;
+
++ (Class) transformedValueClass;
+
++ (BOOL)allowsReverseTransformation;
+
+- (id)transformedValue:(id) value;
 
 @end

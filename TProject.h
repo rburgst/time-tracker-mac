@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TTask.h"
+#import "IProject.h"
 
-@interface TProject : NSObject <NSCoding> {
+@interface TProject : NSObject <NSCoding, IProject> {
 	NSString *_name;
 	NSMutableArray *_tasks;
 	int _totalTime;
@@ -21,7 +22,11 @@
 - (NSMutableArray *) tasks;
 - (void) addTask: (TTask *) task;
 
+- (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
+- (int) filteredTime:(NSPredicate*) filter;
+
 - (int) totalTime;
 - (void) updateTotalTime;
-
+- (NSString*) serializeData;
+- (id<IProject>) removeTask:(TTask*)task;
 @end

@@ -22,4 +22,18 @@
 		(secs < 10 ? @"0" : @""), secs];
 }
 
+- (id)transformedValue:(id)value {
+	return [TimeIntervalFormatter secondsToString: [value intValue]];
+}
+
++ (Class) transformedValueClass 
+{ 
+	return [NSString class]; 
+}
+
++ (BOOL)allowsReverseTransformation 
+{ 
+	return NO; 
+}
+
 @end

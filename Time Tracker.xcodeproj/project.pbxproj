@@ -49,6 +49,16 @@
 		B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC20B5C956700465046 /* LICENSE.txt */; };
 		B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
 		B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
+		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
+		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
+		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
+		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
+		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
+		D5E58E410D243A21003020AA /* daytool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3B0D243A21003020AA /* daytool.png */; };
+		D5E58E420D243A21003020AA /* monthofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3C0D243A21003020AA /* monthofftool.png */; };
+		D5E58E430D243A21003020AA /* monthtool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3D0D243A21003020AA /* monthtool.png */; };
+		D5E58E440D243A21003020AA /* weekofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3E0D243A21003020AA /* weekofftool.png */; };
+		D5E58E450D243A21003020AA /* weektool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3F0D243A21003020AA /* weektool.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +123,6 @@
 		2C9EC8D60905A5FE000651F2 /* TProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TProject.m; sourceTree = "<group>"; };
 		2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeIntervalFormatter.h; sourceTree = "<group>"; };
 		2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeIntervalFormatter.m; sourceTree = "<group>"; };
-		2C9EC9520905ABAE000651F2 /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWorkPeriod.h; sourceTree = "<group>"; };
 		2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWorkPeriod.m; sourceTree = "<group>"; };
 		2CFAEE2B09042FC000131DD6 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
 		2CFAEE2C09042FC000131DD6 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
@@ -125,6 +134,20 @@
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaProject.h; sourceTree = "<group>"; };
+		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaProject.m; sourceTree = "<group>"; };
+		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaTask.h; sourceTree = "<group>"; };
+		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaTask.m; sourceTree = "<group>"; };
+		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWorkPeriod.h; sourceTree = "<group>"; };
+		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDateTransformer.h; sourceTree = "<group>"; };
+		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
+		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
+		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
+		D5E58E3B0D243A21003020AA /* daytool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = daytool.png; path = Graphics/daytool.png; sourceTree = "<group>"; };
+		D5E58E3C0D243A21003020AA /* monthofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthofftool.png; path = Graphics/monthofftool.png; sourceTree = "<group>"; };
+		D5E58E3D0D243A21003020AA /* monthtool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthtool.png; path = Graphics/monthtool.png; sourceTree = "<group>"; };
+		D5E58E3E0D243A21003020AA /* weekofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weekofftool.png; path = Graphics/weekofftool.png; sourceTree = "<group>"; };
+		D5E58E3F0D243A21003020AA /* weektool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weektool.png; path = Graphics/weektool.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,7 +168,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2C9EC9520905ABAE000651F2 /* TWorkPeriod.h */,
+				D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */,
+				D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */,
+				D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */,
+				D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */,
+				D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */,
+				D58EEB640D09D2830043384C /* TWorkPeriod.h */,
 				2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */,
 				2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */,
 				2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */,
@@ -237,6 +265,14 @@
 		2C9DD7100905824100AA5C6E /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */,
+				D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */,
+				D5E58E3A0D243A21003020AA /* dayofftool.png */,
+				D5E58E3B0D243A21003020AA /* daytool.png */,
+				D5E58E3C0D243A21003020AA /* monthofftool.png */,
+				D5E58E3D0D243A21003020AA /* monthtool.png */,
+				D5E58E3E0D243A21003020AA /* weekofftool.png */,
+				D5E58E3F0D243A21003020AA /* weektool.png */,
 				2C9DB944090675EB0039C62A /* addprojecttool.png */,
 				2C9DB945090675EB0039C62A /* addtasktool.png */,
 				2C9DB946090675EB0039C62A /* playtool.png */,
@@ -277,9 +313,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 2CFAEE2509042EE900131DD6 /* Build configuration list for PBXProject "Time Tracker" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Time Tracker */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Time Tracker */,
 				B19BDFB30B5C94F200465046 /* Release Package */,
@@ -303,6 +341,14 @@
 				2C9DB94A090675EB0039C62A /* playtool.png in Resources */,
 				2C9DB94B090675EB0039C62A /* stoptool.png in Resources */,
 				2C9DB974090677B20039C62A /* Icon.icns in Resources */,
+				D5E58E400D243A21003020AA /* dayofftool.png in Resources */,
+				D5E58E410D243A21003020AA /* daytool.png in Resources */,
+				D5E58E420D243A21003020AA /* monthofftool.png in Resources */,
+				D5E58E430D243A21003020AA /* monthtool.png in Resources */,
+				D5E58E440D243A21003020AA /* weekofftool.png in Resources */,
+				D5E58E450D243A21003020AA /* weektool.png in Resources */,
+				D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */,
+				D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,6 +365,8 @@
 				2C9EC8D70905A5FE000651F2 /* TProject.m in Sources */,
 				2C9EC93F0905A9F6000651F2 /* TimeIntervalFormatter.m in Sources */,
 				2C9EC9540905ABAE000651F2 /* TWorkPeriod.m in Sources */,
+				D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */,
+				D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,8 +431,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
 					i386,
+					ppc,
 				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -402,6 +450,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PREBINDING = NO;
 				PRODUCT_NAME = "Time Tracker";
+				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970 i386 x86_64";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -441,10 +490,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
-					ppc,
 					i386,
+					ppc,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64";
 			};
 			name = Release;
 		};

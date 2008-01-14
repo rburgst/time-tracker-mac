@@ -34,6 +34,7 @@
 - (void) addWorkPeriod: (TWorkPeriod *) workPeriod
 {
 	[_workPeriods addObject: workPeriod];
+	[workPeriod setParentTask:self];
 }
 
 - (NSMutableArray *) workPeriods
@@ -55,6 +56,38 @@
 	return _totalTime;
 }
 
+- (NSMutableArray *) matchingWorkPeriods:(NSPredicate*) filter
+{
+	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
+	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
+	id anObject;
+ 
+	while (anObject = [enumerator nextObject])
+	{
+		if ([filter evaluateWithObject:anObject]) {
+			[result addObject:anObject];
+		}
+	}
+	return result;
+	
+}
+
+- (int) filteredTime:(NSPredicate*) filter
+{
+	if (filter == nil) {
+		return [self totalTime];
+	}
+	NSEnumerator *enumPeriods = [[self matchingWorkPeriods:filter] objectEnumerator];
+	id anObject;
+	int result = 0;
+ 
+	while (anObject = [enumPeriods nextObject])
+	{
+		result += [anObject totalTime];
+	}
+	return result;
+
+}
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
@@ -81,8 +114,47 @@
         _name = [[coder decodeObject] retain];
         _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObject]] retain];
     }
+	// update back links
+	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
+	id anObject;
+	while (anObject = [enumerator nextObject])
+	{
+		[anObject setParentTask:self];
+	}
+
 	[self updateTotalTime];
     return self;
 }
 
+- (NSString*)serializeData:(NSString*) prefix
+{
+	NSMutableString* result = [NSMutableString string];
+	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
+	id anObject;
+	NSString *addPrefix = [NSString stringWithFormat:@"%@;\"%@\"", prefix, _name];
+ 
+	while (anObject = [enumerator nextObject])
+	{
+		[result appendString:[anObject serializeData:addPrefix]];
+	}
+	return result;
+}
+
+- (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period {
+	[[self workPeriods] removeObject:period];
+	[period setParentTask:nil];
+	return self;
+}
+
+- (void) setParentProject:(TProject*) project
+{
+	[_parent release];
+	_parent = nil;
+	_parent = [project retain];
+}
+
+- (TProject*) parentProject
+{
+	return _parent;
+}
 @end

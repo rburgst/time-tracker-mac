@@ -1,40 +1,130 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                clickedAddProject = id; 
-                clickedAddTask = id; 
-                clickedChangeWorkPeriod = id; 
-                clickedCountIdleTimeNo = id; 
-                clickedCountIdleTimeYes = id; 
-                clickedDelete = id; 
-                clickedStartStopTimer = id; 
-            }; 
-            CLASS = MainController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                dtpEditWorkPeriodEndTime = NSDatePicker; 
-                dtpEditWorkPeriodStartTime = NSDatePicker; 
-                mainWindow = NSWindow; 
-                panelEditWorkPeriod = NSPanel; 
-                panelIdleNotification = NSPanel; 
-                startMenuItem = NSMenuItem; 
-                tfActiveProject = NSTextField; 
-                tfActiveTask = NSTextField; 
-                tvProjects = NSTableView; 
-                tvTasks = NSTableView; 
-                tvWorkPeriods = NSTableView; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {
-            ACTIONS = {checkForUpdates = id; }; 
-            CLASS = SUUpdater; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TMetaProject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSDatePicker</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>cancelClicked</key>
+				<string>id</string>
+				<key>changedProjectInEditWpDialog</key>
+				<string>id</string>
+				<key>clickedAddProject</key>
+				<string>id</string>
+				<key>clickedAddTask</key>
+				<string>id</string>
+				<key>clickedChangeWorkPeriod</key>
+				<string>id</string>
+				<key>clickedCountIdleTimeNo</key>
+				<string>id</string>
+				<key>clickedCountIdleTimeYes</key>
+				<string>id</string>
+				<key>clickedDelete</key>
+				<string>id</string>
+				<key>clickedFilterDateCancel</key>
+				<string>id</string>
+				<key>clickedFilterDateOk</key>
+				<string>id</string>
+				<key>clickedStartStopTimer</key>
+				<string>id</string>
+				<key>okClicked</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MainController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_currentPredicate</key>
+				<string>NSPredicate</string>
+				<key>_filterEndDate</key>
+				<string>NSDate</string>
+				<key>_filterStartDate</key>
+				<string>NSDate</string>
+				<key>_metaProject</key>
+				<string>TMetaProject</string>
+				<key>_projectPopupButton</key>
+				<string>NSPopUpButton</string>
+				<key>_taskPopupButton</key>
+				<string>NSPopUpButton</string>
+				<key>changeProjectController</key>
+				<string>NSArrayController</string>
+				<key>dtpEditWorkPeriodComment</key>
+				<string>NSTextView</string>
+				<key>dtpEditWorkPeriodEndTime</key>
+				<string>NSDatePicker</string>
+				<key>dtpEditWorkPeriodStartTime</key>
+				<string>NSDatePicker</string>
+				<key>dtpFilterDate</key>
+				<string>NSDatePicker</string>
+				<key>mainWindow</key>
+				<string>NSWindow</string>
+				<key>panelEditWorkPeriod</key>
+				<string>NSPanel</string>
+				<key>panelIdleNotification</key>
+				<string>NSPanel</string>
+				<key>panelPickFilterDate</key>
+				<string>NSPanel</string>
+				<key>startMenuItem</key>
+				<string>NSMenuItem</string>
+				<key>tfActiveProject</key>
+				<string>NSTextField</string>
+				<key>tfActiveTask</key>
+				<string>NSTextField</string>
+				<key>tvProjects</key>
+				<string>NSTableView</string>
+				<key>tvTasks</key>
+				<string>NSTableView</string>
+				<key>tvWorkPeriods</key>
+				<string>NSTableView</string>
+				<key>workPeriodController</key>
+				<string>NSArrayController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>checkForUpdates</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>SUUpdater</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
