@@ -7,9 +7,11 @@
 	<key>IBLastKnownRelativeProjectPath</key>
 	<string>../../Time Tracker.xcodeproj</string>
 	<key>IBOldestOS</key>
-	<integer>4</integer>
+	<integer>5</integer>
 	<key>IBOpenObjects</key>
-	<array/>
+	<array>
+		<integer>252</integer>
+	</array>
 	<key>IBSystem Version</key>
 	<string>9B18</string>
 	<key>targetFramework</key>

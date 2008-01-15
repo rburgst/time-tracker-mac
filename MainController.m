@@ -311,6 +311,8 @@
 		}
 	}
 	if (projects != nil) {
+		[_projects release];
+		// projects is already retained
 		_projects = projects;
 		[_metaProject setProjects:_projects];
 		[_metaTask setTasks:[_metaProject tasks]];
@@ -643,6 +645,7 @@
 	if (timer != nil)
 		[self stopTimer];
 	[self saveData];
+	NSLog(@"exiting app...........");
 	return NSTerminateNow;
 }
 
