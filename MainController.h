@@ -71,6 +71,7 @@
 	IBOutlet NSPredicate *_currentPredicate;
 	IBOutlet NSPopUpButton *_taskPopupButton;
 	IBOutlet NSPopUpButton *_projectPopupButton;
+	IBOutlet NSSearchField *_searchBox;
 	
 	NSToolbarItem *startstopToolbarItem;
 	NSToolbarItem *_dayToolbarItem;
@@ -110,6 +111,7 @@
 - (IBAction)clickedFilterDateOk:(id) sender;
 - (IBAction)clickedFilterDateCancel:(id) sender;
 - (IBAction)changedProjectInEditWpDialog:(id) sender;
+- (IBAction)filterComments: (id)sender;
 
 - (void) provideTasksForEditWpDialog:(TProject*)project;
 - (void) provideProjectsForEditWpDialog:(TProject*) selectedProject;

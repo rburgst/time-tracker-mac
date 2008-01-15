@@ -17,6 +17,7 @@
 // 0 means that empty tasks will also be shown.
 #define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
 
+
 - (id) init
 {
 	_projects = [NSMutableArray new];
@@ -52,7 +53,13 @@
 	_currentPredicate = nil;
 	NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
 
-	_currentPredicate = [[NSPredicate predicateWithFormat:@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate] retain];
+	if ([[_searchBox stringValue] length] > 0) {
+		_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
+			_filterStartDate, _filterEndDate, [_searchBox stringValue]] retain];
+	} else {
+		_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@", 
+			_filterStartDate, _filterEndDate] retain];	
+	}
 	[workPeriodController setFilterPredicate:_currentPredicate];	
 	[tvTasks reloadData];
 	[tvProjects reloadData];
@@ -71,7 +78,6 @@
 
 - (void) applyDateFilter
 {
-
 	[_dayToolbarItem setImage: (_filterMode == FILTER_MODE_DAY)? dayToolImageUnsel : dayToolImage];
 	[_weekToolbarItem setImage: (_filterMode == FILTER_MODE_WEEK)? weekToolImageUnsel : weekToolImage];
 	[_monthToolbarItem setImage: (_filterMode == FILTER_MODE_MONTH)? monthToolImageUnsel : monthToolImage];
@@ -203,14 +209,14 @@
 {
 	NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier] autorelease];
     
-	if ([itemIdentifier isEqual: @"Startstop"]) {
+	if ([itemIdentifier isEqualToString: @"Startstop"]) {
 		startstopToolbarItem = toolbarItem;
 		[toolbarItem setTarget:self];
 		[toolbarItem setAction:@selector(clickedStartStopTimer:)];
 		[self updateStartStopState];
     }
 	
-	if ([itemIdentifier isEqual: @"AddProject"]) {
+	if ([itemIdentifier isEqualToString: @"AddProject"]) {
 		[toolbarItem setLabel:@"New project"];
 		[toolbarItem setPaletteLabel:@"New project"];
 		[toolbarItem setToolTip:@"New project"];
@@ -219,7 +225,7 @@
 		[toolbarItem setAction:@selector(clickedAddProject:)];
     }
 	
-	if ([itemIdentifier isEqual: @"AddTask"]) {
+	if ([itemIdentifier isEqualToString: @"AddTask"]) {
 		[toolbarItem setLabel:@"New task"];
 		[toolbarItem setPaletteLabel:@"New task"];
 		[toolbarItem setToolTip:@"New task"];
@@ -228,7 +234,7 @@
 		[toolbarItem setAction:@selector(clickedAddTask:)];
     }
     	
-	if ([itemIdentifier isEqual: @"Day"]) {
+	if ([itemIdentifier isEqualToString: @"Day"]) {
 		_dayToolbarItem = [toolbarItem retain];
 		[toolbarItem setLabel:@"Day"];
 		[toolbarItem setPaletteLabel:@"Day"];
@@ -238,7 +244,7 @@
 		[toolbarItem setAction:@selector(clickedFilterDay:)];
     }
 
-	if ([itemIdentifier isEqual: @"Week"]) {
+	if ([itemIdentifier isEqualToString: @"Week"]) {
 		_weekToolbarItem = [toolbarItem retain];
 		[toolbarItem setLabel:@"Week"];
 		[toolbarItem setPaletteLabel:@"Week"];
@@ -248,7 +254,7 @@
 		[toolbarItem setAction:@selector(clickedFilterWeek:)];
     }
 
-	if ([itemIdentifier isEqual: @"Month"]) {
+	if ([itemIdentifier isEqualToString: @"Month"]) {
 		_monthToolbarItem = [toolbarItem retain];
 		[toolbarItem setLabel:@"Month"];
 		[toolbarItem setPaletteLabel:@"Month"];
@@ -258,7 +264,7 @@
 		[toolbarItem setAction:@selector(clickedFilterMonth:)];
     }
 
-	if ([itemIdentifier isEqual: @"PickDate"]) {
+	if ([itemIdentifier isEqualToString: @"PickDate"]) {
 		[toolbarItem setLabel:@"PickDate"];
 		[toolbarItem setPaletteLabel:@"PickDate"];
 		[toolbarItem setToolTip:@"PickDate to filter"];
@@ -267,20 +273,68 @@
 		[toolbarItem setAction:@selector(clickedFilterPickDate:)];
 		_tbPickDateItem = toolbarItem;
     }
+	
+	#ifdef USE_EXTENDED_TOOLBAR
+	if ([itemIdentifier isEqualToString: @"FilterDate"]) {
+		[toolbarItem setLabel:@"Filter Date"];
+		[toolbarItem setPaletteLabel:@"Filter Date"];
+		[toolbarItem setToolTip:@"Pick Date to filter"];
+//		[toolbarItem setImage: pickDateToolImage];
+		[toolbarItem setTarget:self];
+//		[toolbarItem setAction:@selector(clickedFilterPickDate:)];
+		
+		NSDatePicker *picker = [[NSDatePicker alloc] initWithFrame:NSMakeRect(0, 0, 160, 27)]; 
+		// 27 is taken from interface builder
+		// TODO should be more dynamic
+		
+		[picker setDatePickerStyle:NSTextFieldAndStepperDatePickerStyle];
+		[toolbarItem setView:picker];
+		[picker release];
+	}
+
+	if ([itemIdentifier isEqualToString: @"CommentSearchField"]) {
+		[toolbarItem setPaletteLabel:@"Filter Comments"];
+		[toolbarItem setToolTip:@"Enter a text to filter for comments"];
+		
+		_searchBox = [[NSSearchField alloc] initWithFrame:NSMakeRect(0, 0, 160, 27)]; 
+		// 27 is taken from interface builder
+		// TODO should be more dynamic
+		[[_searchBox cell] setPlaceholderString:@"Filter Comments"];
+		[_searchBox setAction:@selector(filterComments:)];
+		[_searchBox setTarget:self];
+		[toolbarItem setView:_searchBox];
+	}
+	#endif // USE_EXTENDED_TOOLBAR
     
     return toolbarItem;
+}
+
+- (IBAction)filterComments: (id)sender
+{
+//   NSString *  filterString = [sender stringValue];
+   /*
+   if ([filterString isEqualToString: @""]) {
+      [_messageFilter release];
+      _messageFilter = nil;
+   } else {
+      _messageFilter = [filterString retain];
+   }*/
+
+   [self applyDateFilter];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
 {
 	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
-			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", nil];
+			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", @"FilterDate", 
+			@"CommentSearchField", nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
 	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
-			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", nil];
+			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", @"FilterDate", 
+			NSToolbarFlexibleSpaceItemIdentifier, @"CommentSearchField", nil];
 }
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
@@ -411,6 +465,10 @@
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
 	
+	NSMutableArray *descriptors = [NSMutableArray array];
+	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"startTime" ascending:YES] autorelease]];
+	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"parentTask.name" ascending:YES] autorelease]];
+	[workPeriodController setSortDescriptors:descriptors];
 	[tvProjects reloadData];
 }
 
@@ -957,10 +1015,14 @@
 		} else if ([self selectedProjectRow] == -1) {
 			_selProject = _metaProject;
 			// all projects was selected, so show the project column
-			[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
+			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
+				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
+			}
 		} else {
 			_selProject = [_projects objectAtIndex: [self selectedProjectRow]];
-			[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:YES];
+			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
+				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:YES];
+			}
 		}
 
 		[tvTasks deselectAll: self];
