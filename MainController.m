@@ -290,12 +290,28 @@
 
 - (void)awakeFromNib
 {
-
-	defaults = [NSUserDefaults standardUserDefaults];
+	NSData *theData = nil;
+	NSMutableArray *projects = nil;
 	
-	NSData *theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"ProjectTimes"];
-	if (theData != nil) {
-		_projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithData:theData]] retain];
+	if ([self dataFileExists]) {
+		NSString * path = [self pathForDataFile]; 
+		NSDictionary * rootObject; 
+		rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path]; 
+		theData = [rootObject  valueForKey:@"ProjectTimes"];
+		if (theData != nil) {
+			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithData:theData]] retain];
+		}
+	} else {
+		// use the old unarchiver
+		defaults = [NSUserDefaults standardUserDefaults];
+	
+		theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"ProjectTimes"];
+		if (theData != nil) {
+			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
+		}
+	}
+	if (projects != nil) {
+		_projects = projects;
 		[_metaProject setProjects:_projects];
 		[_metaTask setTasks:[_metaProject tasks]];
 	}
@@ -555,6 +571,30 @@
 		[NSApp stopModal];
 }
 
+- (NSString *) pathForDataFile : (bool) createIfNecessary
+{ 
+	NSFileManager *fileManager = [NSFileManager defaultManager]; 
+	NSString *folder = @"~/Library/Application Support/TimeTracker/"; 
+	folder = [folder stringByExpandingTildeInPath]; 
+	if ([fileManager fileExistsAtPath: folder] == NO) { 
+		[fileManager createDirectoryAtPath: folder attributes: nil]; 
+	} 
+	NSString *fileName = @"data.plist"; 
+	return [folder stringByAppendingPathComponent: fileName]; 
+} 
+
+- (NSString *) pathForDataFile
+{
+	return [self pathForDataFile: YES];
+}
+
+- (bool) dataFileExists
+{
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *dataFile = [self pathForDataFile:NO];
+	return [fm fileExistsAtPath:dataFile];
+}
+
 - (NSString*)serializeData 
 {
 	NSMutableString *result = [NSMutableString stringWithString:@"\"Project\";\"Task\";\"Date\";\"Start\";\"End\";\"Duration\";\"Comment\"\n"];
@@ -571,8 +611,18 @@
 - (void)saveData
 {
 	NSData *theData=[NSKeyedArchiver archivedDataWithRootObject:_projects];
-	[[NSUserDefaults standardUserDefaults] setObject:theData forKey:@"ProjectTimes"];
+	NSString * path = [self pathForDataFile]; 
+	NSMutableDictionary * rootObject; 
+	rootObject = [NSMutableDictionary dictionary]; 
+	//[rootObject setValue: [self mailboxes] forKey:@"mailboxes"]; 
+	[rootObject setObject:theData forKey:@"ProjectTimes"];
+	[NSKeyedArchiver archiveRootObject: rootObject toFile: path];
+	
+	// not necessary to store in the old format
+	/*[[NSUserDefaults standardUserDefaults] setObject:theData forKey:@"ProjectTimes"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+	*/
+	
 	timeSinceSave = 0;
 	
 	NSString *data = [self serializeData];
@@ -1052,7 +1102,7 @@
 			return;
 		}
 		// assert _selProject != nil
-		if (_selProject == _curProject || _selTask == _curProject) {
+		if ([_selProject isEqual:_curProject] || [_selTask isEqual: _curProject]) {
 			[self stopTimer];
 		}
 		TProject *delProject = (TProject*)_selProject;

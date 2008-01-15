@@ -125,6 +125,8 @@
 - (void) updateStartStopState;
 - (void) updateProminentDisplay;
 - (void) reloadWorkPeriods;
+- (NSString *) pathForDataFile;
+- (bool) dataFileExists;
 
 -(NSDate*) determineFilterStartDate;
 -(NSDate*) determineFilterEndDate;
