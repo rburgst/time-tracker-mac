@@ -129,6 +129,8 @@
 - (void) reloadWorkPeriods;
 - (NSString *) pathForDataFile;
 - (bool) dataFileExists;
+- (void) validateToolbarFilterItems;
+- (void) applyFilter;
 
 -(NSDate*) determineFilterStartDate;
 -(NSDate*) determineFilterEndDate;

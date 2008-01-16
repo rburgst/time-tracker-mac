@@ -16,7 +16,7 @@
 // that have no matching time entries (1 means that these will NOT be shown)
 // 0 means that empty tasks will also be shown.
 #define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
-
+//#define USE_EXTENDED_TOOLBAR
 
 - (id) init
 {
@@ -47,51 +47,64 @@
 	return self;
 }
 
-- (void) applyFilter:(NSDate*)startDate endDate:(NSDate*)anEndDate 
+- (NSPredicate*) filterPredicate
 {
-	[_currentPredicate release];
-	_currentPredicate = nil;
-	NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+	if (_currentPredicate == nil) {
+		[self determineFilterStartDate];
+		[self determineFilterEndDate];
 
-	if ([[_searchBox stringValue] length] > 0) {
-		_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
-			_filterStartDate, _filterEndDate, [_searchBox stringValue]] retain];
-	} else {
-		_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@", 
-			_filterStartDate, _filterEndDate] retain];	
+		NSString *commentFilter = [_searchBox stringValue];
+		if ([[_searchBox stringValue] length] > 0) {
+			if (_filterMode == FILTER_MODE_NONE) {
+				_currentPredicate = [[NSPredicate predicateWithFormat: 
+					@"comment.string contains[cd] %@", 
+					commentFilter] retain];
+				NSLog(@"comment.string contains[cd] %@", commentFilter);
+			} else {
+				_currentPredicate = [[NSPredicate predicateWithFormat: 
+					@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
+					_filterStartDate, _filterEndDate, commentFilter] retain];
+				NSLog(@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
+					_filterStartDate, _filterEndDate, commentFilter);
+			}
+		} else if (_filterMode != FILTER_MODE_NONE) {
+			_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@", 
+				_filterStartDate, _filterEndDate] retain];	
+			NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+		} // otherwise the filterpredicate will stay nil
 	}
-	[workPeriodController setFilterPredicate:_currentPredicate];	
-	[tvTasks reloadData];
-	[tvProjects reloadData];
+	return _currentPredicate;
 }
 
 
-- (void) clearFilter
+- (void) invalidateFilterPredicate
 {
-	[workPeriodController setFilterPredicate:nil];
 	[_currentPredicate release];
 	_currentPredicate = nil;
-
-	[tvTasks reloadData];
-	[tvProjects reloadData];
 }
 
-- (void) applyDateFilter
+- (void) applyFilter
+{
+	[workPeriodController setFilterPredicate:[self filterPredicate]];	
+	[tvTasks reloadData];
+	[tvProjects reloadData];
+	[self validateToolbarFilterItems];
+}
+
+- (void) setFilterMode:(int)filterMode
+{
+	_filterMode = filterMode;
+	[self invalidateFilterPredicate];
+}
+
+- (void) validateToolbarFilterItems
 {
 	[_dayToolbarItem setImage: (_filterMode == FILTER_MODE_DAY)? dayToolImageUnsel : dayToolImage];
 	[_weekToolbarItem setImage: (_filterMode == FILTER_MODE_WEEK)? weekToolImageUnsel : weekToolImage];
 	[_monthToolbarItem setImage: (_filterMode == FILTER_MODE_MONTH)? monthToolImageUnsel : monthToolImage];
-
-	if (_filterMode == FILTER_MODE_NONE) {
-		[self clearFilter];
-		return;
-	}
-	[self determineFilterStartDate];
-	[self determineFilterEndDate];
-	[self applyFilter:_filterStartDate endDate:_filterEndDate];	
 }
 
-- (int)selectedTaskRow 
+- (int) selectedTaskRow 
 {
 	return [tvTasks selectedRow] - 1;
 }
@@ -291,6 +304,7 @@
 		[toolbarItem setView:picker];
 		[picker release];
 	}
+	#endif // USE_EXTENDED_TOOLBAR
 
 	if ([itemIdentifier isEqualToString: @"CommentSearchField"]) {
 		[toolbarItem setPaletteLabel:@"Filter Comments"];
@@ -304,23 +318,14 @@
 		[_searchBox setTarget:self];
 		[toolbarItem setView:_searchBox];
 	}
-	#endif // USE_EXTENDED_TOOLBAR
     
     return toolbarItem;
 }
 
 - (IBAction)filterComments: (id)sender
 {
-//   NSString *  filterString = [sender stringValue];
-   /*
-   if ([filterString isEqualToString: @""]) {
-      [_messageFilter release];
-      _messageFilter = nil;
-   } else {
-      _messageFilter = [filterString retain];
-   }*/
-
-   [self applyDateFilter];
+	[self invalidateFilterPredicate];
+	[self applyFilter];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
@@ -503,12 +508,11 @@
 		if (returnCode == NSOKButton) {			
 			[_tbPickDateItem setLabel:[_dateFormatter stringFromDate:_selectedfilterDate]];
 		} else {
-			_filterMode = FILTER_MODE_NONE;
-			[_selectedfilterDate release];
-			_selectedfilterDate = nil;
+			[self setFilterMode: FILTER_MODE_NONE];
 			[_tbPickDateItem setLabel:@"Pick Date"];
 		}
-		[self applyDateFilter];
+		[self invalidateFilterPredicate];
+		[self applyFilter];
 	} else {
 		if (returnCode == NSOKButton) {
 			[self clickedChangeWorkPeriod: nil];
@@ -737,7 +741,7 @@
 		else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
 			if (_selProject == _metaProject) {
 				// TODO this should be cached.
-				return [[_selProject matchingTasks:_currentPredicate] count];
+				return [[_selProject matchingTasks:[self filterPredicate]] count] + 1;
 			}
 		} 
 		return [[_selProject tasks] count] + 1;
@@ -779,7 +783,7 @@
 			return [project name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [project filteredTime:_currentPredicate]];
+			return [TimeIntervalFormatter secondsToString: [project filteredTime:[self filterPredicate]]];
 		}
 	}
 	
@@ -789,7 +793,7 @@
 			task = _metaTask;
 		} else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW 
 				&& _selProject == _metaProject) {
-			task = [[_selProject matchingTasks:_currentPredicate] objectAtIndex: rowIndex - 1];
+			task = [[_selProject matchingTasks:[self filterPredicate]] objectAtIndex: rowIndex - 1];
 		} else {
 			task = [[_selProject tasks] objectAtIndex: rowIndex - 1];
 		}
@@ -801,7 +805,7 @@
 			return [task name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [task filteredTime:_currentPredicate]];
+			return [TimeIntervalFormatter secondsToString: [task filteredTime:[self filterPredicate]]];
 		}
 	}
 	/*
@@ -919,8 +923,8 @@
 		NSBeep();
 		return;
 	}
-	_filterMode = FILTER_MODE_DAY;
-	[self applyDateFilter];
+	[self setFilterMode:FILTER_MODE_DAY];
+	[self applyFilter];
 	NSLog(@"day filter done");
 }
 
@@ -932,8 +936,8 @@
 		NSBeep();
 		return;
 	}
-	_filterMode = FILTER_MODE_WEEK;
-	[self applyDateFilter];
+	[self setFilterMode:FILTER_MODE_WEEK];
+	[self applyFilter];
 	NSLog(@"Week filter done");
 }
 
@@ -944,9 +948,9 @@
 		NSBeep();
 		return;
 	}
-	_filterMode = FILTER_MODE_MONTH;
+	[self setFilterMode: FILTER_MODE_MONTH];
 	NSLog(@"Month filter clicked %@", _selectedfilterDate);
-	[self applyDateFilter];
+	[self applyFilter];
 	NSLog(@"month filter done");
 }
 
