@@ -85,7 +85,8 @@
 
 - (void) applyFilter
 {
-	[workPeriodController setFilterPredicate:[self filterPredicate]];	
+	[workPeriodController setFilterPredicate:[self filterPredicate]];
+	[self updateTaskFilterCache];
 	[tvTasks reloadData];
 	[tvProjects reloadData];
 	[self validateToolbarFilterItems];
@@ -739,9 +740,8 @@
 		if (_selProject == nil)
 			return 0;
 		else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
-			if (_selProject == _metaProject) {
-				// TODO this should be cached.
-				return [[_selProject matchingTasks:[self filterPredicate]] count] + 1;
+			if (_selProject == _metaProject && _filteredTasks != nil) {
+				return [_filteredTasks count] + 1;
 			}
 		} 
 		return [[_selProject tasks] count] + 1;
@@ -770,6 +770,7 @@
 	return aTask;
 }
 
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
 {
 	if (tableView == tvProjects) {
@@ -792,8 +793,8 @@
 		if (rowIndex == 0) {
 			task = _metaTask;
 		} else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW 
-				&& _selProject == _metaProject) {
-			task = [[_selProject matchingTasks:[self filterPredicate]] objectAtIndex: rowIndex - 1];
+				&& _selProject == _metaProject && _filteredTasks != nil) {
+			task = [_filteredTasks objectAtIndex: rowIndex - 1];
 		} else {
 			task = [[_selProject tasks] objectAtIndex: rowIndex - 1];
 		}
@@ -1002,6 +1003,19 @@
 	[tvWorkPeriods reloadData];
 }
 
+/** 
+ * This method will update the cached tasks to be displayed when a filter
+ * is selected. 
+ */
+- (void) updateTaskFilterCache {
+	[_filteredTasks release];
+	_filteredTasks = nil;
+	
+	if (_filterMode != FILTER_MODE_NONE) {
+		_filteredTasks = [[_selProject matchingTasks:[self filterPredicate]] retain];
+	} 
+}
+
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == tvProjects) {
@@ -1012,8 +1026,13 @@
 				[_projects_lastTask setObject:index forKey:[_selProject name]];
 			}
 		}
+
 	
 		// Update the new selection
+		// first remove the cached tasks
+		[_filteredTasks release];
+		_filteredTasks = nil;
+
 		if ([self selectedProjectRow] == -2) {
 			_selProject = nil;
 		} else if ([self selectedProjectRow] == -1) {
@@ -1022,6 +1041,8 @@
 			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
 				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
 			}
+			// if we have a filter on then already cache the tasks
+			[self updateTaskFilterCache];
 		} else {
 			_selProject = [_projects objectAtIndex: [self selectedProjectRow]];
 			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
@@ -1029,10 +1050,16 @@
 			}
 		}
 
+		NSMutableArray *tasks = nil;
+		if (_filteredTasks != nil) {
+			tasks = _filteredTasks;
+		} else {
+			tasks = [_selProject tasks];
+		}
 		[tvTasks deselectAll: self];
 		[tvTasks reloadData];
 		
-		if (_selProject != nil && [[_selProject tasks] count] > 0) {
+		if (_selProject != nil && [tasks count] > 0) {
 			NSNumber *lastTask = [_projects_lastTask objectForKey:[_selProject name]];
 			if (lastTask == nil || [lastTask intValue] == -1) {
 				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
@@ -1045,16 +1072,26 @@
 	}
 	
 	if ([notification object] == tvTasks) {
+		NSMutableArray *tasks = nil;
+		if (_filteredTasks != nil) {
+			tasks = _filteredTasks;
+		} else {
+			tasks = [_selProject tasks];
+		}
+		
 		if ([self selectedTaskRow] == -2) {
 			_selTask = nil;
 		} else if ([self selectedTaskRow] == -1) {
 			[self selectAndUpdateMetaTask];
-			[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:NO];
-
+			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
+				[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:NO];
+			}
 		} else {
 			// assert _selProject != nil
-			_selTask = [[_selProject tasks] objectAtIndex: [self selectedTaskRow]];
-			[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:YES];
+			_selTask = [tasks objectAtIndex: [self selectedTaskRow]];
+			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
+				[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:YES];
+			}
 		}
 		[self reloadWorkPeriods];
 		[self updateProminentDisplay];

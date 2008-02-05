@@ -53,6 +53,8 @@
 				<string>id</string>
 				<key>clickedStartStopTimer</key>
 				<string>id</string>
+				<key>filterComments</key>
+				<string>id</string>
 				<key>okClicked</key>
 				<string>id</string>
 			</dict>
@@ -72,6 +74,8 @@
 				<string>TMetaProject</string>
 				<key>_projectPopupButton</key>
 				<string>NSPopUpButton</string>
+				<key>_searchBox</key>
+				<string>NSSearchField</string>
 				<key>_taskPopupButton</key>
 				<string>NSPopUpButton</string>
 				<key>changeProjectController</key>

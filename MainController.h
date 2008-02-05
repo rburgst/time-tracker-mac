@@ -83,6 +83,7 @@
 	NSMutableDictionary *_projects_lastTask;
 	id<IProject> _selProject;
 	id<ITask> _selTask;
+	NSMutableArray *_filteredTasks;
 	TWorkPeriod *_curWorkPeriod;
 	TTimeTransformer *_timeValueFormatter;
 	TDateTransformer *_dateValueFormatter;
@@ -131,6 +132,7 @@
 - (bool) dataFileExists;
 - (void) validateToolbarFilterItems;
 - (void) applyFilter;
+- (void) updateTaskFilterCache;
 
 -(NSDate*) determineFilterStartDate;
 -(NSDate*) determineFilterEndDate;
