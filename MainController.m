@@ -59,18 +59,18 @@
 				_currentPredicate = [[NSPredicate predicateWithFormat: 
 					@"comment.string contains[cd] %@", 
 					commentFilter] retain];
-				NSLog(@"comment.string contains[cd] %@", commentFilter);
+			//	NSLog(@"comment.string contains[cd] %@", commentFilter);
 			} else {
 				_currentPredicate = [[NSPredicate predicateWithFormat: 
 					@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
 					_filterStartDate, _filterEndDate, commentFilter] retain];
-				NSLog(@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
-					_filterStartDate, _filterEndDate, commentFilter);
+		//		NSLog(@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
+		//			_filterStartDate, _filterEndDate, commentFilter);
 			}
 		} else if (_filterMode != FILTER_MODE_NONE) {
 			_currentPredicate = [[NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@", 
 				_filterStartDate, _filterEndDate] retain];	
-			NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+			//NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
 		} // otherwise the filterpredicate will stay nil
 	}
 	return _currentPredicate;
@@ -896,8 +896,8 @@
 			break;
 	}
 	_filterEndDate = [[[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:_filterStartDate options:0] retain];
-	NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
-	NSLog(@"objects %@", [workPeriodController content]);
+	//NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
+	//NSLog(@"objects %@", [workPeriodController content]);
 	return _filterEndDate;
 }
 
@@ -918,7 +918,7 @@
 
 - (IBAction)clickedFilterDay:(id)sender 
 {
-	NSLog(@"Day filter clicked");
+	//NSLog(@"Day filter clicked");
 	if (_selectedfilterDate == nil) {
 		// no valid selection
 		NSBeep();
@@ -926,12 +926,12 @@
 	}
 	[self setFilterMode:FILTER_MODE_DAY];
 	[self applyFilter];
-	NSLog(@"day filter done");
+	//NSLog(@"day filter done");
 }
 
 - (IBAction)clickedFilterWeek:(id)sender 
 {
-	NSLog(@"week filter clicked %@", _selectedfilterDate);
+	//NSLog(@"week filter clicked %@", _selectedfilterDate);
 	if (_selectedfilterDate == nil) {
 		// no valid selection
 		NSBeep();
@@ -939,7 +939,7 @@
 	}
 	[self setFilterMode:FILTER_MODE_WEEK];
 	[self applyFilter];
-	NSLog(@"Week filter done");
+	//NSLog(@"Week filter done");
 }
 
 - (IBAction)clickedFilterMonth:(id)sender 
@@ -950,14 +950,14 @@
 		return;
 	}
 	[self setFilterMode: FILTER_MODE_MONTH];
-	NSLog(@"Month filter clicked %@", _selectedfilterDate);
+	//NSLog(@"Month filter clicked %@", _selectedfilterDate);
 	[self applyFilter];
-	NSLog(@"month filter done");
+	//NSLog(@"month filter done");
 }
 
 - (IBAction)clickedFilterPickDate:(id)sender 
 {
-	NSLog(@"Pick Date filter clicked");
+	//NSLog(@"Pick Date filter clicked");
 	if (_selectedfilterDate == nil) {
 		_selectedfilterDate = [[NSDate date] retain];
 		[dtpFilterDate setDateValue:_selectedfilterDate];
@@ -998,7 +998,7 @@
 
 - (void)reloadWorkPeriods
 {
-	NSLog(@"Updating workperiods...........");
+	//NSLog(@"Updating workperiods...........");
 	[workPeriodController setContent:[_selTask workPeriods]];
 	[tvWorkPeriods reloadData];
 }
@@ -1050,7 +1050,7 @@
 			}
 		}
 
-		NSMutableArray *tasks = nil;
+		NSArray *tasks = nil;
 		if (_filteredTasks != nil) {
 			tasks = _filteredTasks;
 		} else {
@@ -1072,7 +1072,7 @@
 	}
 	
 	if ([notification object] == tvTasks) {
-		NSMutableArray *tasks = nil;
+		NSArray *tasks = nil;
 		if (_filteredTasks != nil) {
 			tasks = _filteredTasks;
 		} else {
