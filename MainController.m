@@ -125,7 +125,12 @@
 - (IBAction)clickedStartStopTimer:(id)sender
 {
 	if (timer == nil) {
-		[self startTimer];
+        if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
+            && _selProject != _metaProject) {
+            [self startTimer];
+        } else {
+            NSBeep();
+        }
 	} else {
 		[self stopTimer];
 	}
@@ -523,6 +528,15 @@
 	[sheet orderOut:nil];
 }
 
+
+- (void)notificationDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	[self invalidateFilterPredicate];
+	[self applyFilter];
+	// hide the window
+	[sheet orderOut:nil];
+}
+
 - (void) doubleClickWorkPeriod: (id) sender
 {
 	// assert _selProject != nil
@@ -578,9 +592,12 @@
 
 - (void) showIdleNotification
 {
+    [NSApp beginSheet:panelIdleNotification modalForWindow:mainWindow modalDelegate:self 
+       didEndSelector:@selector(notificationDidEnd:returnCode:contextInfo:) contextInfo:nil];
+/*
 		[NSApp activateIgnoringOtherApps: YES];
 		[NSApp runModalForWindow: panelIdleNotification];
-		[panelIdleNotification orderOut: self];
+		[panelIdleNotification orderOut: self];*/
 }
 
 - (void) timerFunc: (NSTimer *) atimer
@@ -1294,7 +1311,8 @@
 
 	// assert timer != nil
 	[timer setFireDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
-	[NSApp stopModal];
+//	[NSApp stopModal];
+    [NSApp endSheet:panelIdleNotification returnCode:NSOKButton];
 }
 
 - (BOOL) validateUserInterfaceItem:(id)anItem
@@ -1388,11 +1406,13 @@
 
 - (IBAction)clickedCountIdleTimeNo:(id)sender
 {
-	[NSApp stopModal];
+//	[NSApp stopModal];
 	// assert _lastNonIdleTime != nil
 	[self stopTimer:_lastNonIdleTime];
 	[_lastNonIdleTime release];
 	_lastNonIdleTime = nil;
+    [NSApp endSheet:panelIdleNotification returnCode:NSCancelButton];
+
 }
 
 
