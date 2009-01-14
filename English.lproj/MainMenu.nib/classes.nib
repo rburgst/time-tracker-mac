@@ -5,6 +5,26 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>pickOutputFileClicked</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PreferencesController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_csvFilenameField</key>
+				<string>NSTextField</string>
+				<key>_mainController</key>
+				<string>MainController</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
@@ -31,6 +51,8 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>actionExport</key>
+				<string>id</string>
 				<key>cancelClicked</key>
 				<string>id</string>
 				<key>changedProjectInEditWpDialog</key>
@@ -64,6 +86,10 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>_autosaveCsvFilename</key>
+				<string>NSString</string>
+				<key>_csvSeparatorChar</key>
+				<string>NSString</string>
 				<key>_currentPredicate</key>
 				<string>NSPredicate</string>
 				<key>_filterEndDate</key>
@@ -78,8 +104,6 @@
 				<string>NSSearchField</string>
 				<key>_taskPopupButton</key>
 				<string>NSPopUpButton</string>
-				<key>changeProjectController</key>
-				<string>NSArrayController</string>
 				<key>dtpEditWorkPeriodComment</key>
 				<string>NSTextView</string>
 				<key>dtpEditWorkPeriodEndTime</key>

@@ -4,11 +4,13 @@
 
 #import "MainController.h"
 #import "TTask.h"
+#import "IProject.h"
 #import "TProject.h"
 #import "TimeIntervalFormatter.h"
 #import "TWorkPeriod.h"
 #import "TMetaProject.h"
 #import "TDateTransformer.h"
+#import "StartTaskMenuDelegate.h"
 
 @implementation MainController
 
@@ -20,16 +22,28 @@
 
 - (id) init
 {
+    if ((self = [super init]) == nil) {
+        return nil;
+    }
+    _maxLruSize = DEFAULT_LRU_SIZE;
 	_projects = [NSMutableArray new];
 	_selProject = nil;
 	_selTask = nil;
 	_curTask = nil;
 	_curProject = nil;
 	_curWorkPeriod = nil;
+    _idleTimeoutSeconds = 5*60;    // DEFAULT 5 minutes
+    _enableStandbyDetection = YES;
+    _showTimeInMenuBar = NO;
 	timer = nil;
 	timeSinceSave = 0;
+    _autosaveCsv = YES;
+    _lruTasks = [[NSMutableArray alloc] initWithCapacity:_maxLruSize+1];
+    [self setAutosaveCsvFilename:[@"~/times.csv" stringByExpandingTildeInPath]];
+    _csvSeparatorChar = [@";" retain];
 	_metaProject = [[TMetaProject alloc] init];
 	_metaTask = [[TMetaTask alloc] init];
+    
 	[_metaProject setProjects: _projects];
 	[_metaTask setTasks: [_metaProject tasks]];
 	
@@ -44,6 +58,11 @@
 	[NSValueTransformer setValueTransformer:_dateValueFormatter forName:@"DateToStringFormatter"];
 	[NSValueTransformer setValueTransformer:_intervalValueFormatter forName:@"TimeIntervalToStringFormatter"];
 	_selectedfilterDate = nil;
+    _startMenu = [[NSMenu alloc] initWithTitle:@"TimeTracker"];
+    StartTaskMenuDelegate *delegate = [[StartTaskMenuDelegate alloc] initWithController:self];
+    [_startMenu setDelegate:delegate];
+    [self loadData];
+
 	return self;
 }
 
@@ -141,6 +160,22 @@
 	return YES;
 }
 
+- (void)addTaskToLruCache:(TTask*) task
+{
+    [_lruTasks removeObject:task];
+    [_lruTasks insertObject:task atIndex:0];
+    while ([_lruTasks count] > _maxLruSize) {
+        [_lruTasks removeLastObject];
+    }
+}
+- (void)selectTask:(TTask*)task project:(TProject*) project
+{
+    _selTask = task;
+    _selProject = project;
+    _curProject = project;
+	_curTask = task;
+    [self addTaskToLruCache:task];
+}
 
 - (void)startTimer
 {
@@ -169,8 +204,8 @@
 	[tvWorkPeriods reloadData];	
 	// make sure the controller knows about the new object
 	[workPeriodController rearrangeObjects];
-	_curProject = _selProject;
-	_curTask = _selTask;
+    
+    [self selectTask:(TTask*)_selTask project:(TProject*)_selProject];
 	
 	[self updateProminentDisplay];
 	
@@ -353,23 +388,65 @@
 	return nil;
 }
 
-- (void)awakeFromNib
+-(void) loadData
 {
-	NSData *theData = nil;
+    NSData *theData = nil;
 	NSMutableArray *projects = nil;
-	
-	if ([self dataFileExists]) {
+    NSData *indexData = nil;
+	    
+    if ([self dataFileExists]) {
 		NSString * path = [self pathForDataFile]; 
 		NSDictionary * rootObject; 
 		rootObject = [NSKeyedUnarchiver unarchiveObjectWithFile:path]; 
-		theData = [rootObject  valueForKey:@"ProjectTimes"];
+		theData = [rootObject valueForKey:@"ProjectTimes"];
 		if (theData != nil) {
 			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSKeyedUnarchiver unarchiveObjectWithData:theData]] retain];
 		}
+        NSString* autosave = [rootObject valueForKey:@"autosave"];
+        if ([@"NO" isEqualToString:autosave]) {
+            _autosaveCsv = NO;
+        } else {
+            _autosaveCsv = YES;
+        }
+        NSString* showTime = [rootObject valueForKey:@"showTimeInMenuBar"];
+        if ([@"NO" isEqualToString:showTime]) {
+            _showTimeInMenuBar = NO;
+        } else {
+            _showTimeInMenuBar = YES;
+        }
+        
+        NSString *autosaveFilename = [rootObject valueForKey:@"autosaveCsvFilename"];
+        if (autosaveFilename != nil) {
+            [self setAutosaveCsvFilename:autosaveFilename];
+        }
+        NSString *csvSeparator = [rootObject valueForKey:@"separator"];
+        if (csvSeparator != nil) {
+            [self setCsvSeparatorChar:csvSeparator];
+        }
+        NSString* strLruCount = [rootObject valueForKey:@"lruEntryCount"];
+        if (strLruCount != nil) {
+            int value = [strLruCount intValue];
+            if (value > 2 && value < 99) {
+                _maxLruSize = value;
+            }
+        }
+        NSString* strIdleTimeout = [rootObject valueForKey:@"idleTimeout"];
+        if (strIdleTimeout != nil) {
+            int value = [strIdleTimeout intValue];
+            [self setIdleTimeoutSeconds:value];
+        }
+        NSString* strStandbyDetection = [rootObject valueForKey:@"standbyDetection"];
+        if ([@"NO" isEqualToString:strStandbyDetection]) {
+            _enableStandbyDetection = NO;
+        } else {
+            _enableStandbyDetection = YES;
+        }
+        // restore the lruCache
+        indexData = [rootObject valueForKey:@"lruIndexes"];
 	} else {
 		// use the old unarchiver
 		defaults = [NSUserDefaults standardUserDefaults];
-	
+        
 		theData=[[NSUserDefaults standardUserDefaults] dataForKey:@"ProjectTimes"];
 		if (theData != nil) {
 			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
@@ -382,8 +459,45 @@
 		[_metaProject setProjects:_projects];
 		[_metaTask setTasks:[_metaProject tasks]];
 	}
-	_projects_lastTask = [[NSMutableDictionary alloc] initWithCapacity:[_projects count]];
-	
+    // restore lru cache
+    if (indexData != nil) {
+        int count = [indexData length] / sizeof(int);
+        const int *ptrData = (const int*) [indexData bytes];
+        int i = 0;
+        for (i = 0; i < count && i < _maxLruSize; i++) {
+            int taskId = NSSwapBigIntToHost(*ptrData);
+            ptrData++;
+            TTask *task = [self findTaskById:taskId];
+            if (task != nil) {
+                [_lruTasks addObject:task];
+            } else {
+                NSLog(@"task is nil for id: %d",taskId);
+            }
+        }
+    }        
+	_projects_lastTask = [[NSMutableDictionary alloc] initWithCapacity:[_projects count]];   
+    
+    // check projects for duplicate names
+    NSEnumerator *projectEnum = [_projects objectEnumerator];
+    int i = 0;
+    int j = 0;
+    int uniqueMaker = 1;
+    TProject *project;
+    while ((project = [projectEnum nextObject]) != nil) {
+        for (j = 0; j < i; j++) {
+            TProject *checkProject = [_projects objectAtIndex:j];
+            if ([[checkProject name] isEqualToString:[project name]]) {
+                // duplicate name detected
+                [checkProject setName:[NSString stringWithFormat:@"%@ %d",[checkProject name], uniqueMaker++]];
+            }
+        }
+        i++;
+    }
+}
+
+
+- (void)awakeFromNib
+{
 	//NSNumber *numTotalTime = [defaults objectForKey: @"TotalTime"];
 	
 	/*NSZone *menuZone = [NSMenu menuZone];
@@ -440,6 +554,7 @@
 	
 	[statusItem setTarget: self];
 	[statusItem setAction: @selector (clickedStartStopTimer:)];
+    [statusItem setLength:NSVariableStatusItemLength];
 
 	NSBundle *bundle = [NSBundle mainBundle];
 
@@ -545,7 +660,7 @@
 	[dtpEditWorkPeriodStartTime setDateValue: [wp startTime]];
 	[dtpEditWorkPeriodEndTime setDateValue: [wp endTime]];
 	[dtpEditWorkPeriodComment setString: [[wp comment] string]];
-	[changeProjectController setSelectionIndex:[_projects indexOfObject:[[wp parentTask] parentProject]]];
+//	[changeProjectController setSelectionIndex:[_projects indexOfObject:[[wp parentTask] parentProject]]];
 	[self provideProjectsForEditWpDialog:[[wp parentTask] parentProject]];
 	[self provideTasksForEditWpDialog:[[wp parentTask] parentProject]];
 	[_taskPopupButton selectItemWithTitle:[[wp parentTask] name]];
@@ -576,8 +691,10 @@
 	
 	// move the workperiod to a different task / project
 	if ([_taskPopupButton indexOfSelectedItem] > 0) {
-		TProject *selectedProject = [_projects objectAtIndex:[_projectPopupButton indexOfSelectedItem]];
-		TTask *selectedTask = [[selectedProject tasks] objectAtIndex:([_taskPopupButton indexOfSelectedItem] - 1)];
+        int projectIndex = [_projectPopupButton indexOfSelectedItem];
+		TProject *selectedProject = [_projects objectAtIndex:projectIndex];
+        int taskIndex = [_taskPopupButton indexOfSelectedItem] - 1;
+		TTask *selectedTask = [[selectedProject tasks] objectAtIndex:taskIndex];
 		[self moveWorkPeriodToNewTask:wp task:selectedTask];
 	}
 	
@@ -612,7 +729,7 @@
 	// determine if the computer was on standby
 	NSDate *lastEndTime = [_curWorkPeriod endTime];
 	NSDate *curTime = [NSDate date];
-	if ([curTime timeIntervalSinceDate:lastEndTime] > 60) {
+	if (_enableStandbyDetection && [curTime timeIntervalSinceDate:lastEndTime] > 60) {
 		[timer setFireDate: [NSDate distantFuture]];
 		// time jumped by 60 seconds, probably the computer was on standby
 		[_lastNonIdleTime release];
@@ -631,7 +748,7 @@
 		[_lastNonIdleTime release];
 		_lastNonIdleTime = [[NSDate date] retain];
 	}
-	if (idleTime > 5 * 60) {
+	if (idleTime > _idleTimeoutSeconds) {
 		[timer setFireDate: [NSDate distantFuture]];
 		[self showIdleNotification];
 	}
@@ -685,7 +802,7 @@
  
 	while (anObject = [enumerator nextObject])
 	{
-		[result appendString:[anObject serializeData]];
+		[result appendString:[anObject serializeData:[self csvSeparatorChar]]];
 	}
 	return result;
 }
@@ -696,29 +813,72 @@
 	NSString * path = [self pathForDataFile]; 
 	NSMutableDictionary * rootObject; 
 	rootObject = [NSMutableDictionary dictionary]; 
-	//[rootObject setValue: [self mailboxes] forKey:@"mailboxes"]; 
+
+    int count = [_lruTasks count];
+    NSMutableData *lruData = [[NSMutableData alloc] initWithCapacity:count * sizeof(int)];
+    [lruData setLength:count * sizeof(int)];
+    int* ptrData = (int*) [lruData mutableBytes];
+
+    NSEnumerator *enumLruTasks = [_lruTasks objectEnumerator];
+    TTask *task = nil;
+    while ((task = [enumLruTasks nextObject]) != nil) {
+        *ptrData = NSSwapHostIntToBig([task taskId]);
+        ptrData++;
+    }
+    [rootObject setValue:lruData forKey:@"lruIndexes"];
+    
+    
 	[rootObject setObject:theData forKey:@"ProjectTimes"];
+    [rootObject setValue:_autosaveCsvFilename forKey:@"autosaveCsvFilename"];
+    [rootObject setValue:_csvSeparatorChar forKey:@"separator"];
+    [rootObject setValue:[NSString stringWithFormat:@"%d", _maxLruSize] forKey:@"lruEntryCount"];
+    [rootObject setValue:[NSString stringWithFormat:@"%d", _idleTimeoutSeconds] forKey:@"idleTimeout"];
+    if (_autosaveCsv) {
+        [rootObject setValue:@"YES" forKey:@"autosave"];
+    } else {
+        [rootObject setValue:@"NO" forKey:@"autosave"];        
+    }
+    if (_showTimeInMenuBar) {
+        [rootObject setValue:@"YES" forKey:@"showTimeInMenuBar"];
+    } else {
+        [rootObject setValue:@"NO" forKey:@"showTimeInMenuBar"];        
+    }
+    if (_enableStandbyDetection) {
+        [rootObject setValue:@"YES" forKey:@"standbyDetection"];
+    } else {
+        [rootObject setValue:@"NO" forKey:@"standbyDetection"];        
+    }
 	[NSKeyedArchiver archiveRootObject: rootObject toFile: path];
-	
-	// not necessary to store in the old format
-	/*[[NSUserDefaults standardUserDefaults] setObject:theData forKey:@"ProjectTimes"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	*/
 	
 	timeSinceSave = 0;
 	
-	NSString *data = [self serializeData];
-	[data writeToFile:[@"~/times.csv" stringByExpandingTildeInPath] atomically:YES];
-/*	NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:@"data.txt"];
-	[fileHandle writ]
-	/*
-	NSData *xmlData = [NSPropertyListSerialization dataFromPropertyList:_projects 
-		format:kCFPropertyListXMLFormat_v1_0 errorDescription:&error];
-	[xmlData writeToFile:@"testdata.xml" atomically:YES];
-//	[fileHandle file]*/
+    if (_autosaveCsv && _autosaveCsvFilename != nil) {
+        NSString *data = [self serializeData];
+        [data writeToFile:_autosaveCsvFilename atomically:YES];
+    }
 }
 
-
+- (IBAction)actionExport:(id)sender
+{
+    NSSavePanel *sp;
+    int savePanelResult;
+    
+    sp = [NSSavePanel savePanel];
+    
+    [sp setTitle:@"Export"];
+    [sp setNameFieldLabel:@"Export to:"];
+    [sp setPrompt:@"Export"];
+    
+    [sp setRequiredFileType:@"csv"];
+    
+    savePanelResult = [sp runModalForDirectory:nil file:@"Time Tracker Data.csv"];
+    
+    if (savePanelResult == NSOKButton) {
+        NSString *data = [self serializeData];
+        [data writeToFile:[sp filename] atomically:YES];
+//        [data release];
+    }
+}
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
@@ -1001,6 +1161,7 @@
 	if (_selProject == nil) return;
 	
 	TTask *task = [TTask new];
+
 	[(TProject*)_selProject addTask: task];
 	[tvTasks reloadData];
 	int index = [[_selProject tasks] count];
@@ -1115,6 +1276,17 @@
 	}
 
 }
+                
+- (BOOL) doesProjectNameExist:(NSString*)name {
+    NSEnumerator *enumProjects = [_projects objectEnumerator];
+    TProject *project;
+    while ((project = [enumProjects nextObject]) != nil) {
+        if ([name isEqualToString:[project name]]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 - (void)tableView:(NSTableView *)tableView 
 	setObjectValue:(id)obj 
@@ -1123,12 +1295,40 @@
 {
 	if (tableView == tvProjects) {
 		if ([[tableColumn identifier] isEqualToString: @"ProjectName"] && [_selProject isKindOfClass:[TProject class]]) {
-			[(TProject*)_selProject setName: obj];
+            // first check if the name is actually different
+            TProject* theProject = (TProject*)_selProject;
+            if ([[theProject name] isEqualToString:obj]) {
+                // nothing to do
+                return;
+            }
+            // check for duplicate project names
+            if (![self doesProjectNameExist:obj]) {
+                [theProject setName: obj];
+            } else {
+                NSRunAlertPanel(@"A Project with that name already exists", 
+                                @"Please choose a different name",
+                                @"OK", nil/*@"NO"*/, /*ThirdButtonHere:*/nil
+                                /*, args for a printf-style msg go here */);
+            }                
 		}
 	}
 	if (tableView == tvTasks) {
 		if ([[tableColumn identifier] isEqualToString: @"TaskName"] && [_selTask isKindOfClass:[TTask class]]) {
-			[(TTask*)_selTask setName: obj];
+            // check if the name actually changed
+            if ([[_selTask name] isEqualToString:obj]) {
+                // nothing to do
+                return;
+            }
+            // Check for duplicate task names 
+            TProject *taskProject = [((TTask*)_selTask) parentProject];
+            if (![taskProject doesTaskNameExist:obj]) { 
+                [(TTask*)_selTask setName: obj];
+            } else {
+                NSRunAlertPanel(@"A Task with that name already exists", 
+                                @"Please choose a different name",
+                                @"OK", nil/*@"NO"*/, /*ThirdButtonHere:*/nil
+                                /*, args for a printf-style msg go here */);
+            }                
 		}
 	}
 }
@@ -1140,7 +1340,9 @@
 	TProject *project = nil;
 	int i = 0;
 	while ((project = [enumProjects nextObject]) != nil) {
-		[_projectPopupButton addItemWithTitle:[project name]];
+        NSString *projectName = [project name];
+        NSLog(@"Providing project #%@#", projectName);
+		[_projectPopupButton addItemWithTitle:projectName];
 		if (selectedProject == project) {
 			[_projectPopupButton selectItemAtIndex:i];
 		}
@@ -1349,6 +1551,7 @@
 		// assert statusItem != nil
 		[statusItem setImage:playItemImage];
 		[statusItem setAlternateImage:playItemHighlightImage];
+        [statusItem setMenu:_startMenu];
 		
 		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Start Timer"];
@@ -1363,6 +1566,7 @@
 		// assert statusItem != nil
 		[statusItem setImage:stopItemImage];
 		[statusItem setAlternateImage:stopItemHighlightImage];
+        [statusItem setMenu:nil];
 		
 		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Stop Timer"];
@@ -1370,8 +1574,61 @@
 	
 }
 
+- (NSString*) stringForSelectedProjectTask 
+{
+    NSString *project = @"NONE";
+    NSString *task = @"NONE";
+    
+    if (_selProject != nil && [_selProject isKindOfClass:[TProject class]]) {
+        project = [_selProject name];
+    }
+    if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]) {
+        task = [_selTask name];
+    }
+    NSString *result = [NSString stringWithFormat:@"%@:%@", project, task];
+    return result;
+}
+
+- (NSString*) stringForCurrentProjectTask 
+{
+    NSString *project = @"NONE";
+    NSString *task = @"NONE";
+    
+    if (_curProject != nil) {
+        project = [_curProject name];
+    }
+    if (_curTask != nil) {
+        task = [_curTask name];
+    }
+    NSString *result = [NSString stringWithFormat:@"%@:%@", project, task];
+    return result;
+}
+
 - (void)updateProminentDisplay
 {
+    int seconds = 0;
+    if (_showTimeInMenuBar && _curWorkPeriod != nil) {
+        seconds = [_curWorkPeriod totalTime];
+    }
+    if (timer == nil) {
+        // start a new task
+        if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
+                && _selProject != _metaProject) {
+            [statusItem setToolTip:[NSString stringWithFormat:@"TimeTracker Start: %@", [self stringForSelectedProjectTask]]];
+        } else {
+            [statusItem setToolTip:@"TimeTracker"];
+        }
+    } else {
+        [statusItem setToolTip:[NSString stringWithFormat:@"TimeTracker Stop: %@", [self stringForCurrentProjectTask]]];
+    }        
+    if (_showTimeInMenuBar) {
+        if (seconds > 0) {
+            [statusItem setTitle:[TimeIntervalFormatter secondsToString:seconds]];
+        } else {
+            [statusItem setTitle:@""];
+        }
+    }
+    
 	if (_curTask != nil) {
 		NSString *s = [[_curTask name] stringByAppendingString:@" - "];
 		s = [s stringByAppendingString:[TimeIntervalFormatter secondsToString:[_curTask totalTime]]];
@@ -1415,5 +1672,127 @@
 
 }
 
+-(BOOL) autosaveCsv 
+{
+    return _autosaveCsv;
+}
+-(void) setAutosaveCsv:(BOOL)autosave 
+{
+    _autosaveCsv = autosave;
+}
 
+-(NSString*) autosaveCsvFilename 
+{
+    return _autosaveCsvFilename;
+}
+
+-(void) setAutosaveCsvFilename:(NSString*)filename
+{
+    if (_autosaveCsvFilename != filename) {
+        [_autosaveCsvFilename release];
+        _autosaveCsvFilename = nil;
+        _autosaveCsvFilename = [filename retain];
+    }
+}
+
+-(NSString*) csvSeparatorChar
+{
+    return _csvSeparatorChar;
+}
+
+-(void) setCsvSeparatorChar:(NSString*) separator
+{
+    [_csvSeparatorChar release];
+    _csvSeparatorChar = nil;
+    _csvSeparatorChar = [separator retain];
+}
+
+-(NSArray*)lruTasks
+{
+    return _lruTasks;
+}
+
+-(int) maxLruSize
+{
+    return _maxLruSize;
+}
+
+-(void) setMaxLruSize:(int)size 
+{
+    if (size >= 2 && size < 99) {
+        _maxLruSize = size;
+    }
+}
+
+-(void) setShowTimeInMenuBar:(BOOL)show
+{
+    _showTimeInMenuBar = show;
+    if (!show) {
+        [statusItem setTitle:@""];
+    } else {
+        [self updateProminentDisplay];
+    }
+}
+-(BOOL) showTimeInMenuBar
+{
+    return _showTimeInMenuBar;
+}
+
+
+-(void) setIdleTimeoutSeconds:(int)seconds
+{
+    if (seconds > 30 && seconds < 10000) {
+        _idleTimeoutSeconds = seconds;
+    }
+}
+
+-(int) idleTimeoutSeconds
+{
+    return _idleTimeoutSeconds;
+}
+
+-(void) setEnableStandbyDetection:(BOOL)enable
+{
+    _enableStandbyDetection = enable;
+}
+-(BOOL) enableStandbyDetection
+{
+    return _enableStandbyDetection;
+}
+
+-(TTask *)findTaskById:(int)taskId
+{
+	NSEnumerator *enumTasks = [_metaTask objectEnumerator];
+	TTask *task = nil;
+	while ((task = [enumTasks nextObject]) != nil) {
+		if ([task taskId] == taskId) {
+            return task;
+        }
+	}
+    return nil;
+}
 @end
+/*
+#import <AppKit/NSPopUpButton.h>
+@interface NSPopUpButton(Test)
+- (void)selectItemAtIndex:(int)index;
+- (BOOL)selectItemWithTag:(int)tag;
+- (void)selectItem:(NSMenuItem *)item;
+- (void)selectItemWithTitle:(NSString *)title;
+@end
+
+@implementation NSPopUpButton(Test)
+- (void)selectItemAtIndex:(int)index {
+    NSLog(@"hello");
+}
+- (BOOL)selectItemWithTag:(int)tag {
+    NSLog(@"hello2");
+}
+- (void)selectItem:(NSMenuItem *)item {
+    NSLog(@"hello3");
+}
+- (void)selectItemWithTitle:(NSString *)title {
+    NSLog(@"hello4");
+}
+@end
+ */

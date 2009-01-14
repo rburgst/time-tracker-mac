@@ -105,7 +105,6 @@
 	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
 
 	id project;
-	NSMutableArray *projectTasks = nil;
 	while ((project = [enumProjects nextObject]) != nil) {
 		[result addObjectsFromArray: [project matchingTasks:filter]];
 	}

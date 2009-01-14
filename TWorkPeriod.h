@@ -31,6 +31,6 @@
 - (NSDate *) startTime;
 - (NSDate *) endTime;
 - (NSAttributedString *) comment;
-- (NSString*) serializeData: (NSString*) prefix;
+- (NSString*) serializeData: (NSString*) prefix separator:(NSString*) sep;
 - (TTask*) parentTask;
 @end

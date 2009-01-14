@@ -8,15 +8,21 @@
 
 #import "TTask.h"
 
+static int _maxTaskId = 1;
+
 
 @implementation TTask
 
 - (id) init
 {
-	[self setName: @"New Task"];
-	_totalTime = 0;
-	_workPeriods = [NSMutableArray new];
-	return self;
+    if (self = [super init]) {
+        [self setName: @"New Task"];
+        _totalTime = 0;
+        [self setTaskId:_maxTaskId + 1];
+        _workPeriods = [NSMutableArray new];
+        return self;
+    }
+    return nil;
 }
 
 - (NSString *) name
@@ -94,6 +100,7 @@
     //[super encodeWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         [coder encodeObject:_name forKey:@"TName"];
+        [coder encodeInt:_taskId forKey:@"TID"];
         [coder encodeObject:_workPeriods forKey:@"TWorkPeriods"];
     } else {
         [coder encodeObject:_name];
@@ -109,6 +116,11 @@
         // Can decode keys in any order
         _name = [[coder decodeObjectForKey:@"TName"] retain];
         _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObjectForKey:@"TWorkPeriods"]] retain];
+        int taskId = [coder decodeIntForKey:@"TID"];
+        if (taskId <= 0) {
+            taskId = _maxTaskId + 1;
+        }
+        [self setTaskId:taskId];
     } else {
         // Must decode keys in same order as encodeWithCoder:
         _name = [[coder decodeObject] retain];
@@ -126,7 +138,7 @@
     return self;
 }
 
-- (NSString*)serializeData:(NSString*) prefix
+- (NSString*)serializeData:(NSString*) prefix separator:(NSString*)sep
 {
 	NSMutableString* result = [NSMutableString string];
 	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
@@ -135,7 +147,7 @@
  
 	while (anObject = [enumerator nextObject])
 	{
-		[result appendString:[anObject serializeData:addPrefix]];
+		[result appendString:[anObject serializeData:addPrefix separator:sep]];
 	}
 	return result;
 }
@@ -156,5 +168,16 @@
 - (TProject*) parentProject
 {
 	return _parent;
+}
+
+- (int) taskId 
+{
+    return _taskId;
+}
+
+- (void) setTaskId:(int)id 
+{
+    _taskId = id;
+    _maxTaskId = MAX(_taskId, _maxTaskId);
 }
 @end

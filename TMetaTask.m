@@ -105,4 +105,13 @@
 
 }
 
+-(int) taskId
+{
+    return -1;
+}
+
+-(NSEnumerator*) objectEnumerator
+{
+    return [_tasks objectEnumerator];
+}
 @end

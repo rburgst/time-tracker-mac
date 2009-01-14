@@ -7,7 +7,7 @@
 //
 
 #import "TProject.h"
-
+#import "ITask.h"
 
 @implementation TProject
 
@@ -61,7 +61,7 @@
 
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter
 {
-	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *result = [NSMutableArray array];
 	// this needs to be performance tuned but it does the job for now
 	NSEnumerator *enumTasks = [_tasks objectEnumerator];
 	id task;
@@ -125,7 +125,7 @@
     return self;
 }
 
-- (NSString*)serializeData
+- (NSString*)serializeData:(NSString*)separatorChar
 {
 	NSMutableString* result = [NSMutableString string];
 	NSEnumerator *enumerator = [_tasks objectEnumerator];
@@ -133,7 +133,7 @@
 	NSString *prefix = [NSString stringWithFormat:@"\"%@\"", _name];
 	while (anObject = [enumerator nextObject])
 	{
-		[result appendString:[anObject serializeData:prefix]];
+		[result appendString:[anObject serializeData:prefix separator:separatorChar]];
 	}
 	return [[result retain] autorelease];
 }
@@ -142,5 +142,17 @@
 	[[self tasks] removeObject:task];
 	[task setParentProject:nil];
 	return self;
+}
+
+
+- (BOOL) doesTaskNameExist:(NSString*)name {
+    NSEnumerator *enumTasks = [_tasks objectEnumerator];
+    TTask *task;
+    while ((task = [enumTasks nextObject]) != nil) {
+        if ([name isEqualToString:[task name]]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 @end

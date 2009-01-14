@@ -35,3 +35,20 @@ Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
   * Window size and position is saved in the system defaults.
   * Ensures that the display is refreshed when the main window is first
     loaded (this was not the case when the window size/position was restored).
+
+
+LOTS OF MODIFICATIONS:
+* added filtering
+* added text filtering
+* added menubar tooltips
+* added menubar LRU menu for quickly starting tasks
+* added keyed archiver persistence and data migration
+* added ability to reassign work period to new task/project
+* added comments to work periods
+
+
+
+6.11.2008 RBUR:
+* added checks for duplicate project and task names preventing from screwing up the data
+* added option to configure the LRU size in the preferences
+* added configuration for idle timeout and standby detection

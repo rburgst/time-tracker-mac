@@ -27,6 +27,6 @@
 
 - (int) totalTime;
 - (void) updateTotalTime;
-- (NSString*) serializeData;
+- (NSString*) serializeData:(NSString*)separatorChar;
 - (id<IProject>) removeTask:(TTask*)task;
 @end

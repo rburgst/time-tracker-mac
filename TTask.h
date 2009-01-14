@@ -18,6 +18,7 @@
 	int _totalTime;
 	NSMutableArray *_workPeriods;
 	TProject* _parent;
+    int _taskId;
 }
 
 - (NSString *) name;
@@ -31,7 +32,8 @@
 - (int) totalTime;
 - (int) filteredTime:(NSPredicate*) filter;
 - (void) updateTotalTime;
-- (NSString*) serializeData:(NSString*) prefix;
+- (NSString*) serializeData:(NSString*) prefix separator:(NSString*) sep;
 - (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period;
 - (TProject*) parentProject;
+- (void) setTaskId:(int) id;
 @end

@@ -15,5 +15,6 @@
 - (NSString*) name;
 - (id<IProject>) removeTask:(TTask*)task;
 - (int) filteredTime:(NSPredicate*) filter;
+- (BOOL) doesTaskNameExist:(NSString*)name;
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
 @end

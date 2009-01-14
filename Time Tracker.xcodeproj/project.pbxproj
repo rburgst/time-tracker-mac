@@ -49,8 +49,11 @@
 		B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC20B5C956700465046 /* LICENSE.txt */; };
 		B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
 		B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
+		D53109FF0E6BD207004E7B98 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = D53109FE0E6BD207004E7B98 /* PreferencesController.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
+		D5A8713A0E6E73CC00F41819 /* StartTaskMenuDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */; };
+		D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871400E6E783500F41819 /* TDateTransformer.m */; };
 		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
 		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
@@ -134,12 +137,19 @@
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		D53109FD0E6BD207004E7B98 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		D53109FE0E6BD207004E7B98 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaProject.h; sourceTree = "<group>"; };
 		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaProject.m; sourceTree = "<group>"; };
 		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaTask.h; sourceTree = "<group>"; };
 		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaTask.m; sourceTree = "<group>"; };
 		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWorkPeriod.h; sourceTree = "<group>"; };
 		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDateTransformer.h; sourceTree = "<group>"; };
+		D5A871240E6E6B1C00F41819 /* IProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IProject.h; sourceTree = "<group>"; };
+		D5A871250E6E6B1C00F41819 /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITask.h; sourceTree = "<group>"; };
+		D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartTaskMenuDelegate.h; sourceTree = "<group>"; };
+		D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartTaskMenuDelegate.m; sourceTree = "<group>"; };
+		D5A871400E6E783500F41819 /* TDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDateTransformer.m; sourceTree = "<group>"; };
 		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
@@ -168,7 +178,14 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */,
+				D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */,
+				D5A871240E6E6B1C00F41819 /* IProject.h */,
+				D5A871250E6E6B1C00F41819 /* ITask.h */,
+				D53109FD0E6BD207004E7B98 /* PreferencesController.h */,
+				D53109FE0E6BD207004E7B98 /* PreferencesController.m */,
 				D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */,
+				D5A871400E6E783500F41819 /* TDateTransformer.m */,
 				D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */,
 				D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */,
 				D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */,
@@ -367,6 +384,9 @@
 				2C9EC9540905ABAE000651F2 /* TWorkPeriod.m in Sources */,
 				D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */,
 				D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */,
+				D53109FF0E6BD207004E7B98 /* PreferencesController.m in Sources */,
+				D5A8713A0E6E73CC00F41819 /* StartTaskMenuDelegate.m in Sources */,
+				D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

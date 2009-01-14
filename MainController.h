@@ -1,5 +1,6 @@
 /* MainController */
 
+
 #import <Cocoa/Cocoa.h>
 #import <Appkit/NSArrayController.h>
 #import "TProject.h"
@@ -16,6 +17,8 @@
 #define FILTER_MODE_DAY 1
 #define FILTER_MODE_WEEK 2
 #define FILTER_MODE_MONTH 3
+
+#define DEFAULT_LRU_SIZE 5
 
 @interface MainController : NSObject
 {
@@ -63,7 +66,7 @@
 	
 	IBOutlet NSMenuItem *startMenuItem;
 	IBOutlet NSArrayController *workPeriodController;
-	IBOutlet NSArrayController *changeProjectController;
+//	IBOutlet NSArrayController *changeProjectController;
 	// the start of the filtered interval
 	IBOutlet NSDate *_filterStartDate;
 	// the end of the filtered interval
@@ -84,6 +87,7 @@
 	id<IProject> _selProject;
 	id<ITask> _selTask;
 	NSArray *_filteredTasks;
+    NSMutableArray *_lruTasks;
 	TWorkPeriod *_curWorkPeriod;
 	TTimeTransformer *_timeValueFormatter;
 	TDateTransformer *_dateValueFormatter;
@@ -97,6 +101,15 @@
 	NSDate *_selectedfilterDate;
 	int timeSinceSave;
 	int _filterMode;
+
+  	IBOutlet BOOL _autosaveCsv;
+   	IBOutlet NSString *_autosaveCsvFilename;
+   	IBOutlet NSString *_csvSeparatorChar;
+    int _maxLruSize;
+    NSMenu *_startMenu;
+    BOOL _showTimeInMenuBar;
+    int _idleTimeoutSeconds;
+    BOOL _enableStandbyDetection;
 }
 
 // actions
@@ -113,9 +126,16 @@
 - (IBAction)clickedFilterDateCancel:(id) sender;
 - (IBAction)changedProjectInEditWpDialog:(id) sender;
 - (IBAction)filterComments: (id)sender;
+- (IBAction)actionExport:(id)sender;
 
 - (void) provideTasksForEditWpDialog:(TProject*)project;
 - (void) provideProjectsForEditWpDialog:(TProject*) selectedProject;
+
+- (TTask*) findTaskById:(int)taskId;
+- (NSArray*) lruTasks;
+- (void) selectTask:(TTask*) task project:(TProject*)project;
+- (void)reloadWorkPeriods;
+
 - (void) timerFunc: (NSTimer *) timer;
 - (void) stopTimer:(NSDate*)endTime;
 - (void) stopTimer;
@@ -124,6 +144,7 @@
 - (void) createProject;
 - (int)idleTime;
 - (void) saveData;
+- (void) loadData;
 
 - (void) updateStartStopState;
 - (void) updateProminentDisplay;
@@ -139,4 +160,28 @@
 
 - (BOOL) validateUserInterfaceItem:(id)anItem;
 - (TTask*) taskForWorkTimeIndex: (int) rowIndex timeIndex:(int*)resultIndex;
+
+
+// properties
+-(BOOL) autosaveCsv;
+-(void) setAutosaveCsv:(BOOL)autosave;
+
+-(NSString*) autosaveCsvFilename;
+-(void) setAutosaveCsvFilename:(NSString*)filename;
+
+-(NSString*) csvSeparatorChar;
+-(void) setCsvSeparatorChar:(NSString*) separator;
+
+-(int) maxLruSize;
+-(void) setMaxLruSize:(int)size;
+
+-(void) setShowTimeInMenuBar:(BOOL)show;
+-(BOOL) showTimeInMenuBar;
+
+-(void) setIdleTimeoutSeconds:(int)seconds;
+-(int) idleTimeoutSeconds;
+
+-(void) setEnableStandbyDetection:(BOOL)enable;
+-(BOOL) enableStandbyDetection;
 @end
+
