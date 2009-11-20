@@ -168,9 +168,16 @@
         [_lruTasks removeLastObject];
     }
 }
+
+-(void)setTask:(TTask*)task {
+    _selTask = task;
+}
+
 - (void)selectTask:(TTask*)task project:(TProject*) project
 {
-    _selTask = task;
+    // calling the setter will automatically perform the key value observing
+    [self setTask:task];
+    // TODO use setters here too.
     _selProject = project;
     _curProject = project;
 	_curTask = task;
@@ -1178,7 +1185,7 @@
 {
 	//NSLog(@"Updating workperiods...........");
 	[workPeriodController setContent:[_selTask workPeriods]];
-	[tvWorkPeriods reloadData];
+//	[tvWorkPeriods reloadData];
 }
 
 /** 

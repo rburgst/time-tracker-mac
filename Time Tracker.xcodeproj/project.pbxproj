@@ -120,15 +120,15 @@
 		2C9DD7180905824F00AA5C6E /* playitem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playitem.png; path = Graphics/playitem.png; sourceTree = "<group>"; };
 		2C9DD7190905824F00AA5C6E /* stopitem_hl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopitem_hl.png; path = Graphics/stopitem_hl.png; sourceTree = "<group>"; };
 		2C9DD71A0905824F00AA5C6E /* stopitem.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stopitem.png; path = Graphics/stopitem.png; sourceTree = "<group>"; };
-		2C9EC8D00905A5F2000651F2 /* TTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTask.h; sourceTree = "<group>"; };
-		2C9EC8D10905A5F2000651F2 /* TTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTask.m; sourceTree = "<group>"; };
-		2C9EC8D50905A5FE000651F2 /* TProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TProject.h; sourceTree = "<group>"; };
-		2C9EC8D60905A5FE000651F2 /* TProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TProject.m; sourceTree = "<group>"; };
-		2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeIntervalFormatter.h; sourceTree = "<group>"; };
-		2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeIntervalFormatter.m; sourceTree = "<group>"; };
-		2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TWorkPeriod.m; sourceTree = "<group>"; };
-		2CFAEE2B09042FC000131DD6 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
-		2CFAEE2C09042FC000131DD6 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
+		2C9EC8D00905A5F2000651F2 /* TTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTask.h; path = src/objc/TTask.h; sourceTree = "<group>"; };
+		2C9EC8D10905A5F2000651F2 /* TTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTask.m; path = src/objc/TTask.m; sourceTree = "<group>"; };
+		2C9EC8D50905A5FE000651F2 /* TProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TProject.h; path = src/objc/TProject.h; sourceTree = "<group>"; };
+		2C9EC8D60905A5FE000651F2 /* TProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TProject.m; path = src/objc/TProject.m; sourceTree = "<group>"; };
+		2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeIntervalFormatter.h; path = src/objc/TimeIntervalFormatter.h; sourceTree = "<group>"; };
+		2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeIntervalFormatter.m; path = src/objc/TimeIntervalFormatter.m; sourceTree = "<group>"; };
+		2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWorkPeriod.m; path = src/objc/TWorkPeriod.m; sourceTree = "<group>"; };
+		2CFAEE2B09042FC000131DD6 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainController.h; path = src/cocoa/MainController.h; sourceTree = "<group>"; };
+		2CFAEE2C09042FC000131DD6 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = src/cocoa/MainController.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Time Tracker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Time Tracker_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Time Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,19 +137,19 @@
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		D53109FD0E6BD207004E7B98 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
-		D53109FE0E6BD207004E7B98 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
-		D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaProject.h; sourceTree = "<group>"; };
-		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaProject.m; sourceTree = "<group>"; };
-		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMetaTask.h; sourceTree = "<group>"; };
-		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMetaTask.m; sourceTree = "<group>"; };
-		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TWorkPeriod.h; sourceTree = "<group>"; };
-		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDateTransformer.h; sourceTree = "<group>"; };
-		D5A871240E6E6B1C00F41819 /* IProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IProject.h; sourceTree = "<group>"; };
-		D5A871250E6E6B1C00F41819 /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITask.h; sourceTree = "<group>"; };
-		D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartTaskMenuDelegate.h; sourceTree = "<group>"; };
-		D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartTaskMenuDelegate.m; sourceTree = "<group>"; };
-		D5A871400E6E783500F41819 /* TDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDateTransformer.m; sourceTree = "<group>"; };
+		D53109FD0E6BD207004E7B98 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = src/cocoa/PreferencesController.h; sourceTree = "<group>"; };
+		D53109FE0E6BD207004E7B98 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = src/cocoa/PreferencesController.m; sourceTree = "<group>"; };
+		D56D802E10B5F21F00C3729B /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITask.h; path = src/objc/ITask.h; sourceTree = "<group>"; };
+		D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMetaProject.h; path = src/objc/TMetaProject.h; sourceTree = "<group>"; };
+		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaProject.m; path = src/objc/TMetaProject.m; sourceTree = "<group>"; };
+		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMetaTask.h; path = src/objc/TMetaTask.h; sourceTree = "<group>"; };
+		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaTask.m; path = src/objc/TMetaTask.m; sourceTree = "<group>"; };
+		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWorkPeriod.h; path = src/objc/TWorkPeriod.h; sourceTree = "<group>"; };
+		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDateTransformer.h; path = src/objc/TDateTransformer.h; sourceTree = "<group>"; };
+		D5A871240E6E6B1C00F41819 /* IProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IProject.h; path = src/objc/IProject.h; sourceTree = "<group>"; };
+		D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartTaskMenuDelegate.h; path = src/cocoa/StartTaskMenuDelegate.h; sourceTree = "<group>"; };
+		D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTaskMenuDelegate.m; path = src/cocoa/StartTaskMenuDelegate.m; sourceTree = "<group>"; };
+		D5A871400E6E783500F41819 /* TDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDateTransformer.m; path = src/objc/TDateTransformer.m; sourceTree = "<group>"; };
 		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
@@ -175,35 +175,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080E96DDFE201D6D7F000001 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */,
-				D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */,
-				D5A871240E6E6B1C00F41819 /* IProject.h */,
-				D5A871250E6E6B1C00F41819 /* ITask.h */,
-				D53109FD0E6BD207004E7B98 /* PreferencesController.h */,
-				D53109FE0E6BD207004E7B98 /* PreferencesController.m */,
-				D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */,
-				D5A871400E6E783500F41819 /* TDateTransformer.m */,
-				D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */,
-				D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */,
-				D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */,
-				D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */,
-				D58EEB640D09D2830043384C /* TWorkPeriod.h */,
-				2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */,
-				2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */,
-				2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */,
-				2C9EC8D00905A5F2000651F2 /* TTask.h */,
-				2C9EC8D10905A5F2000651F2 /* TTask.m */,
-				2C9EC8D50905A5FE000651F2 /* TProject.h */,
-				2C9EC8D60905A5FE000651F2 /* TProject.m */,
-				2CFAEE2B09042FC000131DD6 /* MainController.h */,
-				2CFAEE2C09042FC000131DD6 /* MainController.m */,
-			);
-			name = Classes;
-			sourceTree = "<group>";
-		};
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,8 +207,8 @@
 		29B97314FDCFA39411CA2CEA /* Time Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				D56D801A10B5F15C00C3729B /* src */,
 				2C9DD7100905824100AA5C6E /* Graphics */,
-				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -300,6 +271,51 @@
 				2C9DD71A0905824F00AA5C6E /* stopitem.png */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		D56D801A10B5F15C00C3729B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D56D801B10B5F16200C3729B /* cocoa */,
+				D56D801C10B5F16800C3729B /* objc */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		D56D801B10B5F16200C3729B /* cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				D53109FD0E6BD207004E7B98 /* PreferencesController.h */,
+				D53109FE0E6BD207004E7B98 /* PreferencesController.m */,
+				D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */,
+				D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */,
+				2CFAEE2B09042FC000131DD6 /* MainController.h */,
+				2CFAEE2C09042FC000131DD6 /* MainController.m */,
+			);
+			name = cocoa;
+			sourceTree = "<group>";
+		};
+		D56D801C10B5F16800C3729B /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				D5A871240E6E6B1C00F41819 /* IProject.h */,
+				D56D802E10B5F21F00C3729B /* ITask.h */,
+				D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */,
+				D5A871400E6E783500F41819 /* TDateTransformer.m */,
+				D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */,
+				D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */,
+				D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */,
+				D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */,
+				D58EEB640D09D2830043384C /* TWorkPeriod.h */,
+				2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */,
+				2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */,
+				2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */,
+				2C9EC8D00905A5F2000651F2 /* TTask.h */,
+				2C9EC8D10905A5F2000651F2 /* TTask.m */,
+				2C9EC8D50905A5FE000651F2 /* TProject.h */,
+				2C9EC8D60905A5FE000651F2 /* TProject.m */,
+			);
+			name = objc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
