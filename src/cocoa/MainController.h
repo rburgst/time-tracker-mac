@@ -12,6 +12,8 @@
 #import "TMetaTask.h"
 #import "TDateTransformer.h"
 #import "TimeIntervalFormatter.h"
+#import "TTQueryController.h"
+#import "TTPredicateEditorViewController.h"
 
 #define FILTER_MODE_NONE 0
 #define FILTER_MODE_DAY 1
@@ -20,10 +22,13 @@
 
 #define DEFAULT_LRU_SIZE 5
 
-@interface MainController : NSObject
+
+
+@interface MainController : NSObject<TTQueryDelegate, TTPredicateEditorDelegate>
 {
 	NSColor *_normalCol;
 	NSColor *_highlightCol;
+    NSColor *_highlightBgCol;
 
 	NSUserDefaults *defaults;
 	NSTimer *timer;
@@ -54,6 +59,9 @@
     IBOutlet NSTableView *tvProjects;
     IBOutlet NSTableView *tvTasks;
     IBOutlet NSTableView *tvWorkPeriods;
+    IBOutlet NSTableView *tvCustomers;
+    IBOutlet NSTableView *tvFilters;
+    
     IBOutlet NSWindow *mainWindow;
     IBOutlet NSPanel *panelEditWorkPeriod;
     IBOutlet NSPanel *panelIdleNotification;
@@ -72,12 +80,14 @@
 	// the end of the filtered interval
 	IBOutlet NSDate *_filterEndDate;
 	IBOutlet NSPredicate *_currentPredicate;
+    IBOutlet NSPredicate *_extraFilterPredicate;
 	IBOutlet NSPopUpButton *_taskPopupButton;
 	IBOutlet NSPopUpButton *_projectPopupButton;
 	IBOutlet NSSearchField *_searchBox;
+    IBOutlet NSView *_saveCsvAuxView;
 	
-	NSToolbarItem *startstopToolbarItem;
-	NSToolbarItem *_dayToolbarItem;
+	IBOutlet NSToolbarItem *startstopToolbarItem;
+    NSToolbarItem *_dayToolbarItem;
 	NSToolbarItem *_weekToolbarItem;	
 	NSToolbarItem *_monthToolbarItem;
 	NSMutableArray *_projects;
@@ -110,6 +120,7 @@
     BOOL _showTimeInMenuBar;
     int _idleTimeoutSeconds;
     BOOL _enableStandbyDetection;
+    TWorkPeriod *_currentEditingWP;
 }
 
 // actions
@@ -118,6 +129,7 @@
 - (IBAction)clickedStartStopTimer:(id)sender;
 - (IBAction)clickedDelete:(id)sender;
 - (IBAction)clickedChangeWorkPeriod:(id)sender;
+- (IBAction)clickedEditCurrentWorkperiod:(id)sender;
 - (IBAction)clickedCountIdleTimeYes:(id)sender;
 - (IBAction)clickedCountIdleTimeNo:(id)sender;
 - (IBAction)okClicked:(id) sender;
@@ -127,6 +139,7 @@
 - (IBAction)changedProjectInEditWpDialog:(id) sender;
 - (IBAction)filterComments: (id)sender;
 - (IBAction)actionExport:(id)sender;
+
 
 - (void) provideTasksForEditWpDialog:(TProject*)project;
 - (void) provideProjectsForEditWpDialog:(TProject*) selectedProject;
@@ -142,7 +155,7 @@
 - (void) startTimer;
 - (void) createTask;
 - (void) createProject;
-- (int)idleTime;
+- (int)  idleTime;
 - (void) saveData;
 - (void) loadData;
 
@@ -172,16 +185,20 @@
 -(NSString*) csvSeparatorChar;
 -(void) setCsvSeparatorChar:(NSString*) separator;
 
--(int) maxLruSize;
+-(int)  maxLruSize;
 -(void) setMaxLruSize:(int)size;
 
 -(void) setShowTimeInMenuBar:(BOOL)show;
 -(BOOL) showTimeInMenuBar;
 
 -(void) setIdleTimeoutSeconds:(int)seconds;
--(int) idleTimeoutSeconds;
+-(int)  idleTimeoutSeconds;
 
 -(void) setEnableStandbyDetection:(BOOL)enable;
 -(BOOL) enableStandbyDetection;
+
+- (id<ITask>) selectedTask;
+
+@property(readonly) BOOL timerRunning;
 @end
 

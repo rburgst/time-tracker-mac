@@ -30,10 +30,12 @@
 
 - (void) setEndTime: (NSDate *) endTime
 {
+//    [self willChangeValueForKey:@"endTime"];
 	[endTime retain];
 	[_endTime release];
     _endTime = nil;
 	_endTime = endTime;
+  //  [self didChangeValueForKey:@"endTime"];
 	[self updateTotalTime];
 }
 
@@ -47,14 +49,18 @@
 	_comment = [aComment retain];
 }
 
+- (void) setTotalTime:(int)time {
+    _totalTime = time;
+}
+
 - (void) updateTotalTime
 {
 	if (_endTime == nil || _startTime == nil) {
-		_totalTime = 0;
+		[self setTotalTime:0];
 		return;
 	}
 	double timeInterval = [_endTime timeIntervalSinceDate: _startTime];
-	_totalTime = (int) timeInterval;
+	[self setTotalTime:(int) timeInterval];
 }
 
 - (int) totalTime
@@ -105,13 +111,12 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
+    self = [super init];
     //self = [super initWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
         [self setStartTime:[coder decodeObjectForKey:@"WPStartTime"]];
-//        _startTime = [[coder decodeObjectForKey:@"WPStartTime"] retain];
         [self setEndTime:[coder decodeObjectForKey:@"WPEndTime"]];
-//        _endTime = [[coder decodeObjectForKey:@"WPEndTime"] retain];
 		id attribComment = [coder decodeObjectForKey:@"AttributedComment"];
 		
 		if ([attribComment isKindOfClass:[NSString class]]) {
@@ -121,13 +126,10 @@
 			attribComment = [[NSAttributedString alloc] initWithString:[coder decodeObjectForKey:@"Comment"]];
 		}
         [self setComment:attribComment];
-//		_comment = attribComment;
     } else {
         // Must decode keys in same order as encodeWithCoder:
         [self setStartTime:[coder decodeObject]];
-//        _startTime = [[coder decodeObject] retain];
         [self setEndTime:[coder decodeObject]];
-//        _endTime = [[coder decodeObject] retain];
 		// comment not supported here for data file compability reasons.
     }
 	[self updateTotalTime];
@@ -157,5 +159,12 @@
 - (TTask*)parentTask 
 {
 	return _parent;
+}
+
+-(NSInteger) weekday {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *comp = [cal components:(NSWeekdayCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:_startTime];
+    NSInteger result = [comp weekday];
+    return result;
 }
 @end

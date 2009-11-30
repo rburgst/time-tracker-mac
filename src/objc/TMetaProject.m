@@ -64,7 +64,7 @@
 	
 	while (aProject = [enumerator nextObject])
 	{
-		unsigned result = [[aProject tasks] indexOfObject:task];
+		NSUInteger result = [[aProject tasks] indexOfObject:task];
 		if (result != NSNotFound) {
 			*taskIndex = result;
 			return aProject;

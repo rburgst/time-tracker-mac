@@ -143,7 +143,7 @@ static int _maxTaskId = 1;
 	NSMutableString* result = [NSMutableString string];
 	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
 	id anObject;
-	NSString *addPrefix = [NSString stringWithFormat:@"%@;\"%@\"", prefix, _name];
+	NSString *addPrefix = [NSString stringWithFormat:@"%@%@\"%@\"", prefix, sep, _name];
  
 	while (anObject = [enumerator nextObject])
 	{

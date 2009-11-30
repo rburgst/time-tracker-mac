@@ -18,6 +18,8 @@
 	TTask *_parent;
 }
 
+@property(readonly) NSInteger weekday;
+
 - (void) setStartTime: (NSDate *) startTime;
 - (void) setEndTime: (NSDate *) endTime;
 - (void) setComment:(NSAttributedString*) aComment;

@@ -71,7 +71,7 @@
 	
 	while (aTask = [enumerator nextObject])
 	{
-		unsigned result = [[aTask workPeriods] indexOfObject:aPeriod];
+		NSUInteger result = [[aTask workPeriods] indexOfObject:aPeriod];
 		if (result != NSNotFound) {
 			*wpIndex = result;
 			return aTask;
