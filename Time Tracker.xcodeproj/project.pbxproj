@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -37,8 +37,6 @@
 		2C9EC8D70905A5FE000651F2 /* TProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9EC8D60905A5FE000651F2 /* TProject.m */; };
 		2C9EC93F0905A9F6000651F2 /* TimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */; };
 		2C9EC9540905ABAE000651F2 /* TWorkPeriod.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */; };
-		2CFAEE2D09042FC000131DD6 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CFAEE2C09042FC000131DD6 /* MainController.m */; };
-		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -49,10 +47,18 @@
 		B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC20B5C956700465046 /* LICENSE.txt */; };
 		B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
 		B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
-		D53109FF0E6BD207004E7B98 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = D53109FE0E6BD207004E7B98 /* PreferencesController.m */; };
+		D546669810B76A1A001982C1 /* SearchQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D546669710B76A1A001982C1 /* SearchQuery.m */; };
+		D546686E10B81E00001982C1 /* CaseInsensitivePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686310B81E00001982C1 /* CaseInsensitivePredicateTemplate.m */; };
+		D546686F10B81E00001982C1 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686510B81E00001982C1 /* MainController.m */; };
+		D546687010B81E00001982C1 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686710B81E00001982C1 /* PreferencesController.m */; };
+		D546687110B81E00001982C1 /* StartTaskMenuDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686910B81E00001982C1 /* StartTaskMenuDelegate.m */; };
+		D546687210B81E00001982C1 /* TTPredicateEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686B10B81E00001982C1 /* TTPredicateEditorViewController.m */; };
+		D546687310B81E00001982C1 /* TTQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686D10B81E00001982C1 /* TTQueryController.m */; };
+		D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */; };
+		D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
-		D5A8713A0E6E73CC00F41819 /* StartTaskMenuDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */; };
+		D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5A7616D10C1C24A004B88C7 /* MainMenu.xib */; };
 		D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871400E6E783500F41819 /* TDateTransformer.m */; };
 		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
@@ -62,6 +68,9 @@
 		D5E58E430D243A21003020AA /* monthtool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3D0D243A21003020AA /* monthtool.png */; };
 		D5E58E440D243A21003020AA /* weekofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3E0D243A21003020AA /* weekofftool.png */; };
 		D5E58E450D243A21003020AA /* weektool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3F0D243A21003020AA /* weektool.png */; };
+		D5FEF87910BDD87900915321 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
+		D5FEF8C610BDD95800915321 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
+		D5FEF8D110BDDA2100915321 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +95,7 @@
 				B19BDFC50B5C956F00465046 /* ChangeLog.txt in CopyFiles */,
 				B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */,
 				B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */,
+				D5FEF8C610BDD95800915321 /* BWToolkitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +105,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				D5FEF8D110BDDA2100915321 /* BWToolkitFramework.framework in CopyFiles */,
 				B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,7 +117,6 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		2C4528A60909AACB003C0369 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -127,8 +137,6 @@
 		2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeIntervalFormatter.h; path = src/objc/TimeIntervalFormatter.h; sourceTree = "<group>"; };
 		2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeIntervalFormatter.m; path = src/objc/TimeIntervalFormatter.m; sourceTree = "<group>"; };
 		2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWorkPeriod.m; path = src/objc/TWorkPeriod.m; sourceTree = "<group>"; };
-		2CFAEE2B09042FC000131DD6 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainController.h; path = src/cocoa/MainController.h; sourceTree = "<group>"; };
-		2CFAEE2C09042FC000131DD6 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = MainController.m; path = src/cocoa/MainController.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Time Tracker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Time Tracker_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Time Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,18 +145,33 @@
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		D53109FD0E6BD207004E7B98 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesController.h; path = src/cocoa/PreferencesController.h; sourceTree = "<group>"; };
-		D53109FE0E6BD207004E7B98 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesController.m; path = src/cocoa/PreferencesController.m; sourceTree = "<group>"; };
+		D546669610B76A1A001982C1 /* SearchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchQuery.h; path = src/objc/SearchQuery.h; sourceTree = "<group>"; };
+		D546669710B76A1A001982C1 /* SearchQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchQuery.m; path = src/objc/SearchQuery.m; sourceTree = "<group>"; };
+		D546686210B81E00001982C1 /* CaseInsensitivePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseInsensitivePredicateTemplate.h; sourceTree = "<group>"; };
+		D546686310B81E00001982C1 /* CaseInsensitivePredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseInsensitivePredicateTemplate.m; sourceTree = "<group>"; };
+		D546686410B81E00001982C1 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
+		D546686510B81E00001982C1 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
+		D546686610B81E00001982C1 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		D546686710B81E00001982C1 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		D546686810B81E00001982C1 /* StartTaskMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartTaskMenuDelegate.h; sourceTree = "<group>"; };
+		D546686910B81E00001982C1 /* StartTaskMenuDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartTaskMenuDelegate.m; sourceTree = "<group>"; };
+		D546686A10B81E00001982C1 /* TTPredicateEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPredicateEditorViewController.h; sourceTree = "<group>"; };
+		D546686B10B81E00001982C1 /* TTPredicateEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPredicateEditorViewController.m; sourceTree = "<group>"; };
+		D546686C10B81E00001982C1 /* TTQueryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTQueryController.h; sourceTree = "<group>"; };
+		D546686D10B81E00001982C1 /* TTQueryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTQueryController.m; sourceTree = "<group>"; };
+		D54CEB3610C0828200CD8B31 /* DatePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePredicateTemplate.h; sourceTree = "<group>"; };
+		D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePredicateTemplate.m; sourceTree = "<group>"; };
 		D56D802E10B5F21F00C3729B /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITask.h; path = src/objc/ITask.h; sourceTree = "<group>"; };
+		D57299A510C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkPeriodMainPredicateTemplate.h; sourceTree = "<group>"; };
+		D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkPeriodMainPredicateTemplate.m; sourceTree = "<group>"; };
 		D581A8100CFF3BBA006A0DC1 /* TMetaProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMetaProject.h; path = src/objc/TMetaProject.h; sourceTree = "<group>"; };
 		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaProject.m; path = src/objc/TMetaProject.m; sourceTree = "<group>"; };
 		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMetaTask.h; path = src/objc/TMetaTask.h; sourceTree = "<group>"; };
 		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaTask.m; path = src/objc/TMetaTask.m; sourceTree = "<group>"; };
 		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWorkPeriod.h; path = src/objc/TWorkPeriod.h; sourceTree = "<group>"; };
 		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDateTransformer.h; path = src/objc/TDateTransformer.h; sourceTree = "<group>"; };
+		D5A7616E10C1C24A004B88C7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D5A871240E6E6B1C00F41819 /* IProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IProject.h; path = src/objc/IProject.h; sourceTree = "<group>"; };
-		D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartTaskMenuDelegate.h; path = src/cocoa/StartTaskMenuDelegate.h; sourceTree = "<group>"; };
-		D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartTaskMenuDelegate.m; path = src/cocoa/StartTaskMenuDelegate.m; sourceTree = "<group>"; };
 		D5A871400E6E783500F41819 /* TDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDateTransformer.m; path = src/objc/TDateTransformer.m; sourceTree = "<group>"; };
 		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
@@ -158,6 +181,7 @@
 		D5E58E3D0D243A21003020AA /* monthtool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthtool.png; path = Graphics/monthtool.png; sourceTree = "<group>"; };
 		D5E58E3E0D243A21003020AA /* weekofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weekofftool.png; path = Graphics/weekofftool.png; sourceTree = "<group>"; };
 		D5E58E3F0D243A21003020AA /* weektool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = weektool.png; path = Graphics/weektool.png; sourceTree = "<group>"; };
+		D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = BWToolkit/BWToolkitFramework.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +193,7 @@
 				2C4528A70909AACB003C0369 /* Carbon.framework in Frameworks */,
 				2C4528B20909AAE5003C0369 /* IOKit.framework in Frameworks */,
 				B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */,
+				D5FEF87910BDD87900915321 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +203,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */,
 				B1AB15820CEBC9A50025CF12 /* Sparkle.framework */,
 				2C4528A60909AACB003C0369 /* Carbon.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
@@ -229,6 +255,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D5A7616D10C1C24A004B88C7 /* MainMenu.xib */,
 				B163D4040B646239007D0E2C /* AUTHORS.txt */,
 				B163D4050B646239007D0E2C /* LICENSE-GPL.txt */,
 				B19BDFC10B5C956700465046 /* ChangeLog.txt */,
@@ -236,7 +263,6 @@
 				2C9DB973090677B20039C62A /* Icon.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -273,26 +299,37 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
+		D546686110B81E00001982C1 /* cocoa */ = {
+			isa = PBXGroup;
+			children = (
+				D546686210B81E00001982C1 /* CaseInsensitivePredicateTemplate.h */,
+				D546686310B81E00001982C1 /* CaseInsensitivePredicateTemplate.m */,
+				D546686410B81E00001982C1 /* MainController.h */,
+				D546686510B81E00001982C1 /* MainController.m */,
+				D546686610B81E00001982C1 /* PreferencesController.h */,
+				D546686710B81E00001982C1 /* PreferencesController.m */,
+				D546686810B81E00001982C1 /* StartTaskMenuDelegate.h */,
+				D546686910B81E00001982C1 /* StartTaskMenuDelegate.m */,
+				D546686A10B81E00001982C1 /* TTPredicateEditorViewController.h */,
+				D546686B10B81E00001982C1 /* TTPredicateEditorViewController.m */,
+				D546686C10B81E00001982C1 /* TTQueryController.h */,
+				D546686D10B81E00001982C1 /* TTQueryController.m */,
+				D54CEB3610C0828200CD8B31 /* DatePredicateTemplate.h */,
+				D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */,
+				D57299A510C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.h */,
+				D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */,
+			);
+			name = cocoa;
+			path = src/cocoa;
+			sourceTree = "<group>";
+		};
 		D56D801A10B5F15C00C3729B /* src */ = {
 			isa = PBXGroup;
 			children = (
-				D56D801B10B5F16200C3729B /* cocoa */,
+				D546686110B81E00001982C1 /* cocoa */,
 				D56D801C10B5F16800C3729B /* objc */,
 			);
 			name = src;
-			sourceTree = "<group>";
-		};
-		D56D801B10B5F16200C3729B /* cocoa */ = {
-			isa = PBXGroup;
-			children = (
-				D53109FD0E6BD207004E7B98 /* PreferencesController.h */,
-				D53109FE0E6BD207004E7B98 /* PreferencesController.m */,
-				D5A871380E6E73CC00F41819 /* StartTaskMenuDelegate.h */,
-				D5A871390E6E73CC00F41819 /* StartTaskMenuDelegate.m */,
-				2CFAEE2B09042FC000131DD6 /* MainController.h */,
-				2CFAEE2C09042FC000131DD6 /* MainController.m */,
-			);
-			name = cocoa;
 			sourceTree = "<group>";
 		};
 		D56D801C10B5F16800C3729B /* objc */ = {
@@ -314,6 +351,8 @@
 				2C9EC8D10905A5F2000651F2 /* TTask.m */,
 				2C9EC8D50905A5FE000651F2 /* TProject.h */,
 				2C9EC8D60905A5FE000651F2 /* TProject.m */,
+				D546669610B76A1A001982C1 /* SearchQuery.h */,
+				D546669710B76A1A001982C1 /* SearchQuery.m */,
 			);
 			name = objc;
 			sourceTree = "<group>";
@@ -346,7 +385,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 2CFAEE2509042EE900131DD6 /* Build configuration list for PBXProject "Time Tracker" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Time Tracker */;
 			projectDirPath = "";
@@ -363,7 +402,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				2C9DD71B0905824F00AA5C6E /* playitem_hl.png in Resources */,
 				2C9DD71C0905824F00AA5C6E /* playitem.png in Resources */,
@@ -382,6 +420,7 @@
 				D5E58E450D243A21003020AA /* weektool.png in Resources */,
 				D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */,
 				D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */,
+				D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,16 +432,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				2CFAEE2D09042FC000131DD6 /* MainController.m in Sources */,
 				2C9EC8D20905A5F2000651F2 /* TTask.m in Sources */,
 				2C9EC8D70905A5FE000651F2 /* TProject.m in Sources */,
 				2C9EC93F0905A9F6000651F2 /* TimeIntervalFormatter.m in Sources */,
 				2C9EC9540905ABAE000651F2 /* TWorkPeriod.m in Sources */,
 				D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */,
 				D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */,
-				D53109FF0E6BD207004E7B98 /* PreferencesController.m in Sources */,
-				D5A8713A0E6E73CC00F41819 /* StartTaskMenuDelegate.m in Sources */,
 				D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */,
+				D546669810B76A1A001982C1 /* SearchQuery.m in Sources */,
+				D546686E10B81E00001982C1 /* CaseInsensitivePredicateTemplate.m in Sources */,
+				D546686F10B81E00001982C1 /* MainController.m in Sources */,
+				D546687010B81E00001982C1 /* PreferencesController.m in Sources */,
+				D546687110B81E00001982C1 /* StartTaskMenuDelegate.m in Sources */,
+				D546687210B81E00001982C1 /* TTPredicateEditorViewController.m in Sources */,
+				D546687310B81E00001982C1 /* TTQueryController.m in Sources */,
+				D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */,
+				D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,12 +470,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+		D5A7616D10C1C24A004B88C7 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				29B97319FDCFA39411CA2CEA /* English */,
+				D5A7616E10C1C24A004B88C7 /* English */,
 			);
-			name = MainMenu.nib;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -439,11 +484,12 @@
 		2CFAEE2209042EE900131DD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)/BWToolkit\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -466,14 +512,12 @@
 		2CFAEE2309042EE900131DD6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)/BWToolkit\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -486,6 +530,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				PREBINDING = NO;
 				PRODUCT_NAME = "Time Tracker";
+				SDKROOT = macosx10.5;
 				VALID_ARCHS = "ppc ppc64 ppc7400 ppc970 i386 x86_64";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
@@ -495,10 +540,11 @@
 		2CFAEE2409042EE900131DD6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)/BWToolkit\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -516,8 +562,12 @@
 		2CFAEE2609042EE900131DD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				VALID_ARCHS = "x86_64 i386";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -525,20 +575,24 @@
 		2CFAEE2709042EE900131DD6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-				VALID_ARCHS = "ppc64 ppc7400 ppc970 i386 x86_64";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Release;
 		};
 		2CFAEE2809042EE900131DD6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = macosx10.5;
+				VALID_ARCHS = "x86_64 i386";
 			};
 			name = Default;
 		};
