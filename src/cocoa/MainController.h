@@ -85,6 +85,7 @@
 	IBOutlet NSPopUpButton *_projectPopupButton;
 	IBOutlet NSSearchField *_searchBox;
     IBOutlet NSView *_saveCsvAuxView;
+    IBOutlet TTPredicateEditorViewController *_predicateController;
 	
 	IBOutlet NSToolbarItem *startstopToolbarItem;
     NSToolbarItem *_dayToolbarItem;
@@ -200,5 +201,6 @@
 - (id<ITask>) selectedTask;
 
 @property(readonly) BOOL timerRunning;
+@property(retain, nonatomic) NSPredicate* extraFilterPredicate;
 @end
 

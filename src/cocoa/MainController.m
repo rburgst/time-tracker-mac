@@ -12,8 +12,11 @@
 #import "TDateTransformer.h"
 #import "StartTaskMenuDelegate.h"
 #import "TTPredicateEditorViewController.h"
+#import "SearchQuery.h"
 
 @implementation MainController
+
+@synthesize extraFilterPredicate = _extraFilterPredicate;
 
 // this flag toggles whether we show tasks in the "All Projects View"
 // that have no matching time entries (1 means that these will NOT be shown)
@@ -951,16 +954,24 @@
 }
 
 -(void) filterQuerySelected:(SearchQuery*)query {
-    
+    self.extraFilterPredicate = query.predicate;
 }
 
--(void)predicateSelected:(NSPredicate *)predicate {
+-(void) setExtraFilterPredicate:(NSPredicate *)predicate {
     if (_extraFilterPredicate != predicate) {
         [_extraFilterPredicate release];
         _extraFilterPredicate = [predicate retain];
         [self invalidateFilterPredicate];
         [self applyFilter];
-    }
+    }    
+}
+-(void)predicateSelected:(NSPredicate *)predicate {
+   /* if (_extraFilterPredicate != predicate) {
+        [_extraFilterPredicate release];
+        _extraFilterPredicate = [predicate retain];
+        [self invalidateFilterPredicate];
+        [self applyFilter];
+    }*/
 }
 
 - (void)createTask

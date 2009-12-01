@@ -1,5 +1,6 @@
 
 #import "CaseInsensitivePredicateTemplate.h"
+#import "TTTimeProvider.h"
 
 @implementation CaseInsensitivePredicateTemplate
 
@@ -13,12 +14,7 @@
     if ([rightView isKindOfClass:[NSDatePicker class]]) {
         NSDatePicker *picker = (NSDatePicker*)rightView;
         NSDate *date = [picker dateValue];
-        NSLog(@"Date: %@", date);
-        NSCalendar *cal = [NSCalendar currentCalendar];
-        NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-        NSDateComponents *date00 = [cal components:unitFlags fromDate:date];
-        date = [cal dateFromComponents:date00];
-        [picker setDateValue:date];
+        [picker setDateValue:[[TTTimeProvider instance] dateWithMidnight:date]];
         predicate = (NSComparisonPredicate *)[super predicateWithSubpredicates:subpredicates];
     } else {
         NSPopUpButton *popup = (NSPopUpButton*) rightView;

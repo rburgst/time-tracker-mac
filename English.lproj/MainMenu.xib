@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2452"/>
+			<integer value="2324"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -6376,6 +6376,30 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					</object>
 					<int key="connectionID">2464</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_predicateController</string>
+						<reference key="source" ref="287946897"/>
+						<reference key="destination" ref="646287390"/>
+					</object>
+					<int key="connectionID">2465</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.extraFilterPredicate</string>
+						<reference key="source" ref="504805363"/>
+						<reference key="destination" ref="287946897"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="504805363"/>
+							<reference key="NSDestination" ref="287946897"/>
+							<string key="NSLabel">value: self.extraFilterPredicate</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">self.extraFilterPredicate</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2467</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -9080,10 +9104,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{209, 229}, {753, 482}}</string>
+					<string>{{114, 229}, {753, 482}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{209, 229}, {753, 482}}</string>
+					<string>{{114, 229}, {753, 482}}</string>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
@@ -9441,7 +9465,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">2464</int>
+			<int key="maxID">2467</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -9523,6 +9547,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<string>_filterEndDate</string>
 							<string>_filterStartDate</string>
 							<string>_metaProject</string>
+							<string>_predicateController</string>
 							<string>_projectPopupButton</string>
 							<string>_saveCsvAuxView</string>
 							<string>_searchBox</string>
@@ -9555,6 +9580,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<string>NSDate</string>
 							<string>NSDate</string>
 							<string>TMetaProject</string>
+							<string>TTPredicateEditorViewController</string>
 							<string>NSPopUpButton</string>
 							<string>NSView</string>
 							<string>NSSearchField</string>

@@ -11,6 +11,8 @@
 
 @interface DatePredicateTemplate : NSPredicateEditorRowTemplate {
     NSArray *_templateViews;
+    
 }
+    
 @property(retain, nonatomic) NSArray* _templateViews;
 @end

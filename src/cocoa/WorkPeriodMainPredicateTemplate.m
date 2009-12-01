@@ -19,7 +19,7 @@
     }
     NSMutableArray *result = [NSMutableArray arrayWithArray:[super templateViews]];
     NSPopUpButton *search = [result objectAtIndex:0];
-    [search selectItemAtIndex:0];
+//    [search selectItemAtIndex:0];
     
     NSButton *applyBtn = [[NSButton alloc] initWithFrame:NSMakeRect(0.0, 0.0, 100.0, 18.0)];
     applyBtn.title = @"Apply";

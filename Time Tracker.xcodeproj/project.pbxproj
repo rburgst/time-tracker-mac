@@ -60,6 +60,7 @@
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
 		D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5A7616D10C1C24A004B88C7 /* MainMenu.xib */; };
 		D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871400E6E783500F41819 /* TDateTransformer.m */; };
+		D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */; };
 		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
 		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
@@ -173,6 +174,8 @@
 		D5A7616E10C1C24A004B88C7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D5A871240E6E6B1C00F41819 /* IProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IProject.h; path = src/objc/IProject.h; sourceTree = "<group>"; };
 		D5A871400E6E783500F41819 /* TDateTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDateTransformer.m; path = src/objc/TDateTransformer.m; sourceTree = "<group>"; };
+		D5AED85410C5AD8600AB1EE0 /* TTTimeProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTimeProvider.h; path = src/objc/TTTimeProvider.h; sourceTree = "<group>"; };
+		D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTimeProvider.m; path = src/objc/TTTimeProvider.m; sourceTree = "<group>"; };
 		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
@@ -335,6 +338,8 @@
 		D56D801C10B5F16800C3729B /* objc */ = {
 			isa = PBXGroup;
 			children = (
+				D5AED85410C5AD8600AB1EE0 /* TTTimeProvider.h */,
+				D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */,
 				D5A871240E6E6B1C00F41819 /* IProject.h */,
 				D56D802E10B5F21F00C3729B /* ITask.h */,
 				D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */,
@@ -448,6 +453,7 @@
 				D546687310B81E00001982C1 /* TTQueryController.m in Sources */,
 				D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */,
 				D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */,
+				D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

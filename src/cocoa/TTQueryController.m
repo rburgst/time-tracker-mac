@@ -7,6 +7,7 @@
 
 #import "TTQueryController.h"
 #import "SearchQuery.h"
+#import "TTTimeProvider.h"
 
 @implementation TTQueryController
 
@@ -26,14 +27,18 @@
 }
 
 -(void) awakeFromNib {
+    TTTimeProvider *provider = [TTTimeProvider instance];
     iSearchQueries = [[NSMutableArray alloc] init];
-    SearchQuery *query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:nil];
+    SearchQuery *query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:[provider predicateWithSingleWeekFromToday:1]];
     [iSearchQueries addObject:query];
     [query release];
     
-    query = [[SearchQuery alloc] initWithTitle:@"This week" predicate:nil];
+    query = [[SearchQuery alloc] initWithTitle:@"This week" predicate:[provider predicateWithSingleWeekFromToday:0]];
     [iSearchQueries addObject:query];
     [query release];
+    NSPredicate *predicate = [provider predicateWithSingleDayFromToday:0];
+    query = [[[SearchQuery alloc] initWithTitle:@"Today" predicate:predicate] autorelease];
+    [iSearchQueries addObject:query];
     
     iGroupRowCell = [[NSTextFieldCell alloc] init];
     [iGroupRowCell setEditable:NO];
@@ -41,7 +46,7 @@
     [_outlineView reloadItem:nil];
 }
 
-#pragma mark -f
+#pragma mark -
 #pragma mark NSOutlineView datasource and delegate methods
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
