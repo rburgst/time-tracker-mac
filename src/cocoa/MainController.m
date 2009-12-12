@@ -89,7 +89,7 @@
 					@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
 					_filterStartDate, _filterEndDate, commentFilter];
 			}
-		} else if (_filterMode != FILTER_MODE_NONE) {
+		} else if (_filterMode != FILTER_MODE_NONE && _filterMode != FILTER_MODE_PREDICATE) {
 			generalPredicate = [NSPredicate predicateWithFormat: @"startTime >= %@ AND endTime <= %@", 
 				_filterStartDate, _filterEndDate];	
 		} // otherwise the filterpredicate will stay nil
@@ -858,6 +858,9 @@
 
 -(NSDate*) determineFilterEndDate
 {
+    if (_filterMode == FILTER_MODE_PREDICATE) {
+        return nil;
+    }
 	NSDateComponents *comps = [[[NSDateComponents alloc] init] autorelease];
 	switch (_filterMode) {
 		case FILTER_MODE_DAY:			
@@ -878,8 +881,8 @@
 
 -(NSDate*) determineFilterStartDate 
 {
-	if (_selectedfilterDate == nil) 
-	{
+    
+	if (_filterMode == FILTER_MODE_PREDICATE || _selectedfilterDate == nil) {
 		return nil;
 	}
 	[_filterStartDate release];
@@ -961,6 +964,12 @@
     if (_extraFilterPredicate != predicate) {
         [_extraFilterPredicate release];
         _extraFilterPredicate = [predicate retain];
+        if (predicate != nil) {
+            _filterMode = FILTER_MODE_PREDICATE;
+        } else {
+            _filterMode = FILTER_MODE_NONE;
+        }
+
         [self invalidateFilterPredicate];
         [self applyFilter];
     }    
