@@ -1,3 +1,21 @@
+=== Version 1.3.2 ==== 2009-12-XX
+Packaged by Rainer Burgstaller <rburgst@gmail.com>
+
+    * itunes like interface
+    * smart filters which can be saved
+
+=== Version 1.3.1 ==== 2009-11-20
+Packaged by Rainer Burgstaller <rburgst@gmail.com>
+
+    * extended CSV export
+    * system menu bar remembers list of recent tasks and allows quick start without activating the GUI
+    * comments!
+    * ability to edit and reassign entries to different tasks / projects (double click on a recording)
+    * updated icons
+    * prevent duplicate project / task names which can seriously screw up the database
+    * laptop standby mode detection
+
+
 === Version 1.2.1 === 2007-01-22
 Packaged by Aaron VonderHaar <gruen0aermel@gmail.com>
 
