@@ -7,7 +7,7 @@
 //
 
 #import "TWorkPeriod.h"
-
+#import "TTTimeProvider.h"
 
 @implementation TWorkPeriod
 
@@ -21,22 +21,22 @@
 
 - (void) setStartTime: (NSDate *) startTime
 {
-	[startTime retain];
-	[_startTime release];
-    _startTime = nil;
-	_startTime = startTime;
-	[self updateTotalTime];
+    if (startTime != _startTime) {
+        [_startTime release];
+        _startTime = nil;
+        _startTime = [startTime retain];
+        [self updateTotalTime];        
+    }
 }
 
 - (void) setEndTime: (NSDate *) endTime
 {
-//    [self willChangeValueForKey:@"endTime"];
-	[endTime retain];
-	[_endTime release];
-    _endTime = nil;
-	_endTime = endTime;
-  //  [self didChangeValueForKey:@"endTime"];
-	[self updateTotalTime];
+    if (endTime != _endTime) {
+        [_endTime release];
+        _endTime = nil;
+        _endTime = [endTime retain];
+        [self updateTotalTime];        
+    }
 }
 
 - (void) setComment:(NSAttributedString*) aComment
@@ -166,5 +166,58 @@
     NSDateComponents *comp = [cal components:(NSWeekdayCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit) fromDate:_startTime];
     NSInteger result = [comp weekday];
     return result;
+}
+
+
+-(NSInteger) daysSinceDate:(NSDate*)date {
+    TTTimeProvider *provider = [TTTimeProvider instance];
+    NSDate* today = provider.todayStartTime;
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit
+                                                                   fromDate:date toDate:today options:0];
+    return components.day;    
+}
+
+-(NSInteger) weeksSinceDate:(NSDate*)date {
+    TTTimeProvider *provider = [TTTimeProvider instance];
+    NSDate* today = provider.todayStartTime;
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSWeekCalendarUnit
+                                                                       fromDate:date toDate:today options:0];
+    return components.week;
+}
+
+-(NSInteger) monthsSinceDate:(NSDate*)date {
+    TTTimeProvider *provider = [TTTimeProvider instance];
+    NSDate* today = provider.todayStartTime;
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit
+                                                                   fromDate:date toDate:today options:0];
+    return components.month;
+}
+
+-(NSInteger) daysSinceStart {
+    return [self daysSinceDate:self.startTime];
+}
+
+-(NSInteger) daysSinceEnd {
+    return [self daysSinceDate:self.endTime];
+}
+
+-(NSInteger) weeksSinceStart {
+    return [self weeksSinceDate:self.startTime];
+}
+
+-(NSInteger) weeksSinceEnd {
+    return [self weeksSinceDate:self.endTime];
+}
+
+-(NSInteger) monthsSinceStart {
+    return [self monthsSinceDate:self.startTime];
+}
+
+-(NSInteger) monthsSinceEnd {
+    return [self monthsSinceDate:self.endTime];
+}
+
+-(NSNumber*)startedDaysAgo:(NSNumber*)days fromDate:(NSDate*)referenceDate {
+    return [NSNumber numberWithInt:1];
 }
 @end

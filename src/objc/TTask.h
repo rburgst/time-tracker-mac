@@ -27,7 +27,7 @@
 
 - (void) addWorkPeriod: (TWorkPeriod *) workPeriod;
 - (NSMutableArray *) workPeriods;
-- (NSMutableArray *) matchingWorkPeriods:(NSPredicate*) filter;
+- (NSArray *) matchingWorkPeriods:(NSPredicate*) filter;
 
 - (int) totalTime;
 - (int) filteredTime:(NSPredicate*) filter;

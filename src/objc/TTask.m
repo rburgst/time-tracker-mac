@@ -62,9 +62,10 @@ static int _maxTaskId = 1;
 	return _totalTime;
 }
 
-- (NSMutableArray *) matchingWorkPeriods:(NSPredicate*) filter
+- (NSArray *) matchingWorkPeriods:(NSPredicate*) filter
 {
-	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
+    return [_workPeriods filteredArrayUsingPredicate:filter];
+/*	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
 	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
 	id anObject;
  
@@ -75,7 +76,7 @@ static int _maxTaskId = 1;
 		}
 	}
 	return result;
-	
+*/	
 }
 
 - (int) filteredTime:(NSPredicate*) filter

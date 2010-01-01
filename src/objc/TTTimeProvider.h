@@ -27,6 +27,9 @@
 - (NSDate *)yesterdayStartTime;
 - (NSDate *)yesterdayEndTime;
 
+- (NSDate *)dayStartDateWithDaysFromToday:(NSInteger)days;
+- (NSDate *)dayEndDateWithDaysFromToday:(NSInteger)days;
+    
 - (NSDate *)thisWeekStartTime;
 - (NSDate *)thisWeekEndTime;
 
@@ -44,13 +47,17 @@
 
 /* Generic methods */
 - (NSDate *)monthStartDateWithMonthsFromToday:(NSInteger) months;
+- (NSDate*) monthEndDateWithMonthsFromToday:(NSInteger) months;
+
 - (NSDate *)weekStartDateWithWeeksFromToday:(NSInteger)weeks;
+- (NSDate *)weekEndDateWithWeeksFromToday:(NSInteger)weeks;
+
 - (NSDate*) dateWithDaysFromToday:(NSInteger)days;
 - (NSDate*) dateWithMidnight:(NSDate*)dateWithTime;
 
 /* Predicate methods */
 - (NSPredicate*) predicateWithSingleDayFromToday:(NSInteger)days;
-- (NSPredicate*) predicateWithEndDateFromToday:(NSInteger)days  comparisonType:(NSInteger)comparisonType;
+- (NSPredicate*) predicateWithStartDateFromToday:(NSInteger)days  comparisonType:(NSInteger)comparisonType;
 - (NSPredicate*) predicateWithEndDateFromToday:(NSInteger)days  comparisonType:(NSInteger)comparisonType;
 
 - (NSPredicate*) predicateWithSingleWeekFromToday:(NSInteger)weeks;

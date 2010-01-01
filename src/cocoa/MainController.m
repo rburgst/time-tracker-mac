@@ -7,6 +7,7 @@
 #import "IProject.h"
 #import "TProject.h"
 #import "TimeIntervalFormatter.h"
+#import "TTTimeProvider.h"
 #import "TWorkPeriod.h"
 #import "TMetaProject.h"
 #import "TDateTransformer.h"
@@ -23,6 +24,10 @@
 // 0 means that empty tasks will also be shown.
 #define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
 //#define USE_EXTENDED_TOOLBAR
+
+#define AGOTYPE_DAYS 1
+#define AGOTYPE_WEEKS 2
+#define AGOTYPE_MONTHS 3
 
 - (id) init
 {
@@ -71,6 +76,78 @@
 	return self;
 }
 
+- (NSPredicate*) producePredicateFromTemplate:(NSPredicate*) template {
+    // search for all variables with daysAgo
+    NSString *templateString = [template predicateFormat];
+    NSScanner *scanner = [NSScanner scannerWithString:templateString];
+    NSString *result;
+    NSDictionary *varDic = [NSMutableDictionary dictionaryWithCapacity:5];
+    while (![scanner isAtEnd]) {
+        if (![scanner scanUpToString:@"$" intoString:&result]) {
+            break;
+        }
+        if ([scanner isAtEnd]) {
+            // havent found the target
+            break;
+        }
+        // now decide which one we have
+        NSString *keyTemplate = nil;
+        NSInteger agoType = -1;
+        BOOL start = NO;
+        if ([scanner scanString:@"$daysAgoStart_" intoString:&result]) {
+            keyTemplate = @"daysAgoStart_";
+            agoType = AGOTYPE_DAYS;
+            start = YES;
+        } else if ([scanner scanString:@"$daysAgoEnd_" intoString:&result]) {
+            keyTemplate = @"daysAgoEnd_";
+            agoType = AGOTYPE_DAYS;
+            start = NO;
+        } else if ([scanner scanString:@"$weeksAgo_" intoString:&result]) {
+            keyTemplate = @"weeksAgo_";
+            agoType = AGOTYPE_WEEKS;
+            start = YES;
+        } else if ([scanner scanString:@"$monthsAgo_" intoString:&result]) {
+            keyTemplate = @"monthsAgo_";
+            agoType = AGOTYPE_MONTHS;
+            start = YES;
+        }
+        if (keyTemplate != nil) {
+            int value = 0;
+            BOOL success = [scanner scanInt:&value];
+            if (!success) {
+                NSLog(@"Scanner failed parsing int at %d", [scanner scanLocation]);
+            }
+            NSString *key = [NSString stringWithFormat:@"%@%d", keyTemplate, value];
+            TTTimeProvider *provider = [TTTimeProvider instance];
+            NSDate *daysAgoDate = nil;
+            switch (agoType) {
+                case AGOTYPE_DAYS:
+                    daysAgoDate = (start == YES) ? 
+                        [provider dayStartDateWithDaysFromToday:value]
+                      : [provider dayEndDateWithDaysFromToday:value];
+                    break;
+                case AGOTYPE_WEEKS:
+                    daysAgoDate = (start == YES) ?
+                    [provider weekStartDateWithWeeksFromToday:value] : 
+                    [provider weekEndDateWithWeeksFromToday:value];
+                    break;
+                case AGOTYPE_MONTHS:
+                    daysAgoDate = (start == YES) ?
+                        [provider monthStartDateWithMonthsFromToday:value] : 
+                        [provider monthEndDateWithMonthsFromToday:value];
+                    break;
+                default:
+                    break;
+            }
+            [varDic setValue:daysAgoDate forKey:key];            
+        }
+    }
+    [varDic setValue:[[TTTimeProvider instance] todayStartTime] forKey:@"TODAY"];
+    [varDic setValue:[[TTTimeProvider instance] todayEndTime] forKey:@"TOMORROW"];
+    NSPredicate *resultPred = [template predicateWithSubstitutionVariables:varDic];
+    return resultPred;
+}
+
 - (NSPredicate*) filterPredicate
 {
     NSPredicate *generalPredicate = nil;
@@ -94,18 +171,19 @@
 				_filterStartDate, _filterEndDate];	
 		} // otherwise the filterpredicate will stay nil
 
+        NSPredicate *finalPredicateTemplate = nil;
         if (_extraFilterPredicate == nil) {
-            _currentPredicate = [generalPredicate retain];
-            return generalPredicate;
+            finalPredicateTemplate = [generalPredicate retain];
         } else if (generalPredicate == nil) {
-            _currentPredicate = [_extraFilterPredicate retain];
-            return _extraFilterPredicate;
+            finalPredicateTemplate = [_extraFilterPredicate retain];
+        } else {
+            finalPredicateTemplate = [[NSCompoundPredicate 
+                            andPredicateWithSubpredicates:
+                                [NSArray arrayWithObjects:generalPredicate, _extraFilterPredicate, nil]] retain];
         }
-        _currentPredicate = [[NSCompoundPredicate 
-            andPredicateWithSubpredicates:
-                             [NSArray arrayWithObjects:generalPredicate, _extraFilterPredicate, nil]] retain];
+        // now fill in the variables
+        _currentPredicate = [[self producePredicateFromTemplate:finalPredicateTemplate] retain];
 	}
-    NSLog(@"Current predicate: %@", _currentPredicate);
 	return _currentPredicate;
 }
 
@@ -118,7 +196,8 @@
 
 - (void) applyFilter
 {
-	[workPeriodController setFilterPredicate:[self filterPredicate]];
+    NSPredicate *pred = [self filterPredicate];
+	[workPeriodController setFilterPredicate:pred];
 	[self updateTaskFilterCache];
 	[tvTasks reloadData];
 	[tvProjects reloadData];

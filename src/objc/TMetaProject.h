@@ -20,6 +20,6 @@
 - (void) setProjects:(NSMutableArray*) projects;
 - (NSString*) name;
 - (int) filteredTime:(NSPredicate*) filter;
-- (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
+- (NSArray *) matchingTasks:(NSPredicate*) filter;
 
 @end

@@ -2,11 +2,19 @@
 #import "CaseInsensitivePredicateTemplate.h"
 #import "TTTimeProvider.h"
 
+/* This template is used for filters of the form
+ * start/end time is DATE
+ */
+
 @implementation CaseInsensitivePredicateTemplate
+
+- (double)matchForPredicate:(NSPredicate *)predicate {
+    double result = [super matchForPredicate:predicate];
+    return result;
+}    
 
 - (NSPredicate *)predicateWithSubpredicates:(NSArray *)subpredicates
 {
-    
     NSArray *views = [self templateViews];
     NSComparisonPredicate *predicate = nil;    
     // make sure the selected date starts at midnight
@@ -18,18 +26,16 @@
         predicate = (NSComparisonPredicate *)[super predicateWithSubpredicates:subpredicates];
     } else {
         NSPopUpButton *popup = (NSPopUpButton*) rightView;
-
         return [NSComparisonPredicate predicateWithFormat:@"weekday == %d", [popup selectedTag]];
     }
 
-
     // construct an identical predicate, but add the NSCaseInsensitivePredicateOption flag
-    return [NSComparisonPredicate predicateWithLeftExpression:
-				[predicate leftExpression]
-				rightExpression:[predicate rightExpression]
-				modifier:[predicate comparisonPredicateModifier]
-				type:[predicate predicateOperatorType]
-				options:[predicate options] | NSCaseInsensitivePredicateOption];
+    return [NSComparisonPredicate 
+                predicateWithLeftExpression:[predicate leftExpression]
+                            rightExpression:[predicate rightExpression]
+                                   modifier:[predicate comparisonPredicateModifier]
+                                       type:[predicate predicateOperatorType]
+                                    options:[predicate options] | NSCaseInsensitivePredicateOption];
 }
 
 @end

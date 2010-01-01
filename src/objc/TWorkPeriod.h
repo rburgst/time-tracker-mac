@@ -19,6 +19,14 @@
 }
 
 @property(readonly) NSInteger weekday;
+@property(readonly) NSInteger daysSinceStart;
+@property(readonly) NSInteger daysSinceEnd;
+@property(readonly) NSInteger weeksSinceStart;
+@property(readonly) NSInteger weeksSinceEnd;
+@property(readonly) NSInteger monthsSinceStart;
+@property(readonly) NSInteger monthsSinceEnd;
+@property(retain, nonatomic) NSDate* startTime;
+@property(retain, nonatomic) NSDate* endTime;
 
 - (void) setStartTime: (NSDate *) startTime;
 - (void) setEndTime: (NSDate *) endTime;

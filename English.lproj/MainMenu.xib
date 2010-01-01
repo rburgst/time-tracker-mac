@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2324"/>
+			<integer value="2453"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2864,14 +2864,14 @@
 																						<object class="NSTableView" id="461392843">
 																							<reference key="NSNextResponder" ref="104346892"/>
 																							<int key="NSvFlags">256</int>
-																							<string key="NSFrameSize">{523, 114}</string>
+																							<string key="NSFrameSize">{525, 116}</string>
 																							<reference key="NSSuperview" ref="104346892"/>
 																							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 																							<bool key="NSEnabled">YES</bool>
 																							<object class="NSTableHeaderView" key="NSHeaderView" id="638563705">
 																								<reference key="NSNextResponder" ref="917332311"/>
 																								<int key="NSvFlags">256</int>
-																								<string key="NSFrameSize">{523, 17}</string>
+																								<string key="NSFrameSize">{525, 17}</string>
 																								<reference key="NSSuperview" ref="917332311"/>
 																								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 																								<reference key="NSTableView" ref="461392843"/>
@@ -3051,7 +3051,7 @@
 																								</object>
 																								<object class="NSTableColumn" id="803419131">
 																									<string key="NSIdentifier">Comment</string>
-																									<double key="NSWidth">189</double>
+																									<double key="NSWidth">191</double>
 																									<double key="NSMinWidth">10</double>
 																									<double key="NSMaxWidth">3.4028234663852886e+38</double>
 																									<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -3097,7 +3097,7 @@
 																							<int key="NSTableViewDraggingDestinationStyle">0</int>
 																						</object>
 																					</object>
-																					<string key="NSFrame">{{1, 18}, {523, 114}}</string>
+																					<string key="NSFrame">{{0, 17}, {525, 116}}</string>
 																					<reference key="NSSuperview" ref="999820249"/>
 																					<reference key="NSNextKeyView" ref="461392843"/>
 																					<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -3133,7 +3133,7 @@
 																						<bool key="EncodedWithXMLCoder">YES</bool>
 																						<reference ref="638563705"/>
 																					</object>
-																					<string key="NSFrame">{{1, 1}, {523, 17}}</string>
+																					<string key="NSFrameSize">{525, 17}</string>
 																					<reference key="NSSuperview" ref="999820249"/>
 																					<reference key="NSNextKeyView" ref="638563705"/>
 																					<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -3151,7 +3151,7 @@
 																				<reference key="NSShadowColor" ref="657088833"/>
 																			</object>
 																			<int key="NSViewLayerContentsRedrawPolicy">2</int>
-																			<int key="NSsFlags">529</int>
+																			<int key="NSsFlags">528</int>
 																			<reference key="NSVScroller" ref="1041162035"/>
 																			<reference key="NSHScroller" ref="125601972"/>
 																			<reference key="NSContentView" ref="104346892"/>

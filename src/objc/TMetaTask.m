@@ -24,9 +24,10 @@
 	return result;
 }
 
-- (NSMutableArray *) matchingWorkPeriods:(NSPredicate*) filter
+- (NSArray *) matchingWorkPeriods:(NSPredicate*) filter
 {
-	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
+    return [[self workPeriods] filteredArrayUsingPredicate:filter];
+/*	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
 	NSEnumerator *enumerator = [[self workPeriods] objectEnumerator];
 	id anObject;
  
@@ -37,7 +38,7 @@
 		}
 	}
 	return result;
-	
+*/	
 }
 
 - (int) totalTime {

@@ -45,7 +45,6 @@ static id staticInstance;
 }
 
 #pragma mark day functions
-
 -(NSDate*) dateWithMidnight:(NSDate*)dateWithTime {
     NSCalendar *cal = [NSCalendar currentCalendar];
     NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
@@ -61,6 +60,10 @@ static id staticInstance;
     NSDate *startDate = [cal dateByAddingComponents:components toDate:now options:0];
     [components release];
     return startDate;
+}
+
+-(NSDate*) dateWithDaysFromTodayNum:(NSNumber*)days {
+    return [self dateWithDaysFromToday:[days integerValue]];
 }
 
 - (NSDate *)todayStartTime
@@ -82,6 +85,14 @@ static id staticInstance;
 - (NSDate *)yesterdayEndTime
 {
 	return [self dateWithDaysFromToday:0];
+}
+
+- (NSDate *)dayStartDateWithDaysFromToday:(NSInteger)days {
+    return [self dateWithDaysFromToday:days];
+}
+
+- (NSDate *)dayEndDateWithDaysFromToday:(NSInteger)days {
+    return [self dateWithDaysFromToday:days-1];
 }
 
 #pragma mark week functions
@@ -174,19 +185,35 @@ static id staticInstance;
 #pragma mark predicate day functions
 
 - (NSPredicate*) predicateWithStartDateFromToday:(NSInteger)days  comparisonType:(NSInteger)comparisonType {
-    NSDate *startDate = [self dateWithDaysFromToday:days];
-    NSPredicate *result = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"startTime"]
-                                                             rightExpression:[NSExpression expressionForConstantValue:startDate]
+/*    NSExpression *lhs = [NSExpression expressionForFunction:[NSExpression expressionForEvaluatedObject] 
+                                              selectorName:@"startedDaysAgo:fromDate:"
+                                                 arguments:[NSArray arrayWithObjects:[NSExpression expressionForConstantValue:[NSNumber numberWithInteger:days]], [NSExpression expressionForConstantValue:[self now]], nil]];
+    NSPredicate *result = [NSComparisonPredicate predicateWithLeftExpression:lhs
+                                                             rightExpression:[NSExpression expressionForKeyPath:@"startTime"]
                                                                     modifier:NSDirectPredicateModifier
                                                                         type:comparisonType
+                                                                     options:0];
+     
+  */
+/*    NSPredicate *result = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"daysSinceStart"]
+                                                             rightExpression:[NSExpression expressionForConstantValue:[NSNumber numberWithInteger:days]]
+                                                                    modifier:NSDirectPredicateModifier
+                                                                        type:comparisonType
+                                                                     options:0];
+*/
+    NSString *startVariable = [NSString stringWithFormat:@"daysAgoStart_%d", days];
+    NSPredicate *result = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"startTime"] 
+                                                             rightExpression:[NSExpression expressionForVariable:startVariable] 
+                                                                    modifier:NSDirectPredicateModifier 
+                                                                        type:comparisonType 
                                                                      options:0];
     return result;
 }
 
 - (NSPredicate*) predicateWithEndDateFromToday:(NSInteger)days  comparisonType:(NSInteger)comparisonType {
-    NSDate *endDate = [self dateWithDaysFromToday:days - 1];
+    NSString *endVariable = [NSString stringWithFormat:@"daysAgoEnd_%d", days];
     NSPredicate *result = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"endTime"]
-                                                             rightExpression:[NSExpression expressionForConstantValue:endDate]
+                                                             rightExpression:[NSExpression expressionForVariable:endVariable]
                                                                     modifier:NSDirectPredicateModifier
                                                                         type:comparisonType
                                                                      options:0];
@@ -194,10 +221,10 @@ static id staticInstance;
 }
 
 - (NSPredicate*) predicateWithSingleDayFromToday:(NSInteger)days {
-    NSPredicate *startPredicate = [self predicateWithStartDateFromToday:days comparisonType:NSGreaterThanOrEqualToComparison];
-    NSPredicate *endPredicate = [self predicateWithEndDateFromToday:days comparisonType:NSLessThanOrEqualToComparison];
-    return [NSCompoundPredicate andPredicateWithSubpredicates:
-                [NSArray arrayWithObjects:startPredicate, endPredicate, nil]];
+    NSPredicate *result = [NSCompoundPredicate andPredicateWithSubpredicates:
+                           [NSArray arrayWithObjects:[self predicateWithStartDateFromToday:days comparisonType:NSGreaterThanOrEqualToComparison],
+                            [self predicateWithEndDateFromToday:days comparisonType:NSLessThanOrEqualToComparison], nil]];
+    return result;
 }
 
 #pragma mark predicate week functions

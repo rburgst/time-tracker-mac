@@ -96,7 +96,7 @@
 }
 
 
-- (NSMutableArray *) matchingTasks:(NSPredicate*) filter //  : (bool) includeEmptyTasks
+- (NSArray *) matchingTasks:(NSPredicate*) filter //  : (bool) includeEmptyTasks
 {
 	if (filter == nil) {
 		return [self tasks];
@@ -109,6 +109,17 @@
 		[result addObjectsFromArray: [project matchingTasks:filter]];
 	}
 	return result;
+}
+
+- (BOOL) doesTaskNameExist:(NSString*)name {
+    NSEnumerator *enumTasks = [[self tasks] objectEnumerator];
+    TTask *task;
+    while ((task = [enumTasks nextObject]) != nil) {
+        if ([name isEqualToString:[task name]]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 

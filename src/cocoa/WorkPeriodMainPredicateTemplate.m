@@ -13,12 +13,19 @@
 
 @synthesize _templateViews;
 
+- (double)matchForPredicate:(NSPredicate *)predicate {
+    if ([predicate isKindOfClass:[NSCompoundPredicate class]] == YES) {
+        return 1.0;
+    }
+    return 0.0;
+}
+
 - (NSArray*) templateViews {
     if (_templateViews != nil) {
         return _templateViews;
     }
     NSMutableArray *result = [NSMutableArray arrayWithArray:[super templateViews]];
-    NSPopUpButton *search = [result objectAtIndex:0];
+    //NSPopUpButton *search = [result objectAtIndex:0];
 //    [search selectItemAtIndex:0];
     
     NSButton *applyBtn = [[NSButton alloc] initWithFrame:NSMakeRect(0.0, 0.0, 100.0, 18.0)];
