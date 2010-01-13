@@ -170,6 +170,11 @@
     
 }
 
+// this does not seem to be used
+- (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem {
+    NSLog(@"Validate %@", anItem);
+    return NO;
+}
 
 -(void) dealloc {
     self._templateViews = nil;
