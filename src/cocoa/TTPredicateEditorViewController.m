@@ -6,12 +6,14 @@
 //
 
 #import "TTPredicateEditorViewController.h"
+#import "SearchQuery.h"
 #import <BWToolkitFramework/BWSplitView.h>
 @implementation TTPredicateEditorViewController
 
 @synthesize delegate = _delegate;
+@synthesize predicateValid = _predicateValid;
 
--(void)editorFrameDidChange:(NSNotification*)notification {
+-(void)updateEditorFrame {
     BWSplitView *split = (BWSplitView*) _container.superview;
     BOOL collapsed = [split collapsibleSubviewCollapsed];
     if (collapsed) {
@@ -29,15 +31,10 @@
 -(void) awakeFromNib {    
     [_editor addRow:self];
     [_editor addRow:self];
-//    [_editor setPostsFrameChangedNotifications:YES];
-/*    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(editorFrameDidChange:) 
-                                                 name:NSViewFrameDidChangeNotification 
-                                               object:_editor];
-*/
+
     _container = [[[_editor enclosingScrollView] superview] retain]; 
     // cause a layout
-    [self editorFrameDidChange:nil];
+    [self updateEditorFrame];
 }
 
 // -------------------------------------------------------------------------------
@@ -58,6 +55,22 @@
 }
 
 // -------------------------------------------------------------------------------
+//	filterQuerySelected:
+// 
+//  The user has selected a new search query in the side bar, typically we would
+//  be notified through the binding but especially if the new predicate is NIL 
+//  this does not seem to be triggered
+// -------------------------------------------------------------------------------
+-(IBAction) filterQuerySelected:(SearchQuery*)query {
+    // funny enough the nil value is not properly delegated to the editor
+    [_editor setObjectValue:query.predicate];
+    // The user has changed the filter, however, we dont get a callback that
+    // the predicate has changed, therefore, we need to update the size of the 
+    // filter container ourselves
+    [self predicateEditorChanged:self];
+}
+    
+// -------------------------------------------------------------------------------
 //	predicateEditorChanged:sender
 //
 //  This method gets called whenever the predicate editor changes.
@@ -69,6 +82,7 @@
 //		3) Resize the window if the number of rows changed (the user hit + or -).
 // -------------------------------------------------------------------------------
 -(IBAction) predicateEditorChanged:(id)sender {
+    
     // check NSApp currentEvent for the return key
     NSEvent* event = [NSApp currentEvent];
     if ([event type] == NSKeyDown)
@@ -87,13 +101,21 @@
 			}
 		}
     }
-    
+    self.predicateValid = [_editor objectValue] != nil;
     
     // if the user deleted the first row, then add it again - no sense leaving the user with no rows
-    if ([_editor numberOfRows] == 0)
-		[_editor addRow:self];
+    if ([_editor numberOfRows] == 0) {
+        if (self.predicateValid) {
+            [_editor addRow:self];            
+        } else {
+            BWSplitView *split = (BWSplitView*) _container.superview;
+            if (!split.collapsibleSubviewCollapsed) {
+                [split toggleCollapse:split.toggleCollapseButton];
+            }
+        }
+    }
     
-    [self editorFrameDidChange:nil];
+    [self updateEditorFrame];
     return;
     
     
@@ -144,9 +166,22 @@
 }
 
 -(IBAction) pressedSubmitPredicate:(id)sender {
-    [self createNewSearchForPredicate:[_editor predicate] withTitle:@"New Search"];
+    [self predicateEditorChanged:sender];
 }
 
+-(IBAction) pressedSavePredicate:(id)sender {
+    [self createNewSearchForPredicate:[_editor predicate] withTitle:@"New Search"];    
+}
+
+#pragma mark ----
+#pragma mark NSUserInterfaceValidations implementation
+
+- (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem {
+    NSLog(@"validate %@", anItem);
+    return YES;
+}
+
+#pragma mark lifecycle methods
 -(void) dealloc {
 //    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:_editor];
     [_container release];

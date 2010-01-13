@@ -1036,6 +1036,10 @@
 }
 
 -(void) filterQuerySelected:(SearchQuery*)query {
+    // pass it on to the predicate controller since even though we have a binding
+    // to the PredicateEditor the controller is not notified about a new predicate
+    // especially when setting the predicate to NIL
+    [_predicateController filterQuerySelected:query];
     self.extraFilterPredicate = query.predicate;
 }
 

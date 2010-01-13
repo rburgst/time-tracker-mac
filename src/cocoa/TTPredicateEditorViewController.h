@@ -7,22 +7,30 @@
 
 #import <Cocoa/Cocoa.h>
 
+// forward declarations
+@class SearchQuery;
+
 @protocol TTPredicateEditorDelegate
 
 -(void) predicateSelected:(NSPredicate*)predicate;
 
 @end
 
-@interface TTPredicateEditorViewController : NSViewController {
+@interface TTPredicateEditorViewController : NSViewController <NSUserInterfaceValidations> {
     IBOutlet NSPredicateEditor *_editor;
     IBOutlet id<TTPredicateEditorDelegate> _delegate;
     IBOutlet NSView *siblingView;
     NSInteger _previousRowCount;
     NSView *_container;
+    BOOL _predicateValid;
 }
 
 @property(retain,nonatomic) id<TTPredicateEditorDelegate> delegate;
+@property BOOL predicateValid;
 
 -(IBAction) predicateEditorChanged:(id)sender;
 -(IBAction) pressedSubmitPredicate:(id)sender;
+-(IBAction) pressedSavePredicate:(id)sender;
+-(IBAction) filterQuerySelected:(SearchQuery*)query;
+
 @end
