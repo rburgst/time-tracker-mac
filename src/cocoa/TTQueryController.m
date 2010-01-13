@@ -29,7 +29,12 @@
 -(void) awakeFromNib {
     TTTimeProvider *provider = [TTTimeProvider instance];
     iSearchQueries = [[NSMutableArray alloc] init];
-    SearchQuery *query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:[provider predicateWithSingleWeekFromToday:1]];
+
+    SearchQuery *query = [[SearchQuery alloc] initWithTitle:@"None" predicate:nil];
+    [iSearchQueries addObject:query];
+    [query release];
+    
+    query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:[provider predicateWithSingleWeekFromToday:1]];
     [iSearchQueries addObject:query];
     [query release];
     
@@ -39,88 +44,29 @@
     NSPredicate *predicate = [provider predicateWithSingleDayFromToday:0];
     query = [[[SearchQuery alloc] initWithTitle:@"Today" predicate:predicate] autorelease];
     [iSearchQueries addObject:query];
-    
-    iGroupRowCell = [[NSTextFieldCell alloc] init];
-    [iGroupRowCell setEditable:NO];
-    [iGroupRowCell setLineBreakMode:NSLineBreakByTruncatingTail]; 
-    [_outlineView reloadItem:nil];
+
+    [_tableView reloadData];
 }
 
 #pragma mark -
-#pragma mark NSOutlineView datasource and delegate methods
+#pragma mark NSTableView datasource and delegate methods
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    if (item == nil)
-        return 1;
-    else {
-       return [iSearchQueries count] + 1; 
-    }
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+   return [iSearchQueries count];
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    if (item == nil) {
-        return iSearchQueries;
-    } else if (index < [iSearchQueries count]) {
-        return [iSearchQueries objectAtIndex:index];
-    } else {
-        return @"New Search...";
-    }
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
+{
+    SearchQuery *query = [iSearchQueries objectAtIndex:row];
+    return query.title;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    if (item == nil || item == iSearchQueries) {
-        return YES;
-    }
-/*    if ([item isKindOfClass:[SearchQuery class]]) {
-        return YES;
-    }*/
-    return NO;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-    id result = nil;
-    
-    if ([item isKindOfClass:[SearchQuery class]]) {
-        SearchQuery *query = item;
-        result = query.title;
-    } else if ([item isKindOfClass:[NSArray class]]) {
-        result = @"Queries";
-    } else {
-        result = @"New Search ...";
-    }
-    return result;
-}
-
-
-/*
-- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
-    // The "nil" tableColumn is an indicator for the "full width" row
-    if (tableColumn == nil) {
-        if ([item isKindOfClass:[SearchQuery class]]) {
-            return iGroupRowCell;
-        }
-    }
-    return nil;
-}
-*/
-- (BOOL)outlineView:(NSOutlineView *)outlineView isGroupItem:(id)item {
-    return item == nil;
-}
-
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+- (void)tableViewSelectionDidChange:(NSNotification *)notification {
     NSLog(@"selection Clicked: %@", notification);
-    NSIndexSet *selection = [_outlineView selectedRowIndexes];
-    if ([selection count] == 0) {
-        NSLog(@"Nothing selected");
-    } else if ([selection count] == 1) {
-        id selectedItem = [_outlineView itemAtRow:[selection firstIndex]];
-        if ([selectedItem isKindOfClass:[SearchQuery class]]) {
-            SearchQuery *searchItem = selectedItem;
-            [_delegate filterQuerySelected:searchItem];
-        } else if ([selectedItem isKindOfClass:[NSString class]]) {
-            [_delegate newFilterSelected];
-        }
-        
+    NSInteger selectionIndex = [_tableView selectedRow];
+    if (selectionIndex >= 0) {
+        SearchQuery *searchItem = [iSearchQueries objectAtIndex:selectionIndex];
+        [_delegate filterQuerySelected:searchItem];        
     }
 }
 @end

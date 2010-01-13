@@ -17,11 +17,9 @@
 @end
 
 @interface TTQueryController : NSObject<NSCoding> {
-    NSMutableArray *iSearchQueries;
-    NSTextFieldCell *iGroupRowCell;
-    
+    NSMutableArray *iSearchQueries;    
 
-    IBOutlet NSOutlineView* _outlineView;
+    IBOutlet NSTableView* _tableView;
     IBOutlet id<TTQueryDelegate> _delegate;
 }
 
