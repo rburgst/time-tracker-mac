@@ -41,6 +41,11 @@
     query = [[SearchQuery alloc] initWithTitle:@"This week" predicate:[provider predicateWithSingleWeekFromToday:0]];
     [iSearchQueries addObject:query];
     [query release];
+    
+    query = [[SearchQuery alloc] initWithTitle:@"Yesterday" predicate:[provider predicateWithSingleDayFromToday:1]];
+    [iSearchQueries addObject:query];
+    [query release];
+    
     NSPredicate *predicate = [provider predicateWithSingleDayFromToday:0];
     query = [[[SearchQuery alloc] initWithTitle:@"Today" predicate:predicate] autorelease];
     [iSearchQueries addObject:query];
