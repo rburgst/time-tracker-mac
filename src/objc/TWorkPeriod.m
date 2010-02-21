@@ -11,6 +11,8 @@
 
 @implementation TWorkPeriod
 
+@synthesize date = _date;
+
 - (id) init
 {
 	_startTime = nil;
@@ -120,10 +122,10 @@
 		id attribComment = [coder decodeObjectForKey:@"AttributedComment"];
 		
 		if ([attribComment isKindOfClass:[NSString class]]) {
-			attribComment = [[NSAttributedString alloc] initWithString:attribComment];
+			attribComment = [[[NSAttributedString alloc] initWithString:attribComment] autorelease];
 		}
 		if (attribComment == nil) {
-			attribComment = [[NSAttributedString alloc] initWithString:[coder decodeObjectForKey:@"Comment"]];
+			attribComment = [[[NSAttributedString alloc] initWithString:[coder decodeObjectForKey:@"Comment"]] autorelease];
 		}
         [self setComment:attribComment];
     } else {
@@ -219,5 +221,12 @@
 
 -(NSNumber*)startedDaysAgo:(NSNumber*)days fromDate:(NSDate*)referenceDate {
     return [NSNumber numberWithInt:1];
+}
+
+-(NSDate*)date {
+    if (_date == nil) {
+        self.date = [[TTTimeProvider instance] dateWithMidnight:self.startTime];
+    }
+    return _date;
 }
 @end

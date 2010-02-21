@@ -14,6 +14,7 @@
 	int _totalTime;
 	NSDate *_startTime;
 	NSDate *_endTime;
+    NSDate *_date;
 	NSAttributedString* _comment;
 	TTask *_parent;
 }
@@ -27,6 +28,7 @@
 @property(readonly) NSInteger monthsSinceEnd;
 @property(retain, nonatomic) NSDate* startTime;
 @property(retain, nonatomic) NSDate* endTime;
+@property(retain, nonatomic) NSDate* date;
 
 - (void) setStartTime: (NSDate *) startTime;
 - (void) setEndTime: (NSDate *) endTime;
