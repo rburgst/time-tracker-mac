@@ -14,6 +14,7 @@
 #import "StartTaskMenuDelegate.h"
 #import "TTPredicateEditorViewController.h"
 #import "SearchQuery.h"
+#import "TTParsedPredicate.h"
 
 @implementation MainController
 
@@ -24,10 +25,6 @@
 // 0 means that empty tasks will also be shown.
 #define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
 //#define USE_EXTENDED_TOOLBAR
-
-#define AGOTYPE_DAYS 1
-#define AGOTYPE_WEEKS 2
-#define AGOTYPE_MONTHS 3
 
 - (id) init
 {
@@ -76,78 +73,6 @@
 	return self;
 }
 
-- (NSPredicate*) producePredicateFromTemplate:(NSPredicate*) template {
-    // search for all variables with daysAgo
-    NSString *templateString = [template predicateFormat];
-    NSScanner *scanner = [NSScanner scannerWithString:templateString];
-    NSString *result;
-    NSDictionary *varDic = [NSMutableDictionary dictionaryWithCapacity:5];
-    while (![scanner isAtEnd]) {
-        if (![scanner scanUpToString:@"$" intoString:&result]) {
-            break;
-        }
-        if ([scanner isAtEnd]) {
-            // havent found the target
-            break;
-        }
-        // now decide which one we have
-        NSString *keyTemplate = nil;
-        NSInteger agoType = -1;
-        BOOL start = NO;
-        if ([scanner scanString:@"$daysAgoStart_" intoString:&result]) {
-            keyTemplate = @"daysAgoStart_";
-            agoType = AGOTYPE_DAYS;
-            start = YES;
-        } else if ([scanner scanString:@"$daysAgoEnd_" intoString:&result]) {
-            keyTemplate = @"daysAgoEnd_";
-            agoType = AGOTYPE_DAYS;
-            start = NO;
-        } else if ([scanner scanString:@"$weeksAgo_" intoString:&result]) {
-            keyTemplate = @"weeksAgo_";
-            agoType = AGOTYPE_WEEKS;
-            start = YES;
-        } else if ([scanner scanString:@"$monthsAgo_" intoString:&result]) {
-            keyTemplate = @"monthsAgo_";
-            agoType = AGOTYPE_MONTHS;
-            start = YES;
-        }
-        if (keyTemplate != nil) {
-            int value = 0;
-            BOOL success = [scanner scanInt:&value];
-            if (!success) {
-                NSLog(@"Scanner failed parsing int at %d", [scanner scanLocation]);
-            }
-            NSString *key = [NSString stringWithFormat:@"%@%d", keyTemplate, value];
-            TTTimeProvider *provider = [TTTimeProvider instance];
-            NSDate *daysAgoDate = nil;
-            switch (agoType) {
-                case AGOTYPE_DAYS:
-                    daysAgoDate = (start == YES) ? 
-                        [provider dayStartDateWithDaysFromToday:value]
-                      : [provider dayEndDateWithDaysFromToday:value];
-                    break;
-                case AGOTYPE_WEEKS:
-                    daysAgoDate = (start == YES) ?
-                    [provider weekStartDateWithWeeksFromToday:value] : 
-                    [provider weekEndDateWithWeeksFromToday:value];
-                    break;
-                case AGOTYPE_MONTHS:
-                    daysAgoDate = (start == YES) ?
-                        [provider monthStartDateWithMonthsFromToday:value] : 
-                        [provider monthEndDateWithMonthsFromToday:value];
-                    break;
-                default:
-                    break;
-            }
-            [varDic setValue:daysAgoDate forKey:key];            
-        }
-    }
-    [varDic setValue:[[TTTimeProvider instance] todayStartTime] forKey:@"TODAY"];
-    [varDic setValue:[[TTTimeProvider instance] todayEndTime] forKey:@"TOMORROW"];
-    NSPredicate *resultPred = [template predicateWithSubstitutionVariables:varDic];
-    return resultPred;
-}
-
 - (NSPredicate*) filterPredicate
 {
     NSPredicate *generalPredicate = nil;
@@ -182,7 +107,7 @@
                                 [NSArray arrayWithObjects:generalPredicate, _extraFilterPredicate, nil]] retain];
         }
         // now fill in the variables
-        _currentPredicate = [[self producePredicateFromTemplate:finalPredicateTemplate] retain];
+        _currentPredicate = [[TTParsedPredicate producePredicateFromTemplate:finalPredicateTemplate] retain];
 	}
 	return _currentPredicate;
 }
@@ -306,7 +231,7 @@
 	[_curWorkPeriod setEndTime: [NSDate date]];
 	
 	[(TTask*)_selTask addWorkPeriod: _curWorkPeriod];
-	[tvWorkPeriods reloadData];	
+	//[tvWorkPeriods reloadData];	
 	// make sure the controller knows about the new object
 	[workPeriodController rearrangeObjects];
     
@@ -1035,6 +960,21 @@
 	[NSApp endSheet:panelPickFilterDate returnCode:NSCancelButton];
 }
 
+- (IBAction)clickedAddTimePeriod:(id)sender
+{
+    if (_selTask == nil) {
+        NSBeep();
+        return;
+    }
+    TWorkPeriod *period = [TWorkPeriod new];
+	[period setStartTime: [NSDate date]];
+	[period setEndTime: [NSDate date]];
+	
+	[(TTask*)_selTask addWorkPeriod: period];
+    
+    [self openEditWorkPeriodPanel:period];
+}
+
 -(void) filterQuerySelected:(SearchQuery*)query {
     // pass it on to the predicate controller since even though we have a binding
     // to the PredicateEditor the controller is not notified about a new predicate
@@ -1152,8 +1092,45 @@
 	[self provideTasksForEditWpDialog:selectedProject];
 }
 
+- (IBAction) clickedDeleteWorkPeriod:(id)sender {
+    int iResponse = 
+        NSRunAlertPanel(@"Delete selection", 
+                    @"Are you sure to delete the selected item(s)?",
+                    @"YES", @"NO", /*ThirdButtonHere:*/nil
+                    /*, args for a printf-style msg go here */);
+	switch(iResponse) {
+        case NSAlertDefaultReturn:    /* user pressed OK */
+            break;
+        case NSAlertAlternateReturn:  /* user pressed Cancel */
+            return;
+        case NSAlertErrorReturn:      /* an error occurred */
+            return;
+	}
+
+    
+    TWorkPeriod *selPeriod = [self selectedWorkPeriod];
+    if (selPeriod == _curWorkPeriod) {
+        [self stopTimer];
+    }
+    TTask* parentTask = [selPeriod parentTask];			
+    [parentTask removeWorkPeriod:selPeriod];
+    [_selTask updateTotalTime];
+    [_selProject updateTotalTime];
+    [tvWorkPeriods deselectAll: self];
+    [tvWorkPeriods reloadData];
+    [tvTasks reloadData];
+    [tvProjects reloadData];
+		
+    [self reloadWorkPeriods];
+}
+
 - (IBAction)clickedDelete:(id)sender
 {
+	if ([mainWindow firstResponder] == tvWorkPeriods) {
+        [self clickedDeleteWorkPeriod:nil];
+        return;
+	}
+    
 	int iResponse = 
         NSRunAlertPanel(@"Delete selection", 
                         @"Are you sure to delete the selected item(s)?",
@@ -1166,26 +1143,6 @@
 		return;
 	case NSAlertErrorReturn:      /* an error occurred */
 		return;
-	}
-	if ([mainWindow firstResponder] == tvWorkPeriods) {
-		// assert _selTask != nil
-		// assert _selProject != nil
-		
-
-		TWorkPeriod *selPeriod = [self selectedWorkPeriod];
-		if (selPeriod == _curWorkPeriod) {
-			[self stopTimer];
-		}
-		TTask* parentTask = [selPeriod parentTask];			
-		[parentTask removeWorkPeriod:selPeriod];
-		[_selTask updateTotalTime];
-		[_selProject updateTotalTime];
-		[tvWorkPeriods deselectAll: self];
-		[tvWorkPeriods reloadData];
-		[tvTasks reloadData];
-		[tvProjects reloadData];
-		
-		[self reloadWorkPeriods];
 	}
 	if ([mainWindow firstResponder] == tvTasks) {
 		if ([_selProject isKindOfClass: [TProject class]]) {
@@ -1318,7 +1275,13 @@
 			return YES;
 		}
 		return NO;
-	}
+	} else if ([anItem action] == @selector(clickedAddTimePeriod:)) {
+		if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
+            && _selProject != _metaProject) {
+			return YES;
+		}
+        return NO;
+    }
 	return YES;
 }
 

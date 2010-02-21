@@ -134,6 +134,9 @@
 - (IBAction)clickedEditCurrentWorkperiod:(id)sender;
 - (IBAction)clickedCountIdleTimeYes:(id)sender;
 - (IBAction)clickedCountIdleTimeNo:(id)sender;
+- (IBAction)clickedAddTimePeriod:(id)sender;
+- (IBAction)clickedDeleteWorkPeriod:(id)sender;
+
 - (IBAction)okClicked:(id) sender;
 - (IBAction)cancelClicked:(id) sender;
 - (IBAction)clickedFilterDateOk:(id) sender;
