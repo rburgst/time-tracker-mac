@@ -8,6 +8,7 @@
 
 #import "DatePredicateTemplate.h"
 #import "TTTimeProvider.h"
+#import <Foundation/NSException.h>
 
 /* This template is used for filters of the form
  * start/end date is at least/most XXX days/weeks/months ago.
@@ -45,16 +46,8 @@
     NSTextField *field = (NSTextField*) [views objectAtIndex:2];
     int timeDeltaAgo = [field intValue];
     int intervalIndex = [timeInterval indexOfSelectedItem];
-    long day = 1;
-    long week = 7 * day;
-    long month = 30 * day;
-    long year = 365 * day;
-    long intervals[] = {
-        day, week, month, year
-    };
-    long selectedInterval = intervals[intervalIndex];
-    long totalDelta = selectedInterval * timeDeltaAgo;
     NSInteger comparisonType = 0;
+    TTTimeProvider *provider = [TTTimeProvider instance];
     
     switch ([qualifier indexOfSelectedItem]) {
         case 0:
@@ -64,13 +57,47 @@
             comparisonType = NSLessThanOrEqualToPredicateOperatorType;
             break;
         case 2:
-            comparisonType = NSEqualToPredicateOperatorType;
+            switch (intervalIndex) {
+                case 0:
+                    return [provider predicateWithSingleDayFromToday:timeDeltaAgo];
+                case 1:
+                    return [provider predicateWithSingleWeekFromToday:timeDeltaAgo];
+                case 2:
+                    return [provider predicateWithSingleMonthFromToday:timeDeltaAgo];
+
+                default:
+                    break;
+            }
             break;
         default:
             break;
     }
     
-    return [[TTTimeProvider instance] predicateWithStartDateFromToday:totalDelta comparisonType:comparisonType];
+    switch (intervalIndex) {
+        case 0: // DAY
+            return [[TTTimeProvider instance] predicateWithStartDateFromToday:timeDeltaAgo comparisonType:comparisonType];            
+
+        case 1: // week
+            if (comparisonType == NSLessThanOrEqualToPredicateOperatorType) {
+                return [[TTTimeProvider instance] predicateWithWeekEndDateFromToday:timeDeltaAgo comparisonType:comparisonType];                
+            } else {
+                return [[TTTimeProvider instance] predicateWithWeekStartDateFromToday:timeDeltaAgo comparisonType:comparisonType];                
+            }
+            
+
+        case 2: // month
+            if (comparisonType == NSLessThanOrEqualToPredicateOperatorType) {
+                return [[TTTimeProvider instance] predicateWithMonthEndDateFromToday:timeDeltaAgo comparisonType:comparisonType];                
+            } else {
+                return [[TTTimeProvider instance] predicateWithMonthStartDateFromToday:timeDeltaAgo comparisonType:comparisonType];                
+            }
+
+        default:
+            break;
+            
+    }
+    NSAssert(NO, @"Should never get here");
+    return nil;
 }
 
 - (NSArray*) templateViews {
@@ -150,6 +177,20 @@
         if ([self parseVariable:var outType:&type outValue:&value outStart:&start]) {
             [durationFilter selectItemAtIndex:type-1];
             [numberField setStringValue:[NSString stringWithFormat:@"%d", value]];
+        }
+    } else if (compPred.predicateOperatorType == NSBetweenPredicateOperatorType) {
+        [comparator selectItemAtIndex:2];
+        int type = 0;
+        int value = 0;
+        BOOL start = NO;
+        NSString *var = [rhs description];
+        NSRange found = [var rangeOfString:@","];
+        NSString *variable = [var substringWithRange:NSMakeRange(2, found.location - 2)];
+        NSLog(@"found variable: %@", variable);
+        if ([self parseVariable:variable outType:&type outValue:&value outStart:&start]) {
+            [durationFilter selectItemAtIndex:type-1];
+            [numberField setStringValue:[NSString stringWithFormat:@"%d", value]];
+            return;
         }
     }
     switch ([compPred predicateOperatorType]) {
