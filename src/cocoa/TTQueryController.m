@@ -34,7 +34,8 @@
     [iSearchQueries addObject:query];
     [query release];
     
-    query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:[provider predicateWithSingleWeekFromToday:1]];
+    NSPredicate *lastWeekPred = [provider predicateWithSingleWeekFromToday:1];
+    query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:lastWeekPred];
     [iSearchQueries addObject:query];
     [query release];
     
@@ -46,10 +47,17 @@
     [iSearchQueries addObject:query];
     [query release];
     
-    NSPredicate *predicate = [provider predicateWithSingleDayFromToday:0];
-    query = [[[SearchQuery alloc] initWithTitle:@"Today" predicate:predicate] autorelease];
+    query = [[SearchQuery alloc] initWithTitle:@"Today" predicate:[provider predicateWithSingleDayFromToday:0]];
     [iSearchQueries addObject:query];
+    [query release];
 
+    // Custom
+    NSPredicate *mondayPred = [NSPredicate predicateWithFormat:@"weekday == 0"];
+    NSPredicate *pred = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:lastWeekPred, mondayPred, nil]];
+    query = [[SearchQuery alloc] initWithTitle:@"Custom..." predicate:pred];
+    [iSearchQueries addObject:query];
+    [query release];
+    
     [_tableView reloadData];
 }
 
