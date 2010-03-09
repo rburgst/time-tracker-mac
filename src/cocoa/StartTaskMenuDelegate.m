@@ -18,6 +18,12 @@
     TTask *task = (TTask*) [item representedObject];
     if (task != nil) {
         TProject *project = [task parentProject];
+        
+        // if there is another timer already running, stop it before
+        // starting a new recording.
+        if (_controller.timerRunning) {
+            [_controller stopTimer];
+        }
         [_controller selectTask:task project:project];
         [_controller startTimer];
         [_controller reloadWorkPeriods];
