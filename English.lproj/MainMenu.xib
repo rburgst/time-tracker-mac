@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2324"/>
+			<integer value="2452"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1313,7 +1313,7 @@
 																		<bool key="EncodedWithXMLCoder">YES</bool>
 																		<object class="NSButton" id="49267495">
 																			<reference key="NSNextResponder" ref="738980452"/>
-																			<int key="NSvFlags">265</int>
+																			<int key="NSvFlags">-2147483383</int>
 																			<string key="NSFrame">{{398, 79}, {96, 19}}</string>
 																			<reference key="NSSuperview" ref="738980452"/>
 																			<bool key="NSEnabled">YES</bool>
@@ -9528,7 +9528,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>CaseInsensitivePredicateTemplate</string>
+					<string>WeekdayPredicateTemplate</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -10030,6 +10030,14 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">src/cocoa/TTQueryController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WeekdayPredicateTemplate</string>
+					<string key="superclassName">NSPredicateEditorRowTemplate</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">src/cocoa/WeekdayPredicateTemplate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
