@@ -54,6 +54,7 @@
 		D546687110B81E00001982C1 /* StartTaskMenuDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686910B81E00001982C1 /* StartTaskMenuDelegate.m */; };
 		D546687210B81E00001982C1 /* TTPredicateEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686B10B81E00001982C1 /* TTPredicateEditorViewController.m */; };
 		D546687310B81E00001982C1 /* TTQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686D10B81E00001982C1 /* TTQueryController.m */; };
+		D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */; };
 		D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */; };
 		D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
@@ -63,6 +64,7 @@
 		D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */; };
 		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
+		D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */; };
 		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
 		D5E58E410D243A21003020AA /* daytool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3B0D243A21003020AA /* daytool.png */; };
 		D5E58E420D243A21003020AA /* monthofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3C0D243A21003020AA /* monthofftool.png */; };
@@ -160,6 +162,8 @@
 		D546686B10B81E00001982C1 /* TTPredicateEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPredicateEditorViewController.m; sourceTree = "<group>"; };
 		D546686C10B81E00001982C1 /* TTQueryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTQueryController.h; sourceTree = "<group>"; };
 		D546686D10B81E00001982C1 /* TTQueryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTQueryController.m; sourceTree = "<group>"; };
+		D5488F391139C84A00E1C28C /* WeekdayPredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeekdayPredicateTemplate.h; sourceTree = "<group>"; };
+		D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeekdayPredicateTemplate.m; sourceTree = "<group>"; };
 		D54CEB3610C0828200CD8B31 /* DatePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePredicateTemplate.h; sourceTree = "<group>"; };
 		D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePredicateTemplate.m; sourceTree = "<group>"; };
 		D56D802E10B5F21F00C3729B /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITask.h; path = src/objc/ITask.h; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTimeProvider.m; path = src/objc/TTTimeProvider.m; sourceTree = "<group>"; };
 		D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdateofftool.png; path = Graphics/pickdateofftool.png; sourceTree = "<group>"; };
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
+		D5C934DA112C8E7800559D60 /* TTParsedPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTParsedPredicate.h; sourceTree = "<group>"; };
+		D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTParsedPredicate.m; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
 		D5E58E3B0D243A21003020AA /* daytool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = daytool.png; path = Graphics/daytool.png; sourceTree = "<group>"; };
 		D5E58E3C0D243A21003020AA /* monthofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthofftool.png; path = Graphics/monthofftool.png; sourceTree = "<group>"; };
@@ -321,6 +327,10 @@
 				D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */,
 				D57299A510C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.h */,
 				D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */,
+				D5488F391139C84A00E1C28C /* WeekdayPredicateTemplate.h */,
+				D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */,
+				D5C934DA112C8E7800559D60 /* TTParsedPredicate.h */,
+				D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */,
 			);
 			name = cocoa;
 			path = src/cocoa;
@@ -454,6 +464,8 @@
 				D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */,
 				D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */,
 				D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */,
+				D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */,
+				D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
