@@ -76,7 +76,7 @@
 - (NSPredicate*) filterPredicate
 {
     NSPredicate *generalPredicate = nil;
-	if (_currentPredicate == nil) {
+	if (_currentPredicate == nil && _filterMode != FILTER_MODE_NONE) {
 		[self determineFilterStartDate];
 		[self determineFilterEndDate];
 
@@ -97,7 +97,10 @@
 		} // otherwise the filterpredicate will stay nil
 
         NSPredicate *finalPredicateTemplate = nil;
-        if (_extraFilterPredicate == nil) {
+        if (_extraFilterPredicate == nil && generalPredicate == nil) {
+            // nothing to filter
+            return nil;
+        } else if (_extraFilterPredicate == nil) {
             finalPredicateTemplate = [generalPredicate retain];
         } else if (generalPredicate == nil) {
             finalPredicateTemplate = [_extraFilterPredicate retain];
