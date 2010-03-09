@@ -9,6 +9,16 @@
 @implementation CaseInsensitivePredicateTemplate
 
 - (double)matchForPredicate:(NSPredicate *)predicate {
+    if (![predicate isKindOfClass:[NSComparisonPredicate class]]) {
+        return 0.0;
+    }
+    NSComparisonPredicate *compPred = (NSComparisonPredicate*)predicate;
+    NSExpression *leftExp = [compPred leftExpression];
+    if (leftExp.expressionType == NSKeyPathExpressionType) {
+        if ([leftExp.keyPath isEqualToString:@"weekday"]) {
+            return 0.0;
+        }
+    }
     double result = [super matchForPredicate:predicate];
     return result;
 }    
@@ -24,9 +34,6 @@
         NSDate *date = [picker dateValue];
         [picker setDateValue:[[TTTimeProvider instance] dateWithMidnight:date]];
         predicate = (NSComparisonPredicate *)[super predicateWithSubpredicates:subpredicates];
-    } else {
-        NSPopUpButton *popup = (NSPopUpButton*) rightView;
-        return [NSComparisonPredicate predicateWithFormat:@"weekday == %d", [popup selectedTag]];
     }
 
     // construct an identical predicate, but add the NSCaseInsensitivePredicateOption flag
@@ -37,6 +44,5 @@
                                        type:[predicate predicateOperatorType]
                                     options:[predicate options] | NSCaseInsensitivePredicateOption];
 }
-
 @end
 
