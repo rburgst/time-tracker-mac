@@ -5,6 +5,7 @@ Packaged by Rainer Burgstaller <rburgst@gmail.com>
     * smart filters which can be saved
     * tableview on the bottom remembers column widths
     * split views remember their sizes
+    * Sparkle updates with selection of stable and beta versions
 
 === Version 1.3.1 ==== 2009-11-20
 Packaged by Rainer Burgstaller <rburgst@gmail.com>
