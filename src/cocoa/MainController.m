@@ -15,10 +15,12 @@
 #import "TTPredicateEditorViewController.h"
 #import "SearchQuery.h"
 #import "TTParsedPredicate.h"
+#import <Sparkle/Sparkle.h>
 
 @implementation MainController
 
 @synthesize extraFilterPredicate = _extraFilterPredicate;
+@synthesize updateURL = _updateURL;
 
 // this flag toggles whether we show tasks in the "All Projects View"
 // that have no matching time entries (1 means that these will NOT be shown)
@@ -361,6 +363,10 @@
             _enableStandbyDetection = NO;
         } else {
             _enableStandbyDetection = YES;
+        }
+        NSString* update = [rootObject valueForKey:@"updateURL"];
+        if (update != nil) {
+            self.updateURL = update;            
         }
         // restore the lruCache
         indexData = [rootObject valueForKey:@"lruIndexes"];
@@ -737,6 +743,7 @@
 	[rootObject setObject:theData forKey:@"ProjectTimes"];
     [rootObject setValue:_autosaveCsvFilename forKey:@"autosaveCsvFilename"];
     [rootObject setValue:_csvSeparatorChar forKey:@"separator"];
+    [rootObject setValue:_updateURL forKey:@"updateURL"];
     [rootObject setValue:[NSString stringWithFormat:@"%d", _maxLruSize] forKey:@"lruEntryCount"];
     [rootObject setValue:[NSString stringWithFormat:@"%d", _idleTimeoutSeconds] forKey:@"idleTimeout"];
     if (_autosaveCsv) {
@@ -1448,6 +1455,16 @@
         _autosaveCsvFilename = nil;
         _autosaveCsvFilename = [filename retain];
     }
+}
+
+-(void) setUpdateURL:(NSString *)updateURL {
+    if (_updateURL != updateURL) {
+        [_updateURL release];
+        _updateURL = nil;
+        _updateURL = [updateURL retain];
+    }
+
+    [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:updateURL]];
 }
 
 -(NSString*) csvSeparatorChar

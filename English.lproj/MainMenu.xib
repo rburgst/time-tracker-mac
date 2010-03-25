@@ -3,7 +3,7 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.InterfaceBuilderVersion">762</string>
 		<string key="IBDocument.AppKitVersion">1038.25</string>
 		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
@@ -15,13 +15,14 @@
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>740</string>
+				<string>762</string>
 				<string>1.2.5</string>
 			</object>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2452"/>
+			<integer value="21"/>
+			<integer value="599"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -428,7 +429,8 @@
 					</object>
 					<reference key="NSToolbarIBSelectableItems" ref="0"/>
 				</object>
-				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
+				<string key="NSWindowContentMaxSize">{2000, 1200}</string>
+				<string key="NSWindowContentMinSize">{200, 200}</string>
 				<object class="NSView" key="NSWindowView" id="672082134">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -3324,16 +3326,28 @@
 											<bool key="BWSVColorIsEnabled">NO</bool>
 											<object class="NSMutableDictionary" key="BWSVMinValues">
 												<bool key="EncodedWithXMLCoder">YES</bool>
-												<reference key="dict.sortedKeys" ref="0"/>
+												<object class="NSArray" key="dict.sortedKeys">
+													<bool key="EncodedWithXMLCoder">YES</bool>
+													<integer value="0"/>
+													<integer value="1"/>
+												</object>
 												<object class="NSMutableArray" key="dict.values">
 													<bool key="EncodedWithXMLCoder">YES</bool>
+													<integer value="10"/>
+													<integer value="10"/>
 												</object>
 											</object>
 											<object class="NSMutableDictionary" key="BWSVMaxValues">
 												<bool key="EncodedWithXMLCoder">YES</bool>
-												<reference key="dict.sortedKeys" ref="0"/>
+												<object class="NSArray" key="dict.sortedKeys">
+													<bool key="EncodedWithXMLCoder">YES</bool>
+													<integer value="0"/>
+													<integer value="1"/>
+												</object>
 												<object class="NSMutableArray" key="dict.values">
 													<bool key="EncodedWithXMLCoder">YES</bool>
+													<integer value="90"/>
+													<integer value="90"/>
 												</object>
 											</object>
 											<object class="NSMutableDictionary" key="BWSVMinUnits">
@@ -3345,8 +3359,8 @@
 												</object>
 												<object class="NSMutableArray" key="dict.values">
 													<bool key="EncodedWithXMLCoder">YES</bool>
-													<integer value="0"/>
-													<integer value="0"/>
+													<integer value="1"/>
+													<integer value="1"/>
 												</object>
 											</object>
 											<object class="NSMutableDictionary" key="BWSVMaxUnits">
@@ -3358,8 +3372,8 @@
 												</object>
 												<object class="NSMutableArray" key="dict.values">
 													<bool key="EncodedWithXMLCoder">YES</bool>
-													<integer value="0"/>
-													<integer value="0"/>
+													<integer value="1"/>
+													<integer value="1"/>
 												</object>
 											</object>
 											<int key="BWSVCollapsiblePopupSelection">0</int>
@@ -3380,16 +3394,28 @@
 							<bool key="BWSVColorIsEnabled">NO</bool>
 							<object class="NSMutableDictionary" key="BWSVMinValues">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference key="dict.sortedKeys" ref="0"/>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="0"/>
+									<integer value="1"/>
+								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="90"/>
+									<integer value="10"/>
 								</object>
 							</object>
 							<object class="NSMutableDictionary" key="BWSVMaxValues">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference key="dict.sortedKeys" ref="0"/>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="0"/>
+									<integer value="1"/>
+								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="60"/>
+									<integer value="90"/>
 								</object>
 							</object>
 							<object class="NSMutableDictionary" key="BWSVMinUnits">
@@ -3402,7 +3428,7 @@
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<integer value="0"/>
-									<integer value="0"/>
+									<integer value="1"/>
 								</object>
 							</object>
 							<object class="NSMutableDictionary" key="BWSVMaxUnits">
@@ -3414,8 +3440,8 @@
 								</object>
 								<object class="NSMutableArray" key="dict.values">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="0"/>
-									<integer value="0"/>
+									<integer value="1"/>
+									<integer value="1"/>
 								</object>
 							</object>
 							<int key="BWSVCollapsiblePopupSelection">0</int>
@@ -3427,7 +3453,8 @@
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
-				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
+				<string key="NSMinSize">{200, 278}</string>
+				<string key="NSMaxSize">{2000, 1278}</string>
 				<string key="NSFrameAutosaveName">TimeTrackerWindow</string>
 			</object>
 			<object class="NSMenu" id="833235982">
@@ -4637,7 +4664,7 @@
 				</object>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="171078427">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4671,7 +4698,7 @@
 						<object class="NSPopUpButton" id="169135287">
 							<reference key="NSNextResponder" ref="171078427"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{88, 227}, {162, 26}}</string>
+							<string key="NSFrame">{{94, 227}, {156, 26}}</string>
 							<reference key="NSSuperview" ref="171078427"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="62633396">
@@ -4686,17 +4713,16 @@
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<string key="NSAlternateContents"/>
+								<string key="NSAlternateContents">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
 								<object class="NSMutableString" key="NSKeyEquivalent">
 									<characters key="NS.bytes"/>
 								</object>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="964709734">
+								<object class="NSMenuItem" key="NSMenuItem" id="716312361">
 									<reference key="NSMenu" ref="189931622"/>
-									<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
+									<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</string>
 									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<int key="NSState">1</int>
 									<reference key="NSOnImage" ref="491348762"/>
@@ -4704,8 +4730,8 @@
 									<string key="NSAction">_popUpItemAction:</string>
 									<reference key="NSTarget" ref="62633396"/>
 									<object class="NSAttributedString" key="NSAttributedTitle">
-										<string key="NSString">Stable Releases</string>
-										<object class="NSDictionary" key="NSAttributes" id="798022023">
+										<string key="NSString">Update Test Releases (dont use)</string>
+										<object class="NSDictionary" key="NSAttributes" id="933603495">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSArray" key="dict.sortedKeys">
 												<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4756,7 +4782,21 @@
 									</object>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<reference ref="964709734"/>
+										<object class="NSMenuItem" id="964709734">
+											<reference key="NSMenu" ref="189931622"/>
+											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
+											<string key="NSKeyEquiv"/>
+											<int key="NSKeyEquivModMask">1048576</int>
+											<int key="NSMnemonicLoc">2147483647</int>
+											<reference key="NSOnImage" ref="491348762"/>
+											<reference key="NSMixedImage" ref="763062358"/>
+											<string key="NSAction">_popUpItemAction:</string>
+											<reference key="NSTarget" ref="62633396"/>
+											<object class="NSAttributedString" key="NSAttributedTitle">
+												<string key="NSString">Stable Releases</string>
+												<reference key="NSAttributes" ref="933603495"/>
+											</object>
+										</object>
 										<object class="NSMenuItem" id="767191061">
 											<reference key="NSMenu" ref="189931622"/>
 											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-beta.xml</string>
@@ -4769,11 +4809,13 @@
 											<reference key="NSTarget" ref="62633396"/>
 											<object class="NSAttributedString" key="NSAttributedTitle">
 												<string key="NSString">Beta Releases</string>
-												<reference key="NSAttributes" ref="798022023"/>
+												<reference key="NSAttributes" ref="933603495"/>
 											</object>
 										</object>
+										<reference ref="716312361"/>
 									</object>
 								</object>
+								<int key="NSSelectedIndex">2</int>
 								<int key="NSPreferredEdge">3</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -5153,6 +5195,7 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{267, 317}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -6589,6 +6632,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					</object>
 					<int key="connectionID">2498</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedValue: updateURL</string>
+						<reference key="source" ref="169135287"/>
+						<reference key="destination" ref="287946897"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="169135287"/>
+							<reference key="NSDestination" ref="287946897"/>
+							<string key="NSLabel">selectedValue: updateURL</string>
+							<string key="NSBinding">selectedValue</string>
+							<string key="NSKeyPath">updateURL</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2502</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -7176,7 +7235,6 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="645286132"/>
-							<reference ref="169135287"/>
 							<reference ref="720891007"/>
 							<reference ref="518040494"/>
 							<reference ref="354977982"/>
@@ -7187,6 +7245,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<reference ref="492496171"/>
 							<reference ref="819613619"/>
 							<reference ref="128334013"/>
+							<reference ref="169135287"/>
 						</object>
 						<reference key="parent" ref="1040403455"/>
 					</object>
@@ -7570,6 +7629,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="767191061"/>
 							<reference ref="964709734"/>
+							<reference ref="716312361"/>
 						</object>
 						<reference key="parent" ref="62633396"/>
 					</object>
@@ -8770,6 +8830,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 						<reference key="object" ref="965380941"/>
 						<reference key="parent" ref="1066796110"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">2500</int>
+						<reference key="object" ref="716312361"/>
+						<reference key="parent" ref="189931622"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -8905,6 +8970,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<string>21.IBWindowTemplateEditedContentRect</string>
 					<string>21.ImportedFromIB2</string>
 					<string>21.NSWindowTemplate.visibleAtLaunch</string>
+					<string>21.windowTemplate.hasMaxSize</string>
+					<string>21.windowTemplate.hasMinSize</string>
+					<string>21.windowTemplate.maxSize</string>
+					<string>21.windowTemplate.minSize</string>
 					<string>211.ImportedFromIB2</string>
 					<string>2110.IBPluginDependency</string>
 					<string>2111.IBPluginDependency</string>
@@ -9120,6 +9189,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<string>2494.IBPluginDependency</string>
 					<string>2496.IBPluginDependency</string>
 					<string>2497.IBPluginDependency</string>
+					<string>2500.IBPluginDependency</string>
 					<string>252.IBPluginDependency</string>
 					<string>252.ImportedFromIB2</string>
 					<string>253.IBPluginDependency</string>
@@ -9371,12 +9441,16 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{33, 290}, {753, 482}}</string>
+					<string>{{210, 65}, {753, 482}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{33, 290}, {753, 482}}</string>
+					<string>{{210, 65}, {753, 482}}</string>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
+					<boolean value="YES"/>
+					<boolean value="YES"/>
+					<string>{2000, 1200}</string>
+					<string>{200, 200}</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -9599,6 +9673,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<string>com.brandonwalkin.BWToolkit</string>
 					<string>com.brandonwalkin.BWToolkit</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -9700,7 +9775,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{98, 749}, {606, 43}}</string>
+					<string>{{104, 729}, {606, 63}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -9741,7 +9816,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">2498</int>
+			<int key="maxID">2502</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -9832,6 +9907,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<string>_saveCsvAuxView</string>
 							<string>_searchBox</string>
 							<string>_taskPopupButton</string>
+							<string>_updateURL</string>
 							<string>dtpEditWorkPeriodComment</string>
 							<string>dtpEditWorkPeriodEndTime</string>
 							<string>dtpEditWorkPeriodStartTime</string>
@@ -9865,6 +9941,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 							<string>NSView</string>
 							<string>NSSearchField</string>
 							<string>NSPopUpButton</string>
+							<string>NSString</string>
 							<string>NSTextView</string>
 							<string>NSDatePicker</string>
 							<string>NSDatePicker</string>
@@ -10952,6 +11029,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1050" key="NS.object.0"/>
@@ -10967,5 +11045,36 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../Time Tracker.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<bool key="EncodedWithXMLCoder">YES</bool>
+			<object class="NSArray" key="dict.sortedKeys">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>NSAddTemplate</string>
+				<string>NSMenuCheckmark</string>
+				<string>NSMenuMixedState</string>
+				<string>NSRemoveTemplate</string>
+				<string>NSRevealFreestandingTemplate</string>
+				<string>NSSwitch</string>
+				<string>NSToolbarCustomizeToolbarItemImage</string>
+				<string>NSToolbarPrint</string>
+				<string>addprojecttool</string>
+				<string>addtasktool</string>
+				<string>playtool</string>
+			</object>
+			<object class="NSMutableArray" key="dict.values">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{8, 8}</string>
+				<string>{9, 8}</string>
+				<string>{7, 2}</string>
+				<string>{8, 8}</string>
+				<string>{14, 14}</string>
+				<string>{15, 15}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+				<string>{32, 32}</string>
+			</object>
+		</object>
 	</data>
 </archive>

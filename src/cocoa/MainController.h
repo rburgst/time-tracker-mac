@@ -114,9 +114,11 @@
 	int timeSinceSave;
 	int _filterMode;
 
+    // Preferences
   	IBOutlet BOOL _autosaveCsv;
    	IBOutlet NSString *_autosaveCsvFilename;
    	IBOutlet NSString *_csvSeparatorChar;
+    IBOutlet NSString *_updateURL;
     int _maxLruSize;
     NSMenu *_startMenu;
     BOOL _showTimeInMenuBar;
@@ -206,5 +208,7 @@
 
 @property(readonly) BOOL timerRunning;
 @property(retain, nonatomic) NSPredicate* extraFilterPredicate;
+@property(retain, nonatomic) NSString *updateURL;
+
 @end
 
