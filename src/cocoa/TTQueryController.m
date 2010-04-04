@@ -52,7 +52,7 @@
     [query release];
 
     // Custom
-    NSPredicate *mondayPred = [NSPredicate predicateWithFormat:@"weekday == 0"];
+    NSPredicate *mondayPred = [NSPredicate predicateWithFormat:@"weekday == 2"];
     NSPredicate *pred = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:lastWeekPred, mondayPred, nil]];
     query = [[SearchQuery alloc] initWithTitle:@"Custom..." predicate:pred];
     [iSearchQueries addObject:query];
