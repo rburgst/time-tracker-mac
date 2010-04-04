@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
 		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
@@ -21,8 +21,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="593"/>
 			<integer value="21"/>
-			<integer value="599"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4719,10 +4719,11 @@
 								</object>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="716312361">
+								<object class="NSMenuItem" key="NSMenuItem" id="964709734">
 									<reference key="NSMenu" ref="189931622"/>
-									<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</string>
+									<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
 									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<int key="NSState">1</int>
 									<reference key="NSOnImage" ref="491348762"/>
@@ -4730,8 +4731,8 @@
 									<string key="NSAction">_popUpItemAction:</string>
 									<reference key="NSTarget" ref="62633396"/>
 									<object class="NSAttributedString" key="NSAttributedTitle">
-										<string key="NSString">Update Test Releases (dont use)</string>
-										<object class="NSDictionary" key="NSAttributes" id="933603495">
+										<string key="NSString">Stable Releases</string>
+										<object class="NSDictionary" key="NSAttributes" id="152297769">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSArray" key="dict.sortedKeys">
 												<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4782,21 +4783,7 @@
 									</object>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<object class="NSMenuItem" id="964709734">
-											<reference key="NSMenu" ref="189931622"/>
-											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
-											<string key="NSKeyEquiv"/>
-											<int key="NSKeyEquivModMask">1048576</int>
-											<int key="NSMnemonicLoc">2147483647</int>
-											<reference key="NSOnImage" ref="491348762"/>
-											<reference key="NSMixedImage" ref="763062358"/>
-											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="62633396"/>
-											<object class="NSAttributedString" key="NSAttributedTitle">
-												<string key="NSString">Stable Releases</string>
-												<reference key="NSAttributes" ref="933603495"/>
-											</object>
-										</object>
+										<reference ref="964709734"/>
 										<object class="NSMenuItem" id="767191061">
 											<reference key="NSMenu" ref="189931622"/>
 											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-beta.xml</string>
@@ -4809,13 +4796,25 @@
 											<reference key="NSTarget" ref="62633396"/>
 											<object class="NSAttributedString" key="NSAttributedTitle">
 												<string key="NSString">Beta Releases</string>
-												<reference key="NSAttributes" ref="933603495"/>
+												<reference key="NSAttributes" ref="152297769"/>
 											</object>
 										</object>
-										<reference ref="716312361"/>
+										<object class="NSMenuItem" id="716312361">
+											<reference key="NSMenu" ref="189931622"/>
+											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</string>
+											<string key="NSKeyEquiv"/>
+											<int key="NSMnemonicLoc">2147483647</int>
+											<reference key="NSOnImage" ref="491348762"/>
+											<reference key="NSMixedImage" ref="763062358"/>
+											<string key="NSAction">_popUpItemAction:</string>
+											<reference key="NSTarget" ref="62633396"/>
+											<object class="NSAttributedString" key="NSAttributedTitle">
+												<string key="NSString">Update Test Releases (dont use)</string>
+												<reference key="NSAttributes" ref="152297769"/>
+											</object>
+										</object>
 									</object>
 								</object>
-								<int key="NSSelectedIndex">2</int>
 								<int key="NSPreferredEdge">3</int>
 								<bool key="NSUsesItemFromMenu">YES</bool>
 								<bool key="NSAltersState">YES</bool>
@@ -6647,6 +6646,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 						</object>
 					</object>
 					<int key="connectionID">2502</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: automaticallyChecksForUpdates</string>
+						<reference key="source" ref="720891007"/>
+						<reference key="destination" ref="772352334"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="720891007"/>
+							<reference key="NSDestination" ref="772352334"/>
+							<string key="NSLabel">value: automaticallyChecksForUpdates</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">automaticallyChecksForUpdates</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2503</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -9441,10 +9456,10 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{210, 65}, {753, 482}}</string>
+					<string>{{28, 65}, {753, 482}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{210, 65}, {753, 482}}</string>
+					<string>{{28, 65}, {753, 482}}</string>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
@@ -9816,7 +9831,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">2502</int>
+			<int key="maxID">2503</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
