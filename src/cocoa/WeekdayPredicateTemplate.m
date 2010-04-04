@@ -36,7 +36,7 @@
     NSPopUpButton *last = [views objectAtIndex:2];
     NSExpression *rightExp = [compPred rightExpression];
     NSNumber *num = [rightExp constantValue];
-    [last selectItemAtIndex:num.intValue];
+    [last selectItemWithTag:num.intValue];
 }
 
 @end
