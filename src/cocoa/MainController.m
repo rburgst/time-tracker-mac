@@ -367,6 +367,8 @@
         NSString* update = [rootObject valueForKey:@"updateURL"];
         if (update != nil) {
             self.updateURL = update;            
+        } else {
+            self.updateURL = @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml";
         }
         // restore the lruCache
         indexData = [rootObject valueForKey:@"lruIndexes"];
