@@ -1,5 +1,53 @@
 This file contains information for developing and testing Time Tracker.
 
+== Prerequisites == 
+* Rubygems
+* gem install text-format
+* gem install cucumber
+* gem install rspec
+
+== Release Packaging ==
+
+1. Make sure the version number is updated:
+    1a. Update CURRENT_PROJECT_VERSION for "All Configurations" in the Project Info.
+
+2. Update the ChangeLog.yml.
+
+3. Test the code
+    3a. Run "rake spec" and verify that there are no errors or failures.
+    3b. Run "rake features" and verify that there are no failures or pending steps.
+
+4. Build the Time Tracker.zip release file:
+    4a. Run `rake build_release`.  This will create "build/Release/Time Tracker-$(CURRENT_PROJECT_VERSION).zip".
+
+5. If Sparkle or the release file configuration has been changed, test the auto-update system:
+    5a. Install the previous version of Time Tracker.
+    5b. Update and post appcast/timetracker-test.xml
+    5c. Open ~/Library/Preferences/com.slooz.timetracker.plist and change
+        SUFeedURL to the location of timetracker-test.xml  (If the URL contains
+        spaces, replace them with "%20".)
+    5d. Ensure that the old version of Time Tracker can update to the new version.
+    5e. Ensure that the new version of Time Tracker can update to itself.
+
+6. Run `rake appcast` to generate appcast/timetracker-$(CURRENT_PROJECT_VERSION).html
+   and update appcast/timetracker-stable.xml
+
+7. Publish the release:
+    7a. Run `rake upload`.  You will need to enter your google code username and your googlecode
+        password which is found at http://code.google.com/hosting/settings
+        This will upload Time Tracker-$(CURRENT_PROJECT_VERSION).zip and 
+        timetracker-$(CURRENT_PROJECT_VERSION).html to
+        http://time-tracker-mac.googlecode.com
+    7b. Upload timetracker-stable.xml to http://www.avh4.net/appcast/
+
+8. Update the website:
+    8a. Update the homepage http://time-tracker-mac.googlecode.com
+    8b. Make the new release the featured download http://time-tracker-mac.googlecode.com
+    8c. Update iusethis.com
+    8d. Update versiontracker.com
+
+9. Tag the release with "v$(CURRENT_PROJECT_VERSION)" and push the commit.
+
 == Appcast updates with Sparkle ==
 
 There is a dummy appcast which will alway contain a fake "update" for Time
