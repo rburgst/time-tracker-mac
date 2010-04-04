@@ -12,6 +12,7 @@
 			buildConfigurationList = B19BDFBD0B5C955500465046 /* Build configuration list for PBXAggregateTarget "Release Package" */;
 			buildPhases = (
 				B19BDFB20B5C94F200465046 /* CopyFiles */,
+				D5C283AC11634F8000409452 /* ShellScript */,
 			);
 			dependencies = (
 				B19BDFB50B5C94FA00465046 /* PBXTargetDependency */,
@@ -40,11 +41,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		B163D4080B646240007D0E2C /* AUTHORS.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B163D4040B646239007D0E2C /* AUTHORS.txt */; };
-		B163D4090B646240007D0E2C /* LICENSE-GPL.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B163D4050B646239007D0E2C /* LICENSE-GPL.txt */; };
 		B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* Time Tracker.app */; };
-		B19BDFC50B5C956F00465046 /* ChangeLog.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC10B5C956700465046 /* ChangeLog.txt */; };
-		B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = B19BDFC20B5C956700465046 /* LICENSE.txt */; };
 		B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
 		B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
 		D546669810B76A1A001982C1 /* SearchQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D546669710B76A1A001982C1 /* SearchQuery.m */; };
@@ -56,6 +53,7 @@
 		D546687310B81E00001982C1 /* TTQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686D10B81E00001982C1 /* TTQueryController.m */; };
 		D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */; };
 		D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */; };
+		D555336E115C140F000D3B99 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = D555336D115C140F000D3B99 /* dsa_pub.pem */; };
 		D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
@@ -65,6 +63,7 @@
 		D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C60D24D15A004DBF70 /* pickdateofftool.png */; };
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
 		D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */; };
+		D5C9939C11636AFB00AFCE6E /* ChangeLog.yml in Resources */ = {isa = PBXBuildFile; fileRef = D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */; };
 		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
 		D5E58E410D243A21003020AA /* daytool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3B0D243A21003020AA /* daytool.png */; };
 		D5E58E420D243A21003020AA /* monthofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3C0D243A21003020AA /* monthofftool.png */; };
@@ -72,7 +71,6 @@
 		D5E58E440D243A21003020AA /* weekofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3E0D243A21003020AA /* weekofftool.png */; };
 		D5E58E450D243A21003020AA /* weektool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3F0D243A21003020AA /* weektool.png */; };
 		D5FEF87910BDD87900915321 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
-		D5FEF8C610BDD95800915321 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
 		D5FEF8D110BDDA2100915321 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,15 +88,10 @@
 		B19BDFB20B5C94F200465046 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = Release;
+			dstPath = "Release-$(CURRENT_PROJECT_VERSION)";
 			dstSubfolderSpec = 16;
 			files = (
-				B163D4080B646240007D0E2C /* AUTHORS.txt in CopyFiles */,
-				B163D4090B646240007D0E2C /* LICENSE-GPL.txt in CopyFiles */,
-				B19BDFC50B5C956F00465046 /* ChangeLog.txt in CopyFiles */,
-				B19BDFC60B5C956F00465046 /* LICENSE.txt in CopyFiles */,
 				B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */,
-				D5FEF8C610BDD95800915321 /* BWToolkitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,6 +159,7 @@
 		D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeekdayPredicateTemplate.m; sourceTree = "<group>"; };
 		D54CEB3610C0828200CD8B31 /* DatePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePredicateTemplate.h; sourceTree = "<group>"; };
 		D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePredicateTemplate.m; sourceTree = "<group>"; };
+		D555336D115C140F000D3B99 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		D56D802E10B5F21F00C3729B /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITask.h; path = src/objc/ITask.h; sourceTree = "<group>"; };
 		D57299A510C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkPeriodMainPredicateTemplate.h; sourceTree = "<group>"; };
 		D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkPeriodMainPredicateTemplate.m; sourceTree = "<group>"; };
@@ -184,6 +178,7 @@
 		D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pickdatetool.png; path = Graphics/pickdatetool.png; sourceTree = "<group>"; };
 		D5C934DA112C8E7800559D60 /* TTParsedPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTParsedPredicate.h; sourceTree = "<group>"; };
 		D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTParsedPredicate.m; sourceTree = "<group>"; };
+		D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.yml; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
 		D5E58E3B0D243A21003020AA /* daytool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = daytool.png; path = Graphics/daytool.png; sourceTree = "<group>"; };
 		D5E58E3C0D243A21003020AA /* monthofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthofftool.png; path = Graphics/monthofftool.png; sourceTree = "<group>"; };
@@ -264,9 +259,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D555336D115C140F000D3B99 /* dsa_pub.pem */,
 				D5A7616D10C1C24A004B88C7 /* MainMenu.xib */,
 				B163D4040B646239007D0E2C /* AUTHORS.txt */,
 				B163D4050B646239007D0E2C /* LICENSE-GPL.txt */,
+				D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */,
 				B19BDFC10B5C956700465046 /* ChangeLog.txt */,
 				B19BDFC20B5C956700465046 /* LICENSE.txt */,
 				2C9DB973090677B20039C62A /* Icon.icns */,
@@ -436,10 +433,28 @@
 				D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */,
 				D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */,
 				D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */,
+				D555336E115C140F000D3B99 /* dsa_pub.pem in Resources */,
+				D5C9939C11636AFB00AFCE6E /* ChangeLog.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D5C283AC11634F8000409452 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -f \"$TARGET_BUILD_DIR/$PROJECT_NAME-$CURRENT_PROJECT_VERSION.zip\"\n\n(cd \"$TARGET_BUILD_DIR/Release-$CURRENT_PROJECT_VERSION/\"\n\tzip -r -9 - *\n) > \"$TARGET_BUILD_DIR/$PROJECT_NAME-$CURRENT_PROJECT_VERSION.zip\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -503,6 +518,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				BUNDLE_IDENTIFIER = com.slooz.timetracker;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -531,6 +547,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				BUNDLE_IDENTIFIER = com.slooz.timetracker;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -559,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				BUNDLE_IDENTIFIER = com.slooz.timetracker;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -581,6 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 1.3.4;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -594,6 +613,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 1.3.4;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -606,6 +626,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CURRENT_PROJECT_VERSION = 1.3.4;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
