@@ -144,6 +144,21 @@
 	return self;
 }
 
+- (void)moveTask:(TTask *)task toIndex:(NSInteger)index
+{
+	NSInteger oldIndex = [_tasks indexOfObject:task];
+	if (oldIndex == NSNotFound)
+	{
+		NSLog(@"TProject moveTask:toIndex: task was not found in the tasks lists");
+		return;
+	}
+	
+	[_tasks insertObject:task atIndex:index];
+	if (oldIndex >= index) oldIndex++;
+	[_tasks removeObjectAtIndex:oldIndex];
+}
+
+
 
 - (BOOL) doesTaskNameExist:(NSString*)name {
     NSEnumerator *enumTasks = [_tasks objectEnumerator];

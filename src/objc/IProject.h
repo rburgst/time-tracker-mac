@@ -16,5 +16,6 @@
 - (id<IProject>) removeTask:(TTask*)task;
 - (int) filteredTime:(NSPredicate*) filter;
 - (BOOL) doesTaskNameExist:(NSString*)name;
+- (void)moveTask:(TTask *)task toIndex:(NSInteger)index;
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
 @end

@@ -17,7 +17,14 @@
 #import "TTParsedPredicate.h"
 #import <Sparkle/Sparkle.h>
 
+
+@interface MainController (PrivateMethods)
+- (void)initializeTableViews;
+@end
+
+
 @implementation MainController
+
 
 @synthesize extraFilterPredicate = _extraFilterPredicate;
 @synthesize updateURL = _updateURL;
@@ -27,6 +34,10 @@
 // 0 means that empty tasks will also be shown.
 #define ONLY_NON_NULL_TASKS_FOR_OVERVIEW 1
 //#define USE_EXTENDED_TOOLBAR
+
+
+#define PBOARD_TYPE_PROJECT_ROWS @"TIME_TRACKER_PROJECT_ROWS"
+#define PBOARD_TYPE_TASK_ROWS @"TIME_TRACKER_TASK_ROWS"
 
 - (id) init
 {
@@ -314,7 +325,7 @@
 -(void) loadData
 {
     NSData *theData = nil;
-	NSMutableArray *projects = nil;
+    NSMutableArray *projects = nil;
     NSData *indexData = nil;
 	    
     if ([self dataFileExists]) {
@@ -380,7 +391,9 @@
 		if (theData != nil) {
 			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
 		}
+       self.updateURL = @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml";
 	}
+    
 	if (projects != nil) {
 		[_projects release];
 		// projects is already retained
@@ -459,14 +472,25 @@
 	[self updateStartStopState];
 	[self updateProminentDisplay];
 	
-	[tvWorkPeriods setTarget: self];
-	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
+    [self initializeTableViews];
 	
 	NSMutableArray *descriptors = [NSMutableArray array];
 	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"startTime" ascending:YES] autorelease]];
 	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"parentTask.name" ascending:YES] autorelease]];
 	[workPeriodController setSortDescriptors:descriptors];
 	[tvProjects reloadData];
+}
+
+- (void)initializeTableViews
+{
+	[tvWorkPeriods setTarget: self];
+	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
+    
+	[tvProjects reloadData];
+    
+    //	[tvProjects setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
+	[tvProjects registerForDraggedTypes:[NSArray arrayWithObjects:PBOARD_TYPE_PROJECT_ROWS, nil]];
+	[tvTasks registerForDraggedTypes:[NSArray arrayWithObjects:PBOARD_TYPE_TASK_ROWS, nil]];
 }
 
 - (TWorkPeriod*) workPeriodAtIndex:(int) index
@@ -776,6 +800,25 @@
     }
 }
 
+
+#pragma mark document methods (will be moved to document class eventually)
+
+- (void)moveProject:(TProject *)proj toIndex:(int)index
+{
+	NSInteger oldIndex = [_projects indexOfObject:proj];
+	if (oldIndex == NSNotFound)
+	{
+		NSLog(@"TTDocumentV1 moveProject:toIndex: project was not found in the projects lists");
+		return;
+	}
+	
+	[_projects insertObject:proj atIndex:index];
+	if (oldIndex >= index) oldIndex++;
+	[_projects removeObjectAtIndex:oldIndex];
+}
+
+#pragma mark ----
+
 - (IBAction)actionExport:(id)sender
 {
     NSSavePanel *sp;
@@ -819,14 +862,6 @@
     }
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
-{
-	if (timer != nil)
-		[self stopTimer];
-	[self saveData];
-	NSLog(@"exiting app...........");
-	return NSTerminateNow;
-}
 
 
 - (TTask*) taskForWorkTimeIndex: (int) rowIndex timeIndex:(int*)resultIndex {
@@ -1546,6 +1581,21 @@
     return nil;
 }
 
+#pragma mark NSApplicationDelegate methods
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    if (timer != nil) {
+        [self stopTimer];        
+    }
+    [self saveData];
+    NSLog(@"exiting app...........");
+    return NSTerminateNow;
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return NO;
+}
+
 #pragma mark ----
 #pragma mark Object lifetime
 
@@ -1631,7 +1681,6 @@
 }
 
 
-
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
 	if (tableView == tvProjects) {
@@ -1671,6 +1720,88 @@
 		}
 	}
 	return nil;
+}
+
+#pragma mark NSTableViewDataSource methods
+
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes 
+     toPasteboard:(NSPasteboard *)pboard
+{
+	if (aTableView == tvProjects)
+	{
+		NSArray *typesArray = [NSArray arrayWithObjects:PBOARD_TYPE_PROJECT_ROWS, nil];
+		[pboard declareTypes:typesArray owner:self];
+		
+		NSData *rowIndexesArchive = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+	    [pboard setData:rowIndexesArchive forType:PBOARD_TYPE_PROJECT_ROWS];
+        
+		return YES;
+	}
+	if (aTableView == tvTasks)
+	{
+		NSArray *typesArray = [NSArray arrayWithObjects:PBOARD_TYPE_TASK_ROWS, nil];
+		[pboard declareTypes:typesArray owner:self];
+        
+		NSData *rowIndexesArchive = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+		[pboard setData:rowIndexesArchive forType:PBOARD_TYPE_TASK_ROWS];
+		
+		return YES;
+	}
+	return NO;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)aTableView 
+                validateDrop:(id < NSDraggingInfo >)info 
+                 proposedRow:(NSInteger)row 
+       proposedDropOperation:(NSTableViewDropOperation)operation
+{
+    if (row == 0 || _selProject == _metaProject) {
+        // the all projects / all tasks row
+        // neither allow dragging when in "All projects mode" since this wouldnt make too much sense.
+        return NSDragOperationNone;
+    }
+	if (aTableView == tvProjects && [info draggingSource] == tvProjects)
+	{
+		[aTableView setDropRow:row dropOperation:NSTableViewDropAbove];
+		return NSDragOperationMove;
+	}
+	if (aTableView == tvTasks && [info draggingSource] == tvTasks)
+	{
+		[aTableView setDropRow:row dropOperation:NSTableViewDropAbove];
+		return NSDragOperationMove;
+	}
+	return NSDragOperationNone;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info 
+              row:(NSInteger)row 
+    dropOperation:(NSTableViewDropOperation)operation
+{
+	if (aTableView == tvProjects && [info draggingSource] == tvProjects)
+	{
+		NSData *rowsData = [[info draggingPasteboard] dataForType:PBOARD_TYPE_PROJECT_ROWS];
+		NSIndexSet *indexSet = [NSKeyedUnarchiver unarchiveObjectWithData:rowsData];
+		
+		int sourceRow = [indexSet firstIndex] - 1;
+        //		[document moveProject:[document objectInProjectsAtIndex:sourceRow] toIndex:row];
+        TProject* sourceProject = [_projects objectAtIndex:sourceRow];
+		[self moveProject:sourceProject toIndex:row - 1];
+		
+		[tvProjects reloadData];
+		return YES;
+	}
+	if (aTableView == tvTasks && [info draggingSource] == tvTasks)
+	{
+		NSData *rowsData = [[info draggingPasteboard] dataForType:PBOARD_TYPE_TASK_ROWS];
+		NSIndexSet *indexSet = [NSKeyedUnarchiver unarchiveObjectWithData:rowsData];
+		
+		int sourceRow = [indexSet firstIndex] - 1;
+		[_selProject moveTask:[_selProject.tasks objectAtIndex:sourceRow] toIndex:row - 1];
+		
+		[tvTasks reloadData];
+		return YES;
+	}
+	return NO;
 }
 
 
@@ -1782,6 +1913,11 @@
 		[self updateProminentDisplay];
 	}
 }
+
+
+
+#pragma mark ----
+
 
 - (void) newFilterSelected {
     
