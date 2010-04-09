@@ -140,14 +140,15 @@
 
 - (NSString*)serializeData:(NSString*) prefix separator:(NSString*)sep
 {
-	int hours = _totalTime / 3600;
-	int minutes = _totalTime % 3600 / 60;
-	NSDateFormatter *formatter = [[[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M" allowNaturalLanguage:NO]  autorelease];
+    int hours = _totalTime / 3600;
+    int minutes = _totalTime % 3600 / 60;
+    int seconds = _totalTime - hours * 3600 - minutes * 60;// % 60;
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d %H:%M:%S" allowNaturalLanguage:NO]  autorelease];
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d" allowNaturalLanguage:NO]  autorelease];
-	NSString* result = [NSString stringWithFormat:@"%@%@\"%@\"%@\"%@\"%@\"%@\"%@\"%02d:%02d\"%@\"%@\"\n", prefix, sep, 
-		[dateFormatter stringFromDate:_startTime], sep,
-		[formatter stringFromDate:_startTime], sep, [formatter stringFromDate:_endTime], sep,
-		hours, minutes, sep, [self strComment]];
+	NSString* result = [NSString stringWithFormat:@"%@%@\"%@\"%@\"%@\"%@\"%@\"%@\"%02d:%02d:%02d\"%@\"%@\"\n", prefix, sep, 
+                        [dateFormatter stringFromDate:_startTime], sep,
+                        [formatter stringFromDate:_startTime], sep, [formatter stringFromDate:_endTime], sep,
+                        hours, minutes, seconds, sep, [self strComment]];
 	return result;
 }
 
