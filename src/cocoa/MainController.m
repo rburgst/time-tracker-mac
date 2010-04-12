@@ -508,8 +508,6 @@
 	return [[workPeriodController arrangedObjects] objectAtIndex:[tvWorkPeriods selectedRow]];
 }
 
-
-
 - (IBAction)okClicked:(id) sender
 {
 	[NSApp endSheet:panelEditWorkPeriod returnCode:NSOKButton];
@@ -673,10 +671,16 @@
 	}
 }
 
+- (void)windowDidBecomeMain:(NSNotification *)notification {
+    if (notification.object == [NSApp mainWindow]) {
+        [[notification object] setExcludedFromWindowsMenu:YES];        
+    }
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
-	if ([notification object] == mainWindow)
-		[NSApp terminate: self];
+//	if ([notification object] == mainWindow)
+//		[NSApp terminate: self];
 	if ([notification object] == panelEditWorkPeriod)
 		[NSApp stopModal];
 }

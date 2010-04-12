@@ -1,7 +1,16 @@
 ---
+- version: 1.3.5
+  date: 2009-04-10
+  changes:
+  - IMPORTANT: requires Mac OS 10.5 or higher
+  - fixed issue 44 where CSV export did not include seconds.
+  - added drag and drop support for projects and tasks
+  - added support to close the main window and leave TimeTracker running
+  
 - version: 1.3.4
   date: 2009-03-31
   changes:
+  - IMPORTANT: requires Mac OS 10.5 or higher!!
   - automatically check for updates in preferences properly hooked up to Sparkle
   - have proper default value for stable appcast in sparkle preferences
   - fixed wrong "custom filter" which didnt bring up any results
