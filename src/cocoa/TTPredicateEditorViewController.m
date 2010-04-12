@@ -19,11 +19,20 @@
     if (collapsed) {
         return;
     }
-//    NSRect editorFrame = _editor.frame;
     NSInteger editorHeight = [_editor numberOfRows] * [_editor rowHeight];
     
     NSLog(@"Have notification height: %d",editorHeight);
-    NSRect frame = _container.frame;
+    NSRect frame;
+    
+    // make sure the editor is on the bottom of the splitview
+    frame = _editor.frame;
+    frame.origin.y = 0;
+    // try and set the correct editor height, typically this wont work
+    frame.size.height = editorHeight;
+    [_editor setFrame:frame];
+
+    // now make sure that the container frame (splitview) is correctly updated as well.
+    frame = _container.frame;
     frame.size.height = editorHeight + 2;
     [_container setFrame:frame];
 }
