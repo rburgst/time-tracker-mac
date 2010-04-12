@@ -95,11 +95,11 @@
 
 		NSString *commentFilter = [_searchBox stringValue];
 		if ([[_searchBox stringValue] length] > 0) {
-			if (_filterMode == FILTER_MODE_NONE) {
+			if (_filterMode == FILTER_MODE_NONE || _filterMode == FILTER_MODE_PREDICATE) {
 				generalPredicate = [NSPredicate predicateWithFormat: 
 					@"comment.string contains[cd] %@", 
 					commentFilter];
-			} else {
+           } else {
 				generalPredicate = [NSPredicate predicateWithFormat: 
 					@"startTime >= %@ AND endTime <= %@ AND comment.string contains[cd] %@", 
 					_filterStartDate, _filterEndDate, commentFilter];
@@ -575,8 +575,10 @@
 {
 	// first remove the workperiod from the old parent
 	TTask *oldParent = [wp parentTask];
-	[oldParent removeWorkPeriod:wp];
-	[newParent addWorkPeriod:wp];
+    if (oldParent != newParent) {
+        [oldParent removeWorkPeriod:wp];
+        [newParent addWorkPeriod:wp];        
+    }
 }
 
 - (IBAction)clickedEditCurrentWorkperiod:(id) sender {
