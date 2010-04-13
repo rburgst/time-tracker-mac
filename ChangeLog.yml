@@ -1,16 +1,20 @@
 ---
 - version: 1.3.5
-  date: 2009-04-10
+  date: 2010-04-13
   changes:
-  - IMPORTANT: requires Mac OS 10.5 or higher
+  - IMPORTANT! requires Mac OS 10.5 or higher
   - fixed issue 44 where CSV export did not include seconds.
-  - added drag and drop support for projects and tasks
-  - Issue #28: added support to close the main window and leave TimeTracker running
+  - fixed issue 45 bring back drag and drop support for projects and tasks 
+  - fixed issue 28 added support to close the main window and leave TimeTracker running
+  - fixed issue 49 Text filtering broken when used in conjunction with smart filters 
+  - fixed issue 47 filterbox sometimes appears partially out of view 
+  - now when loading data (importing from old versions) TT makes sure that task names are 
+    not duplicated within a project
   
 - version: 1.3.4
   date: 2009-03-31
   changes:
-  - IMPORTANT: requires Mac OS 10.5 or higher!!
+  - IMPORTANT! requires Mac OS 10.5 or higher!!
   - automatically check for updates in preferences properly hooked up to Sparkle
   - have proper default value for stable appcast in sparkle preferences
   - fixed wrong "custom filter" which didnt bring up any results
