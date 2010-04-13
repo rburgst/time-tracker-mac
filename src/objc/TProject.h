@@ -29,4 +29,6 @@
 - (void) updateTotalTime;
 - (NSString*) serializeData:(NSString*)separatorChar;
 - (id<IProject>) removeTask:(TTask*)task;
+
+- (void) deDuplicateTaskNames;
 @end

@@ -9,6 +9,10 @@
 #import "TWorkPeriod.h"
 #import "TTTimeProvider.h"
 
+#define ENCODER_KEY_START_TIME @"WPStartTime"
+#define ENCODER_KEY_END_TIME @"WPEndTime"
+#define ENCODER_KEY_COMMENT @"AttributedComment"
+
 @implementation TWorkPeriod
 
 @synthesize date = _date;
@@ -99,9 +103,9 @@
 {
     //[super encodeWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
-        [coder encodeObject:_startTime forKey:@"WPStartTime"];
-        [coder encodeObject:_endTime forKey:@"WPEndTime"];
-		[coder encodeObject:_comment forKey:@"AttributedComment"];
+        [coder encodeObject:_startTime forKey:ENCODER_KEY_START_TIME];
+        [coder encodeObject:_endTime forKey:ENCODER_KEY_END_TIME];
+		[coder encodeObject:_comment forKey:ENCODER_KEY_COMMENT];
 		
     } else {
         [coder encodeObject:_startTime];
@@ -117,16 +121,16 @@
     //self = [super initWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        [self setStartTime:[coder decodeObjectForKey:@"WPStartTime"]];
-        [self setEndTime:[coder decodeObjectForKey:@"WPEndTime"]];
-		id attribComment = [coder decodeObjectForKey:@"AttributedComment"];
+        [self setStartTime:[coder decodeObjectForKey:ENCODER_KEY_START_TIME]];
+        [self setEndTime:[coder decodeObjectForKey:ENCODER_KEY_END_TIME]];
+        id attribComment = [coder decodeObjectForKey:ENCODER_KEY_COMMENT];
 		
-		if ([attribComment isKindOfClass:[NSString class]]) {
+        if ([attribComment isKindOfClass:[NSString class]]) {
 			attribComment = [[[NSAttributedString alloc] initWithString:attribComment] autorelease];
-		}
-		if (attribComment == nil) {
+        }
+        if (attribComment == nil) {
 			attribComment = [[[NSAttributedString alloc] initWithString:[coder decodeObjectForKey:@"Comment"]] autorelease];
-		}
+        }
         [self setComment:attribComment];
     } else {
         // Must decode keys in same order as encodeWithCoder:

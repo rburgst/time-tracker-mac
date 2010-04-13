@@ -433,6 +433,8 @@
                 [checkProject setName:[NSString stringWithFormat:@"%@ %d",[checkProject name], uniqueMaker++]];
             }
         }
+        // now also check for duplicate task names and fix them
+        [project deDuplicateTaskNames];
         i++;
     }
 }

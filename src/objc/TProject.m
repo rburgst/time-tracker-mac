@@ -170,4 +170,23 @@
     }
     return NO;
 }
+
+- (void) deDuplicateTaskNames {
+    // check projects for duplicate names
+    NSEnumerator *projectEnum = [_tasks objectEnumerator];
+    int i = 0;
+    int j = 0;
+    int uniqueMaker = 1;
+    TTask *task;
+    while ((task = [projectEnum nextObject]) != nil) {
+        for (j = 0; j < i; j++) {
+            TTask *checkTask = [_tasks objectAtIndex:j];
+            if ([[checkTask name] isEqualToString:[task name]]) {
+                // duplicate name detected
+                [checkTask setName:[NSString stringWithFormat:@"%@ %d",[checkTask name], uniqueMaker++]];
+            }
+        }
+        i++;
+    }
+}
 @end
