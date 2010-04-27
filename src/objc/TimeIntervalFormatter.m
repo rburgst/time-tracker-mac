@@ -27,7 +27,7 @@
 + (NSString*) secondsToDecimalHours: (int) seconds 
 {
     float hours = ((float) seconds) / 3600.0f;
-    return [NSString stringWithFormat:@"%.1fh", hours];
+    return [NSString stringWithFormat:@"%.2fh", hours];
 }
 
 - (NSString*) transformSeconds:(int) seconds {
