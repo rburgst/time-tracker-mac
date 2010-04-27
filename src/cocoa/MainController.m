@@ -28,6 +28,7 @@
 
 @synthesize extraFilterPredicate = _extraFilterPredicate;
 @synthesize updateURL = _updateURL;
+@synthesize decimalHours = _decimalHours;
 
 // this flag toggles whether we show tasks in the "All Projects View"
 // that have no matching time entries (1 means that these will NOT be shown)
@@ -38,6 +39,9 @@
 
 #define PBOARD_TYPE_PROJECT_ROWS @"TIME_TRACKER_PROJECT_ROWS"
 #define PBOARD_TYPE_TASK_ROWS @"TIME_TRACKER_TASK_ROWS"
+
+// property keys for user defaults
+#define PREFKEY_DECIMAL_HOURS @"decimalHours"
 
 - (id) init
 {
@@ -347,6 +351,10 @@
             _showTimeInMenuBar = NO;
         } else {
             _showTimeInMenuBar = YES;
+        }
+        NSNumber* decimalHoursPref = [rootObject valueForKey:PREFKEY_DECIMAL_HOURS];
+        if (decimalHoursPref != nil) {
+            self.decimalHours = [decimalHoursPref boolValue];            
         }
         
         NSString *autosaveFilename = [rootObject valueForKey:@"autosaveCsvFilename"];
@@ -795,6 +803,8 @@
     } else {
         [rootObject setValue:@"NO" forKey:@"standbyDetection"];        
     }
+    [rootObject setValue:[NSNumber numberWithBool:_decimalHours] forKey:PREFKEY_DECIMAL_HOURS];
+    
 	[NSKeyedArchiver archiveRootObject: rootObject toFile: path];
 	
 	timeSinceSave = 0;
@@ -1488,6 +1498,15 @@
     _autosaveCsv = autosave;
 }
 
+-(void) setDecimalHours:(BOOL)decimal 
+{
+    _decimalHours = decimal;
+    _intervalValueFormatter.decimalMode = decimal;
+    [self reloadWorkPeriods];
+    [tvProjects reloadData];
+    [tvTasks reloadData];
+}
+
 -(NSString*) autosaveCsvFilename 
 {
     return _autosaveCsvFilename;
@@ -1702,7 +1721,8 @@
 			return [project name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [project filteredTime:[self filterPredicate]]];
+            int seconds = [project filteredTime:[self filterPredicate]];
+            return [_intervalValueFormatter transformSeconds:seconds];
 		}
 	}
 	
@@ -1724,7 +1744,8 @@
 			return [task name];
 		}
 		if ([[tableColumn identifier] isEqualToString: @"TotalTime"]) {
-			return [TimeIntervalFormatter secondsToString: [task filteredTime:[self filterPredicate]]];
+            int seconds = [task filteredTime:[self filterPredicate]];
+            return [_intervalValueFormatter transformSeconds:seconds];
 		}
 	}
 	return nil;

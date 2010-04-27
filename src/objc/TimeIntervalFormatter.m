@@ -11,6 +11,8 @@
 
 @implementation TimeIntervalFormatter
 
+@synthesize decimalMode = _decimalMode;
+
 + (NSString *) secondsToString: (int) seconds
 {
 	int hours = seconds / 3600;
@@ -22,8 +24,22 @@
 		(secs < 10 ? @"0" : @""), secs];
 }
 
++ (NSString*) secondsToDecimalHours: (int) seconds 
+{
+    float hours = ((float) seconds) / 3600.0f;
+    return [NSString stringWithFormat:@"%.1fh", hours];
+}
+
+- (NSString*) transformSeconds:(int) seconds {
+    if (_decimalMode) {
+        return [TimeIntervalFormatter secondsToDecimalHours: seconds];
+    } else {
+        return [TimeIntervalFormatter secondsToString: seconds];
+    }    
+}
+
 - (id)transformedValue:(id)value {
-	return [TimeIntervalFormatter secondsToString: [value intValue]];
+    return [self transformSeconds: [value intValue]];
 }
 
 + (Class) transformedValueClass 

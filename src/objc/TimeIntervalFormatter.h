@@ -11,14 +11,21 @@
 
 @interface TimeIntervalFormatter : NSValueTransformer 
 {
+    BOOL _decimalMode;
 }
 
 + (NSString *) secondsToString: (int) seconds;
+
++ (NSString*) secondsToDecimalHours: (int) seconds; 
 
 + (Class) transformedValueClass;
 
 + (BOOL)allowsReverseTransformation;
 
 - (id)transformedValue:(id) value;
+
+- (NSString*) transformSeconds:(int) seconds;
+
+@property BOOL decimalMode;
 
 @end

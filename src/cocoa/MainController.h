@@ -125,6 +125,7 @@
     int _idleTimeoutSeconds;
     BOOL _enableStandbyDetection;
     TWorkPeriod *_currentEditingWP;
+    BOOL _decimalHours;
 }
 
 // actions
@@ -209,6 +210,7 @@
 @property(readonly) BOOL timerRunning;
 @property(retain, nonatomic) NSPredicate* extraFilterPredicate;
 @property(retain, nonatomic) NSString *updateURL;
+@property BOOL decimalHours;
 
 @end
 
