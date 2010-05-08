@@ -10,8 +10,14 @@
 
 static int _maxTaskId = 1;
 
+#define CODERKEY_CLOSED @"Tclosed"
+#define CODERKEY_WORKPERIODS @"TWorkPeriods"
+#define CODERKEY_TASK_ID @"TID"
+#define CODERKEY_TASKNAME @"TName"
 
 @implementation TTask
+
+@synthesize closed = _closed;
 
 - (id) init
 {
@@ -100,9 +106,10 @@ static int _maxTaskId = 1;
 {
     //[super encodeWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
-        [coder encodeObject:_name forKey:@"TName"];
-        [coder encodeInt:_taskId forKey:@"TID"];
-        [coder encodeObject:_workPeriods forKey:@"TWorkPeriods"];
+        [coder encodeObject:_name forKey:CODERKEY_TASKNAME];
+        [coder encodeInt:_taskId forKey:CODERKEY_TASK_ID];
+        [coder encodeObject:_workPeriods forKey:CODERKEY_WORKPERIODS];
+        [coder encodeBool:_closed forKey:CODERKEY_CLOSED];
     } else {
         [coder encodeObject:_name];
 		[coder encodeObject:_workPeriods];
@@ -115,12 +122,14 @@ static int _maxTaskId = 1;
     //self = [super initWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        _name = [[coder decodeObjectForKey:@"TName"] retain];
-        _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObjectForKey:@"TWorkPeriods"]] retain];
-        int taskId = [coder decodeIntForKey:@"TID"];
+        _name = [[coder decodeObjectForKey:CODERKEY_TASKNAME] retain];
+        _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObjectForKey:CODERKEY_WORKPERIODS]] retain];
+        int taskId = [coder decodeIntForKey:CODERKEY_TASK_ID];
         if (taskId <= 0) {
             taskId = _maxTaskId + 1;
         }
+        self.closed = [coder decodeBoolForKey:CODERKEY_CLOSED];
+        
         [self setTaskId:taskId];
     } else {
         // Must decode keys in same order as encodeWithCoder:

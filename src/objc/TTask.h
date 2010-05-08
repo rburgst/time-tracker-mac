@@ -19,6 +19,7 @@
 	NSMutableArray *_workPeriods;
 	TProject* _parent;
     int _taskId;
+    BOOL _closed;
 }
 
 - (NSString *) name;
@@ -36,4 +37,6 @@
 - (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period;
 - (TProject*) parentProject;
 - (void) setTaskId:(int) id;
+
+@property BOOL closed;
 @end

@@ -18,4 +18,5 @@
 - (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period;
 - (int) filteredTime:(NSPredicate*) filter;
 - (int) taskId;
+- (BOOL) closed;
 @end

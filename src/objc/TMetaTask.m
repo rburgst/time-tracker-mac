@@ -115,4 +115,8 @@
 {
     return [_tasks objectEnumerator];
 }
+
+-(BOOL) closed {
+    return NO;
+}
 @end
