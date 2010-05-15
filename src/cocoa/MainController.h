@@ -23,13 +23,15 @@
 
 #define DEFAULT_LRU_SIZE 5
 
-
+// forward declarations
+@class StartTaskMenuDelegate;
 
 @interface MainController : NSObject<TTQueryDelegate, TTPredicateEditorDelegate>
 {
 	NSColor *_normalCol;
 	NSColor *_highlightCol;
     NSColor *_highlightBgCol;
+    NSColor *_greyCol;
 
 	NSUserDefaults *defaults;
 	NSTimer *timer;
@@ -126,6 +128,7 @@
     BOOL _enableStandbyDetection;
     TWorkPeriod *_currentEditingWP;
     BOOL _decimalHours;
+	StartTaskMenuDelegate* _startTaskMenuDelegate;
 }
 
 // actions
@@ -205,12 +208,12 @@
 -(void) setEnableStandbyDetection:(BOOL)enable;
 -(BOOL) enableStandbyDetection;
 
-- (id<ITask>) selectedTask;
 
 @property(readonly) BOOL timerRunning;
 @property(retain, nonatomic) NSPredicate* extraFilterPredicate;
 @property(retain, nonatomic) NSString *updateURL;
 @property BOOL decimalHours;
+@property(retain, nonatomic) id<ITask> selectedTask;
 
 @end
 
