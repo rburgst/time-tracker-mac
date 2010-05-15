@@ -122,5 +122,7 @@
     return NO;
 }
 
-
+- (void)moveTask:(TTask *)task toIndex:(NSInteger)index {
+	assert(NO);
+}
 @end
