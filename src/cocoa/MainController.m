@@ -1102,6 +1102,11 @@
 }
 
 - (IBAction) clickedDeleteWorkPeriod:(id)sender {
+	NSInteger selIndex = [tvWorkPeriods selectedRow];
+	if (selIndex < 0) {
+		NSBeep();
+		return;
+	}
     int iResponse = 
         NSRunAlertPanel(@"Delete selection", 
                     @"Are you sure to delete the selected item(s)?",
@@ -1291,7 +1296,9 @@
 			return YES;
 		}
         return NO;
-    }
+    } else if ([anItem action] == @selector(clickedDeleteWorkPeriod:)) {
+		return [tvWorkPeriods selectedRow] >= 0;
+	}
 	return YES;
 }
 
