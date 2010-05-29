@@ -2,6 +2,8 @@
 
   * IMPORTANT! requires Mac OS 10.5 or higher
   * fixed problem where a project was selected and filters were activated, it could happen that wrong records were shown.
+  * partial fix for issue #26 where task and project names could not be edited once the timer was running.
+  * fixed issue 58: Delete without a work period selected brings up dialog anyway
   
 === 1.3.6 ===  2010-04-30
 
