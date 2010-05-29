@@ -8,14 +8,26 @@
 
 #import "TWorkPeriod.h"
 #import "TTTimeProvider.h"
+#import "TTask.h"
 
 #define ENCODER_KEY_START_TIME @"WPStartTime"
 #define ENCODER_KEY_END_TIME @"WPEndTime"
 #define ENCODER_KEY_COMMENT @"AttributedComment"
 
+// note in order to make the compiler generate the private setter, the
+// category must not have a name, FFS Apple!!
+@interface TWorkPeriod ()
+	@property(readwrite) NSInteger totalTime;
+@end
+
 @implementation TWorkPeriod
 
 @synthesize date = _date;
+@synthesize totalTime = _totalTime;
+@synthesize startTime = _startTime;
+@synthesize endTime = _endTime;
+@synthesize comment = _comment;
+@synthesize parentTask = _parent;
 
 - (id) init
 {
@@ -23,96 +35,6 @@
 	_endTime = nil;
 	_comment = [[NSAttributedString alloc] init];
 	return self;
-}
-
-- (void) setStartTime: (NSDate *) startTime
-{
-    if (startTime != _startTime) {
-        [_startTime release];
-        _startTime = nil;
-        _startTime = [startTime retain];
-        [self updateTotalTime];        
-    }
-}
-
-- (void) setEndTime: (NSDate *) endTime
-{
-    if (endTime != _endTime) {
-        [_endTime release];
-        _endTime = nil;
-        _endTime = [endTime retain];
-        [self updateTotalTime];        
-    }
-}
-
-- (void) setComment:(NSAttributedString*) aComment
-{
-	if (_comment == aComment) {
-		return;
-	}
-	[_comment release];
-    _comment = nil;
-	_comment = [aComment retain];
-}
-
-- (void) setTotalTime:(int)time {
-    _totalTime = time;
-}
-
-- (void) updateTotalTime
-{
-	if (_endTime == nil || _startTime == nil) {
-		[self setTotalTime:0];
-		return;
-	}
-	double timeInterval = [_endTime timeIntervalSinceDate: _startTime];
-	[self setTotalTime:(int) timeInterval];
-}
-
-- (int) totalTime
-{
-	return _totalTime;
-}
-
-- (NSDate *) startTime
-{
-	return _startTime;
-}
-
-- (NSDate *) endTime
-{
-	return _endTime;
-}
-
-- (NSAttributedString *) comment
-{
-	if (_comment != nil) 
-		return _comment;
-	return [[[NSAttributedString alloc] initWithString:@""] autorelease];
-}
-
-- (NSString *) strComment
-{
-    if (_comment != nil) {
-        return [_comment string];
-    } 
-    return @"";
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-    //[super encodeWithCoder:coder];
-    if ( [coder allowsKeyedCoding] ) {
-        [coder encodeObject:_startTime forKey:ENCODER_KEY_START_TIME];
-        [coder encodeObject:_endTime forKey:ENCODER_KEY_END_TIME];
-		[coder encodeObject:_comment forKey:ENCODER_KEY_COMMENT];
-		
-    } else {
-        [coder encodeObject:_startTime];
-		[coder encodeObject:_endTime];
-		// comment not supported here for data file compability reasons.
-    }
-    return;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -142,6 +64,77 @@
     return self;
 }
 
+
+- (void) setStartTime: (NSDate *) startTime
+{
+    if (startTime != _startTime) {
+        [_startTime release];
+        _startTime = nil;
+        _startTime = [startTime retain];
+        [self updateTotalTime];        
+    }
+}
+
+- (void) setEndTime: (NSDate *) endTime
+{
+    if (endTime != _endTime) {
+		// determine difference
+		NSTimeInterval diffInSeconds = [endTime timeIntervalSinceDate:_startTime];
+		NSInteger totalDiff = diffInSeconds - _totalTime;
+        [_endTime release];
+        _endTime = nil;
+        _endTime = [endTime retain];
+		if (_totalTime > 0 && totalDiff < 5.0) {
+			self.totalTime = _totalTime + totalDiff;
+			[_parent updateTotalBySeconds:diffInSeconds sender:self];
+		} else {
+			[self updateTotalTime];
+		}
+    }
+}
+
+// set the end time to now
+- (void) timerTick {
+	self.endTime = [NSDate date];
+}
+
+
+- (void) updateTotalTime
+{
+	if (_endTime == nil || _startTime == nil) {
+		self.totalTime = 0;
+		return;
+	}
+	NSTimeInterval timeInterval = [_endTime timeIntervalSinceDate: _startTime];
+	self.totalTime = timeInterval;
+}
+
+
+- (NSString *) strComment
+{
+    if (_comment != nil) {
+        return [_comment string];
+    } 
+    return @"";
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    //[super encodeWithCoder:coder];
+    if ( [coder allowsKeyedCoding] ) {
+        [coder encodeObject:_startTime forKey:ENCODER_KEY_START_TIME];
+        [coder encodeObject:_endTime forKey:ENCODER_KEY_END_TIME];
+		[coder encodeObject:_comment forKey:ENCODER_KEY_COMMENT];
+		
+    } else {
+        [coder encodeObject:_startTime];
+		[coder encodeObject:_endTime];
+		// comment not supported here for data file compability reasons.
+    }
+    return;
+}
+
+
 - (NSString*)serializeData:(NSString*) prefix separator:(NSString*)sep
 {
     int hours = _totalTime / 3600;
@@ -154,18 +147,6 @@
                         [formatter stringFromDate:_startTime], sep, [formatter stringFromDate:_endTime], sep,
                         hours, minutes, seconds, sep, [self strComment]];
 	return result;
-}
-
-- (void)setParentTask:(TTask*) task 
-{
-	[_parent release];
-	_parent = nil;
-	_parent = [task retain];
-}
-
-- (TTask*)parentTask 
-{
-	return _parent;
 }
 
 -(NSInteger) weekday {

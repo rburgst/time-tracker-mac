@@ -11,27 +11,14 @@
 
 @implementation TProject
 
+@synthesize name = _name;
+
 - (id) init
 {
-	[self setName: @"New Project"];
+	self.name = @"New Project";
 	_tasks = [NSMutableArray new];
 	_totalTime = 0;
 	return self;
-}
-
-- (NSString *) name
-{
-	if (_name == nil) {
-		return [@"no name" autorelease];
-	}
-	return _name;
-}
-
-- (void) setName: (NSString *) name
-{
-	[name retain];
-	[_name release];
-	_name = name;
 }
 
 - (NSMutableArray *) tasks
@@ -45,7 +32,7 @@
 	[task setParentProject:self];
 }
 
-- (int) totalTime
+- (NSInteger) totalTime
 {
 	return _totalTime;
 }

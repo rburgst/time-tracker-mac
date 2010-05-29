@@ -9,7 +9,7 @@
 
 @protocol IProject<NSObject>
 
-- (int) totalTime;
+- (NSInteger) totalTime;
 - (void) updateTotalTime;
 - (NSArray *) tasks;
 - (NSString*) name;

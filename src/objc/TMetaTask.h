@@ -19,7 +19,7 @@
 - (NSString *) name;
 - (NSMutableArray *) workPeriods;
 
-- (int) totalTime;
+- (NSInteger) totalTime;
 - (void) updateTotalTime;
 - (void) setTasks:(NSArray*)tasks;
 - (id<ITask>) removeWorkPeriod:(TWorkPeriod*)period;

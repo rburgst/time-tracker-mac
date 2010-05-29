@@ -15,9 +15,22 @@ static int _maxTaskId = 1;
 #define CODERKEY_TASK_ID @"TID"
 #define CODERKEY_TASKNAME @"TName"
 
+// note in order to make the compiler generate the private setter, the
+// category must not have a name, FFS Apple!!
+@interface TTask ()
+	@property(readwrite) NSInteger totalTime;
+@end
+
+
+
 @implementation TTask
 
 @synthesize closed = _closed;
+@synthesize filterPredicate = _filterPredicate;
+@synthesize totalTime = _totalTime;
+@synthesize name = _name;
+@synthesize parentProject = _parent;
+@synthesize taskId = _taskId;
 
 - (id) init
 {
@@ -31,22 +44,10 @@ static int _maxTaskId = 1;
     return nil;
 }
 
-- (NSString *) name
-{
-	return _name;
-}
-
-- (void) setName: (NSString *) name
-{
-	[name retain];
-	[_name release];
-	_name = name;
-}
-
 - (void) addWorkPeriod: (TWorkPeriod *) workPeriod
 {
 	[_workPeriods addObject: workPeriod];
-	[workPeriod setParentTask:self];
+	workPeriod.parentTask = self;
 }
 
 - (NSMutableArray *) workPeriods
@@ -56,16 +57,12 @@ static int _maxTaskId = 1;
 
 - (void) updateTotalTime
 {
-	_totalTime = 0;
+	int result = 0;
 	int i;
 	for (i = 0; i < [_workPeriods count]; i++) {
-		_totalTime += [[_workPeriods objectAtIndex: i] totalTime];
+		result += [[_workPeriods objectAtIndex: i] totalTime];
 	}
-}
-
-- (int) totalTime
-{
-	return _totalTime;
+	self.totalTime = result; 
 }
 
 - (NSArray *) matchingWorkPeriods:(NSPredicate*) filter
@@ -168,26 +165,35 @@ static int _maxTaskId = 1;
 	return self;
 }
 
-- (void) setParentProject:(TProject*) project
-{
-	[_parent release];
-	_parent = nil;
-	_parent = [project retain];
-}
-
-- (TProject*) parentProject
-{
-	return _parent;
-}
-
-- (int) taskId 
-{
-    return _taskId;
-}
-
 - (void) setTaskId:(int)id 
 {
     _taskId = id;
     _maxTaskId = MAX(_taskId, _maxTaskId);
+}
+
+- (void) setFilterPredicate:(NSPredicate *) predicate {
+	if (_filterPredicate == predicate) {
+		return;
+	}
+	[self willChangeValueForKey:@"filteredDuration"];
+	[_filterPredicate release];
+	_filterPredicate = [predicate retain];
+	[self didChangeValueForKey:@"filteredDuration"];
+}
+
+-(NSInteger) filteredDuration {
+	if (_filterPredicate == nil) {
+		return self.totalTime;
+	}
+	return [self filteredTime:_filterPredicate];
+}
+
+- (void) updateTotalBySeconds:(int)diffInSeconds sender:(id)theSender {
+	if (_filterPredicate == nil || [_filterPredicate evaluateWithObject:theSender]) {
+		[self willChangeValueForKey:@"filteredDuration"];
+		self.totalTime = self.totalTime + diffInSeconds;
+		// TODO notify parent project
+		[self didChangeValueForKey:@"filteredDuration"];
+	}
 }
 @end

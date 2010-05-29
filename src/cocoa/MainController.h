@@ -14,6 +14,7 @@
 #import "TimeIntervalFormatter.h"
 #import "TTQueryController.h"
 #import "TTPredicateEditorViewController.h"
+#import "TTaskNameTransformer.h"
 
 #define FILTER_MODE_NONE 0
 #define FILTER_MODE_DAY 1
@@ -77,6 +78,8 @@
 	
 	IBOutlet NSMenuItem *startMenuItem;
 	IBOutlet NSArrayController *workPeriodController;
+	IBOutlet NSArrayController *taskController;
+	
 //	IBOutlet NSArrayController *changeProjectController;
 	// the start of the filtered interval
 	IBOutlet NSDate *_filterStartDate;
@@ -101,11 +104,13 @@
 	id<IProject> _selProject;
 	id<ITask> _selTask;
 	NSArray *_filteredTasks;
+	NSArray *_currentTasks;
     NSMutableArray *_lruTasks;
 	TWorkPeriod *_curWorkPeriod;
 	TTimeTransformer *_timeValueFormatter;
 	TDateTransformer *_dateValueFormatter;
 	TimeIntervalFormatter *_intervalValueFormatter;
+	TTaskNameTransformer* _taskNameTransformer;
 	id<IProject> _curProject;
 	id<ITask> _curTask;
 	NSDateFormatter *_dateFormatter;
@@ -145,8 +150,6 @@
 
 - (IBAction)okClicked:(id) sender;
 - (IBAction)cancelClicked:(id) sender;
-- (IBAction)clickedFilterDateOk:(id) sender;
-- (IBAction)clickedFilterDateCancel:(id) sender;
 - (IBAction)changedProjectInEditWpDialog:(id) sender;
 - (IBAction)filterComments: (id)sender;
 - (IBAction)actionExport:(id)sender;
@@ -214,6 +217,6 @@
 @property(retain, nonatomic) NSString *updateURL;
 @property BOOL decimalHours;
 @property(retain, nonatomic) id<ITask> selectedTask;
-
+@property(retain, nonatomic) NSArray* currentTasks;
 @end
 

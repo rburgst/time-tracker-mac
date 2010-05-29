@@ -16,19 +16,18 @@
 	int _totalTime;
 }
 
-- (NSString *) name;
-- (void) setName: (NSString *) name;
-
 - (NSMutableArray *) tasks;
 - (void) addTask: (TTask *) task;
 
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
 - (int) filteredTime:(NSPredicate*) filter;
 
-- (int) totalTime;
+- (NSInteger) totalTime;
 - (void) updateTotalTime;
 - (NSString*) serializeData:(NSString*)separatorChar;
 - (id<IProject>) removeTask:(TTask*)task;
+
+@property(retain,nonatomic) NSString *name;
 
 - (void) deDuplicateTaskNames;
 @end

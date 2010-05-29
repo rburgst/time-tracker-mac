@@ -11,7 +11,7 @@
 
 @protocol ITask<NSObject>
 
-- (int) totalTime;
+- (NSInteger) totalTime;
 - (void) updateTotalTime;
 - (NSArray *) workPeriods;
 - (NSString*) name;
@@ -19,4 +19,7 @@
 - (int) filteredTime:(NSPredicate*) filter;
 - (int) taskId;
 - (BOOL) closed;
+- (void) updateTotalBySeconds:(int)diffInSeconds sender:(id)theSender;
+- (void) setFilterPredicate:(NSPredicate*)predicate;
+- (int) filteredDuration;
 @end

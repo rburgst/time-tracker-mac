@@ -10,6 +10,7 @@
 #import "TTask.h"
 
 @implementation TMetaTask
+
 - (NSString *) name {
 	return @"All Tasks";
 }
@@ -27,21 +28,9 @@
 - (NSArray *) matchingWorkPeriods:(NSPredicate*) filter
 {
     return [[self workPeriods] filteredArrayUsingPredicate:filter];
-/*	NSMutableArray* result = [[[NSMutableArray alloc] init] autorelease];
-	NSEnumerator *enumerator = [[self workPeriods] objectEnumerator];
-	id anObject;
- 
-	while (anObject = [enumerator nextObject])
-	{
-		if ([filter evaluateWithObject:anObject]) {
-			[result addObject:anObject];
-		}
-	}
-	return result;
-*/	
 }
 
-- (int) totalTime {
+- (NSInteger) totalTime {
 	NSEnumerator *enumTasks = [_tasks objectEnumerator];
 	TTask *task = nil;
 	int result = 0;
@@ -60,6 +49,9 @@
 	}
 }
 - (void) setTasks:(NSArray*)tasks {
+	if (_tasks == tasks) {
+		return;
+	}
 	[_tasks release];
 	_tasks = [tasks retain];
 }
@@ -118,5 +110,34 @@
 
 -(BOOL) closed {
     return NO;
+}
+
+-(void) setFilterPredicate:(NSPredicate *)predicate {
+	NSEnumerator *enumerator = [_tasks objectEnumerator];
+	id<ITask> aTask;
+	
+	[self willChangeValueForKey:@"filteredDuration"];
+	while (aTask = [enumerator nextObject])
+	{
+		aTask.filterPredicate = predicate;
+	}
+	[self didChangeValueForKey:@"filteredDuration"];
+}
+
+-(int) filteredDuration {
+	int result = 0;
+	NSEnumerator *enumerator = [_tasks objectEnumerator];
+	id<ITask> aTask;
+	
+	while (aTask = [enumerator nextObject])
+	{
+		result += aTask.filteredDuration;
+	}
+	return result;
+}
+
+- (void) updateTotalBySeconds:(int)diffInSeconds sender:(id)theSender {
+	// should not be called actually
+	assert(NO);
 }
 @end

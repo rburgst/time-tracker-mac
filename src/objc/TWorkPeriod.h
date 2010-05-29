@@ -11,7 +11,7 @@
 @class TTask;
 
 @interface TWorkPeriod : NSObject <NSCoding> {
-	int _totalTime;
+	NSInteger _totalTime;
 	NSDate *_startTime;
 	NSDate *_endTime;
     NSDate *_date;
@@ -26,23 +26,19 @@
 @property(readonly) NSInteger weeksSinceEnd;
 @property(readonly) NSInteger monthsSinceStart;
 @property(readonly) NSInteger monthsSinceEnd;
+
+@property(readonly) NSInteger totalTime;
+
 @property(retain, nonatomic) NSDate* startTime;
 @property(retain, nonatomic) NSDate* endTime;
 @property(retain, nonatomic) NSDate* date;
-
-- (void) setStartTime: (NSDate *) startTime;
-- (void) setEndTime: (NSDate *) endTime;
-- (void) setComment:(NSAttributedString*) aComment;
-- (void) setParentTask:(TTask*) task;
+@property(retain, nonatomic) NSAttributedString* comment;
+@property(retain, nonatomic) TTask* parentTask;
 
 - (void) updateTotalTime;
+// Set the end time to now
+- (void) timerTick;
 
-- (int) totalTime;
-- (void) updateTotalTime;
-
-- (NSDate *) startTime;
-- (NSDate *) endTime;
-- (NSAttributedString *) comment;
 - (NSString*) serializeData: (NSString*) prefix separator:(NSString*) sep;
-- (TTask*) parentTask;
+
 @end

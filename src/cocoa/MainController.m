@@ -20,6 +20,8 @@
 
 @interface MainController (PrivateMethods)
 - (void)initializeTableViews;
+- (NSArray*) determineCurrentTasks;
+
 @end
 
 
@@ -78,9 +80,11 @@
 	_timeValueFormatter = [[TTimeTransformer alloc] init];
 	_dateValueFormatter = [[TDateTransformer alloc] init];
 	_intervalValueFormatter = [[TimeIntervalFormatter alloc] init];
+	_taskNameTransformer = [[TTaskNameTransformer alloc] init];
 	[NSValueTransformer setValueTransformer:_timeValueFormatter forName:@"TimeToStringFormatter"];
 	[NSValueTransformer setValueTransformer:_dateValueFormatter forName:@"DateToStringFormatter"];
 	[NSValueTransformer setValueTransformer:_intervalValueFormatter forName:@"TimeIntervalToStringFormatter"];
+	[NSValueTransformer setValueTransformer:_taskNameTransformer forName:@"TTaskNameTransformer"];
 	_selectedfilterDate = nil;
     _startMenu = [[NSMenu alloc] initWithTitle:@"TimeTracker"];
     _startTaskMenuDelegate = [[StartTaskMenuDelegate alloc] initWithController:self];
@@ -141,14 +145,24 @@
 	_currentPredicate = nil;
 }
 
+- (void) applyFilterToCurrentTasks {
+	// in order to apply the filter to the tasks we need to set the predicate on each one
+	for (id<ITask>task in self.currentTasks) {
+		task.filterPredicate = self.filterPredicate;
+	}
+}
+
 - (void) applyFilter
 {
-    NSPredicate *pred = [self filterPredicate];
+    NSPredicate *pred = self.filterPredicate;
 	[self updateTaskFilterCache];
 
-	[tvTasks reloadData];
+	//[tvTasks reloadData];
 	[tvProjects reloadData];
+	[self applyFilterToCurrentTasks];
+	
 	[workPeriodController setFilterPredicate:pred];
+	
 	
 	[self validateToolbarFilterItems];
 }
@@ -285,8 +299,6 @@
 	[self updateStartStopState];
 	
 	[tvProjects reloadData];
-	[tvTasks reloadData];
-	[tvWorkPeriods reloadData];
 	
 	[self updateProminentDisplay];
 	
@@ -618,7 +630,6 @@
 	[_selTask updateTotalTime];
 	[_selProject updateTotalTime];
 	[tvProjects reloadData];
-	[tvTasks reloadData];
 	[self reloadWorkPeriods];
 	[NSApp stopModal];
 	[panelEditWorkPeriod orderOut: self];
@@ -658,7 +669,7 @@
 	[_curTask updateTotalTime];
 	[_curProject updateTotalTime];
 	[tvProjects reloadData];
-	[tvTasks reloadData];
+	//[tvTasks reloadData];
 	//[tvWorkPeriods reloadData];
 	int idleTime = [self idleTime];
 	if (idleTime == 0) {
@@ -959,60 +970,6 @@
 }
 
 
-- (IBAction)clickedFilterDay:(id)sender 
-{
-	if (_selectedfilterDate == nil) {
-		// no valid selection
-		NSBeep();
-		return;
-	}
-	[self setFilterMode:FILTER_MODE_DAY];
-	[self applyFilter];
-}
-
-- (IBAction)clickedFilterWeek:(id)sender 
-{
-	if (_selectedfilterDate == nil) {
-		// no valid selection
-		NSBeep();
-		return;
-	}
-	[self setFilterMode:FILTER_MODE_WEEK];
-	[self applyFilter];
-}
-
-- (IBAction)clickedFilterMonth:(id)sender 
-{
-	if (_selectedfilterDate == nil) {
-		// no valid selection
-		NSBeep();
-		return;
-	}
-	[self setFilterMode: FILTER_MODE_MONTH];
-	[self applyFilter];
-}
-
-- (IBAction)clickedFilterPickDate:(id)sender 
-{
-	if (_selectedfilterDate == nil) {
-		_selectedfilterDate = [[NSDate date] retain];
-		[dtpFilterDate setDateValue:_selectedfilterDate];
-	}
-	[NSApp beginSheet:panelPickFilterDate modalForWindow:mainWindow modalDelegate:self 
-			didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
-}
-
-
-- (IBAction)clickedFilterDateOk:(id) sender
-{
-	[NSApp endSheet:panelPickFilterDate returnCode:NSOKButton];
-}
-
-- (IBAction)clickedFilterDateCancel:(id)sender 
-{
-	[NSApp endSheet:panelPickFilterDate returnCode:NSCancelButton];
-}
-
 - (IBAction)clickedAddTimePeriod:(id)sender
 {
     if (_selTask == nil) {
@@ -1069,6 +1026,9 @@
 	[(TProject*)_selProject addTask: task];
     [task release];
 	[tvTasks reloadData];
+	
+	self.currentTasks = [self determineCurrentTasks];
+	//[taskController setContent:self.currentTasks];
 	int index = [[_selProject tasks] count];
 	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	[mainWindow makeFirstResponder:tvTasks];
@@ -1096,6 +1056,7 @@
 	if (_filterMode != FILTER_MODE_NONE) {
 		_filteredTasks = [[_selProject matchingTasks:[self filterPredicate]] retain];
 	} 
+	self.currentTasks = [self determineCurrentTasks];
 }
                 
 - (BOOL) doesProjectNameExist:(NSString*)name {
@@ -1164,8 +1125,9 @@
     [parentTask removeWorkPeriod:selPeriod];
     [_selTask updateTotalTime];
     [_selProject updateTotalTime];
-    [tvWorkPeriods deselectAll: self];
-    [tvWorkPeriods reloadData];
+/*    [tvWorkPeriods deselectAll: self];
+    [tvWorkPeriods reloadData];*/
+	[workPeriodController removeObject:selPeriod];
     [tvTasks reloadData];
     [tvProjects reloadData];
 		
@@ -1609,7 +1571,7 @@
 #pragma mark ----
 #pragma mark TableView Data Source
 
-- (NSArray*) currentTasks {
+- (NSArray*) determineCurrentTasks {
 	if (_selProject == nil)
 		return nil;
 	else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
@@ -1618,6 +1580,29 @@
 		}
 	} 
 	return _selProject.tasks;
+}
+
+- (void) setCurrentTasks:(NSArray*) tasks {
+	if (_currentTasks == tasks) {
+		return;
+	}
+	NSMutableArray *newTasks = [[NSMutableArray alloc] initWithCapacity:[tasks count] + 1];
+	[newTasks addObject:_metaTask];
+	[newTasks addObjectsFromArray:tasks];
+	[_currentTasks release];
+	_currentTasks = newTasks;
+}
+
+- (NSArray*) currentTasks {
+	return _currentTasks;
+/*	if (_selProject == nil)
+		return nil;
+	else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
+		if (_selProject == _metaProject && _filteredTasks != nil) {
+			return _filteredTasks;
+		}
+	} 
+	return _selProject.tasks;*/
 }	
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
@@ -1856,6 +1841,8 @@
 		[_filteredTasks release];
 		_filteredTasks = nil;
         
+		_taskNameTransformer.showProjectName = NO;
+
 		if ([self selectedProjectRow] == -2) {
 			_selProject = nil;
 		} else if ([self selectedProjectRow] == -1) {
@@ -1865,6 +1852,7 @@
 				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
 			}
 			// if we have a filter on then already cache the tasks
+			_taskNameTransformer.showProjectName = YES;
 			[self updateTaskFilterCache];
 		} else {
 			// user has selected a valid project
@@ -1874,10 +1862,10 @@
 			}
 		}
         
-		NSArray *tasks = [self currentTasks];
-
-		[tvTasks deselectAll: self];
-		[tvTasks reloadData];
+		NSArray *tasks = [self determineCurrentTasks];
+		self.currentTasks = tasks;
+		// apply the current filter if any
+		[self applyFilterToCurrentTasks];
 		
 		if (_selProject != nil && [tasks count] > 0) {
 			NSNumber *lastTask = [_projects_lastTask objectForKey:[_selProject name]];
@@ -1891,7 +1879,7 @@
 		[self updateProminentDisplay];
 	}
 	
-	if ([notification object] == tvTasks) {
+	if ([notification object] == tvTasks) {		
 		NSArray *tasks = [self currentTasks];
 		
 		if ([self selectedTaskRow] == -2) {
@@ -1903,13 +1891,14 @@
 			}
 		} else {
 			// assert _selProject != nil
-			self.selectedTask = [tasks objectAtIndex: [self selectedTaskRow]];
+			self.selectedTask = [tasks objectAtIndex: [self selectedTaskRow]+1];
 			NSLog(@"selected new task: %@", self.selectedTask.name);
 			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
 				[[tvWorkPeriods tableColumnWithIdentifier:@"Task"] setHidden:YES];
 			}
 		}
-//		[self reloadWorkPeriods];
+			
+		//		[self reloadWorkPeriods];
 		[self updateProminentDisplay];
 	}
 }
@@ -1932,7 +1921,7 @@
     [_highlightBgCol release];
     [_greyCol release];
 	[_startTaskMenuDelegate release];
-    
+    [_taskNameTransformer release];
     [super dealloc];
 }
 
