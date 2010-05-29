@@ -57,6 +57,7 @@
 		D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
+		D588FB9111B1C93300D7A8B0 /* TTaskNameTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D588FB9011B1C93300D7A8B0 /* TTaskNameTransformer.m */; };
 		D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5A7616D10C1C24A004B88C7 /* MainMenu.xib */; };
 		D5A871410E6E783500F41819 /* TDateTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A871400E6E783500F41819 /* TDateTransformer.m */; };
 		D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AED85510C5AD8600AB1EE0 /* TTTimeProvider.m */; };
@@ -167,6 +168,8 @@
 		D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaProject.m; path = src/objc/TMetaProject.m; sourceTree = "<group>"; };
 		D581A8120CFF3BBA006A0DC1 /* TMetaTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMetaTask.h; path = src/objc/TMetaTask.h; sourceTree = "<group>"; };
 		D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMetaTask.m; path = src/objc/TMetaTask.m; sourceTree = "<group>"; };
+		D588FB8F11B1C93300D7A8B0 /* TTaskNameTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTaskNameTransformer.h; sourceTree = "<group>"; };
+		D588FB9011B1C93300D7A8B0 /* TTaskNameTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTaskNameTransformer.m; sourceTree = "<group>"; };
 		D58EEB640D09D2830043384C /* TWorkPeriod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TWorkPeriod.h; path = src/objc/TWorkPeriod.h; sourceTree = "<group>"; };
 		D59DC2090CFF63CA000F08A8 /* TDateTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDateTransformer.h; path = src/objc/TDateTransformer.h; sourceTree = "<group>"; };
 		D5A7616E10C1C24A004B88C7 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -328,6 +331,8 @@
 				D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */,
 				D5C934DA112C8E7800559D60 /* TTParsedPredicate.h */,
 				D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */,
+				D588FB8F11B1C93300D7A8B0 /* TTaskNameTransformer.h */,
+				D588FB9011B1C93300D7A8B0 /* TTaskNameTransformer.m */,
 			);
 			name = cocoa;
 			path = src/cocoa;
@@ -481,6 +486,7 @@
 				D5AED85610C5AD8600AB1EE0 /* TTTimeProvider.m in Sources */,
 				D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */,
 				D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */,
+				D588FB9111B1C93300D7A8B0 /* TTaskNameTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,7 +605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 1.3.5;
+				CURRENT_PROJECT_VERSION = 1.3.7;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -613,7 +619,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 1.3.5;
+				CURRENT_PROJECT_VERSION = 1.3.6;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -626,7 +632,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				CURRENT_PROJECT_VERSION = 1.3.5;
+				CURRENT_PROJECT_VERSION = 1.3.6;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				RUN_CLANG_STATIC_ANALYZER = YES;
