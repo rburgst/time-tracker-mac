@@ -1043,6 +1043,7 @@
 - (void)reloadWorkPeriods
 {
 	[workPeriodController setContent:[_selTask workPeriods]];
+	//[workPeriodController rearrangeObjects];
 }
 
 /** 
@@ -1823,8 +1824,8 @@
         }
     } else if (aTableView == tvTasks) {
         BOOL closed = NO;
-        if (rowIndex > 0) {
-            id<ITask> task = [_selProject.tasks objectAtIndex:rowIndex - 1];
+        if (rowIndex > 0 && _currentTasks != nil && rowIndex < [_currentTasks count]) {
+            id<ITask> task = [_currentTasks objectAtIndex:rowIndex];
             closed = task.closed;
         }
         [aCell setTextColor:closed? _greyCol : _normalCol];
@@ -1908,6 +1909,8 @@
 		//		[self reloadWorkPeriods];
 		[self updateProminentDisplay];
 	}
+	
+	NSLog(@"selected project: %@, task: %@", _selProject, self.selectedTask);
 }
 
 
