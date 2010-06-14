@@ -7,6 +7,7 @@
 //
 
 #import "TTask.h"
+#import "TProject.h"
 
 static int _maxTaskId = 1;
 
@@ -48,6 +49,10 @@ static int _maxTaskId = 1;
 {
 	[_workPeriods addObject: workPeriod];
 	workPeriod.parentTask = self;
+}
+
+-(NSString*) description {
+	return [NSString stringWithFormat:@"<TTask: %@, parent %@>", _name, self.parentProject.name];
 }
 
 - (NSMutableArray *) workPeriods
