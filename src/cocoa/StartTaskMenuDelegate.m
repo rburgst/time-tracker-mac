@@ -99,4 +99,12 @@
     return [[_controller lruTasks] count];
 }
 
+- (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem {
+	NSObject *repObj = [anItem representedObject];
+	if ([repObj isKindOfClass:[TTask class]]) {
+		return !((TTask*)repObj).closed;
+	}
+	return YES;
+}
+
 @end
