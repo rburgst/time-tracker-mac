@@ -201,4 +201,8 @@ static int _maxTaskId = 1;
 		[self didChangeValueForKey:@"filteredDuration"];
 	}
 }
+
+- (NSComparisonResult)compare:(id<ITask>)aTask {
+	return [self.name compare:aTask.name];
+}
 @end
