@@ -164,9 +164,7 @@
 	[self applyFilterToCurrentTasks];
 	
 	[workPeriodController setFilterPredicate:pred];
-	
-	
-	[self validateToolbarFilterItems];
+		
 }
 
 - (void) setFilterMode:(int)filterMode
@@ -177,9 +175,6 @@
 
 - (void) validateToolbarFilterItems
 {
-	[_dayToolbarItem setImage: (_filterMode == FILTER_MODE_DAY)? dayToolImageUnsel : dayToolImage];
-	[_weekToolbarItem setImage: (_filterMode == FILTER_MODE_WEEK)? weekToolImageUnsel : weekToolImage];
-	[_monthToolbarItem setImage: (_filterMode == FILTER_MODE_MONTH)? monthToolImageUnsel : monthToolImage];
 }
 
 - (int) selectedTaskRow 
@@ -244,6 +239,12 @@
 	assert([_selTask isKindOfClass:[TTask class]]);
 	// assert timer == nil
 	if (timer != nil) return;
+	
+	if (_selTask.closed) {
+		NSBeep();
+		NSLog(@"Trying to record a closed task");
+		return;
+	}
 	
 	// if there is no project selected, create a new one
 	if (_selProject == nil)
@@ -315,25 +316,6 @@
 {
 	[self invalidateFilterPredicate];
 	[self applyFilter];
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
-{
-	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
-			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", @"FilterDate", 
-			@"CommentSearchField", nil];
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
-{
-	return [NSArray arrayWithObjects: @"Startstop", NSToolbarSeparatorItemIdentifier, @"AddProject", @"AddTask", 
-			NSToolbarSeparatorItemIdentifier, @"Day", @"Week", @"Month", @"PickDate", @"FilterDate", 
-			NSToolbarFlexibleSpaceItemIdentifier, @"CommentSearchField", nil];
-}
-
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
-{
-	return nil;
 }
 
 -(void) loadData
@@ -1300,7 +1282,7 @@
 	if ([anItem action] == @selector(clickedStartStopTimer:)) {
 		if (timer != nil) return YES;
 		if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
-				&& _selProject != _metaProject) {
+				&& _selProject != _metaProject && !_selTask.closed) {
 			return YES;
 		}
 		return NO;
@@ -1313,7 +1295,7 @@
 		return NO;
 	} else if ([anItem action] == @selector(clickedAddTimePeriod:)) {
 		if (_selTask != nil && [_selTask isKindOfClass:[TTask class]]
-            && _selProject != _metaProject) {
+            && _selProject != _metaProject && !_selTask.closed) {
 			return YES;
 		}
         return NO;

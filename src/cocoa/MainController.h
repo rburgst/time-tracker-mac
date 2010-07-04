@@ -96,9 +96,6 @@
     IBOutlet TTPredicateEditorViewController *_predicateController;
 	
 	IBOutlet NSToolbarItem *startstopToolbarItem;
-    NSToolbarItem *_dayToolbarItem;
-	NSToolbarItem *_weekToolbarItem;	
-	NSToolbarItem *_monthToolbarItem;
 	NSMutableArray *_projects;
 	IBOutlet TMetaProject *_metaProject;
 	TMetaTask *_metaTask;
