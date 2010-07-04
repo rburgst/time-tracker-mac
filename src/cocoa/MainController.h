@@ -26,6 +26,7 @@
 
 // forward declarations
 @class StartTaskMenuDelegate;
+@class TaskEditorController;
 
 @interface MainController : NSObject<TTQueryDelegate, TTPredicateEditorDelegate>
 {
@@ -70,6 +71,7 @@
     IBOutlet NSPanel *panelEditWorkPeriod;
     IBOutlet NSPanel *panelIdleNotification;
 	IBOutlet NSPanel *panelPickFilterDate;
+	TaskEditorController* _taskEditorController;
     
 	IBOutlet NSDatePicker *dtpEditWorkPeriodStartTime;
 	IBOutlet NSDatePicker *dtpEditWorkPeriodEndTime;
@@ -218,5 +220,7 @@
 @property BOOL decimalHours;
 @property(retain, nonatomic) id<ITask> selectedTask;
 @property(retain, nonatomic) NSArray* currentTasks;
+@property(retain, nonatomic) TaskEditorController* taskEditorController;
+
 @end
 

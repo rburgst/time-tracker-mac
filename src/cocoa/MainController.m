@@ -16,6 +16,7 @@
 #import "SearchQuery.h"
 #import "TTParsedPredicate.h"
 #import <Sparkle/Sparkle.h>
+#import "TaskEditorController.h"
 
 
 @interface MainController (PrivateMethods)
@@ -32,6 +33,7 @@
 @synthesize updateURL = _updateURL;
 @synthesize decimalHours = _decimalHours;
 @synthesize selectedTask = _selTask;
+@synthesize taskEditorController = _taskEditorController;
 
 // this flag toggles whether we show tasks in the "All Projects View"
 // that have no matching time entries (1 means that these will NOT be shown)
@@ -509,6 +511,7 @@
     //	[tvProjects setDraggingSourceOperationMask:NSDragOperationMove forLocal:YES];
 	[tvProjects registerForDraggedTypes:[NSArray arrayWithObjects:PBOARD_TYPE_PROJECT_ROWS, nil]];
 	[tvTasks registerForDraggedTypes:[NSArray arrayWithObjects:PBOARD_TYPE_TASK_ROWS, nil]];
+	[tvTasks setDoubleAction:@selector(doubleClickTask:)];
 }
 
 - (TWorkPeriod*) workPeriodAtIndex:(int) index
@@ -589,6 +592,22 @@
     [self openEditWorkPeriodPanel:wp];
 }
 
+- (void) doubleClickTask: (id) sender {
+	id<ITask> task = self.selectedTask;
+	if ([task isKindOfClass:[TMetaTask class]]) {
+		NSBeep();
+		return;
+	}
+	[self.taskEditorController openSheet:self forWindow:mainWindow withTask:(TTask*)task];
+}
+
+-(TaskEditorController*) taskEditorController {
+	if (_taskEditorController == nil) {
+		_taskEditorController = [[TaskEditorController alloc] initWithWindowNibName:@"TaskEditor"];
+	}
+	return _taskEditorController;
+}
+									   
 - (void) moveWorkPeriodToNewTask:(TWorkPeriod*) wp task:(TTask*) newParent
 {
 	// first remove the workperiod from the old parent
@@ -878,11 +897,12 @@
         } else {
             data = [self serializeCurrentFilter];
         }
+		NSError *error;
         [data writeToFile:[sp filename] 
                atomically:YES
-                 encoding:NSISOLatin1StringEncoding 
-                    error:NULL];
-
+                 encoding:NSUTF8StringEncoding 
+                    error:&error];
+		//NSLog(@"Export error: %@", error);
 //        [data release];
     }
 }
