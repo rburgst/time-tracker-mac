@@ -103,6 +103,14 @@
     return -1;
 }
 
+-(NSComparisonResult) compare:(id<ITask>) o2 {
+	if (o2 == self) {
+		return NSOrderedSame;
+	} else {
+		return [self.name compare:o2.name];
+	}
+}
+
 -(NSEnumerator*) objectEnumerator
 {
     return [_tasks objectEnumerator];
