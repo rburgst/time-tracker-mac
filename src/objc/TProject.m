@@ -42,7 +42,10 @@
 	_totalTime = 0;
 	int i;
 	for (i = 0; i < [_tasks count]; i++) {
-		_totalTime += [[_tasks objectAtIndex: i] totalTime];
+		TTask *task = [_tasks objectAtIndex: i];
+		if (!task.closed) {
+			_totalTime += [task totalTime];
+		}
 	}
 }
 
@@ -67,9 +70,11 @@
 	}
 	int result = 0;
 	NSEnumerator *enumTasks = [_tasks objectEnumerator];
-	id task;
+	id<ITask> task;
 	while ((task = [enumTasks nextObject]) != nil) {
-		result += [task filteredTime:filter];
+		if (!task.closed) {
+			result += [task filteredTime:filter];
+		}
 	}
 	return result;
 }
