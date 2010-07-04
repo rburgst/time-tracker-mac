@@ -100,9 +100,11 @@
 }
 
 - (BOOL)validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >)anItem {
-	NSObject *repObj = [anItem representedObject];
-	if ([repObj isKindOfClass:[TTask class]]) {
-		return !((TTask*)repObj).closed;
+	if ([((NSObject*)anItem) isKindOfClass:[NSMenuItem class]]) {
+		NSObject *repObj = [((NSMenuItem*)anItem) representedObject];
+		if ([repObj isKindOfClass:[TTask class]]) {
+			return !((TTask*)repObj).closed;
+		}
 	}
 	return YES;
 }
