@@ -224,14 +224,28 @@
 
 - (void)selectTask:(TTask*)task project:(TProject*) project
 {
-	NSLog(@"Select task: %@", task.name);
+	NSLog(@"Select task: %@, project %@ (%@)", task, project, [project name]);
     // calling the setter will automatically perform the key value observing
     self.selectedTask = task;
     // TODO use setters here too.
     _selProject = project;
-    _curProject = project;
-	_curTask = task;
     [self addTaskToLruCache:task];
+	
+	// select the project in table view
+	NSInteger projIndex = 0;
+	if ([_selProject isKindOfClass:[TProject class]]) {
+		projIndex = [_projects indexOfObject:_selProject] + 1;
+	}
+	NSIndexSet *projIndexes = [NSIndexSet indexSetWithIndex:projIndex];
+	[tvProjects selectRowIndexes:projIndexes byExtendingSelection:NO];
+	// update the tasks that are shown
+	
+	[self updateTaskFilterCache];
+	
+	NSInteger taskIndex = [self.currentTasks indexOfObject:task];
+	[taskController setSelectionIndex:taskIndex];
+	NSIndexSet *taskIndexes = [NSIndexSet indexSetWithIndex:taskIndex];
+	[tvTasks selectRowIndexes:taskIndexes byExtendingSelection:NO];
 }
 
 - (void)startTimer
@@ -254,6 +268,9 @@
 	if (_selTask == nil)
 		[self createTask];
 	
+	_curProject = _selProject;
+	_curTask = _selTask;
+	
 	timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
 					userInfo: nil repeats: YES];
 	
@@ -263,12 +280,12 @@
 	[_curWorkPeriod setStartTime: [NSDate date]];
 	[_curWorkPeriod setEndTime: [NSDate date]];
 	
-	[(TTask*)_selTask addWorkPeriod: _curWorkPeriod];
+	[(TTask*)_curTask addWorkPeriod: _curWorkPeriod];
 	//[tvWorkPeriods reloadData];	
 	// make sure the controller knows about the new object
 	[workPeriodController rearrangeObjects];
     
-    [self selectTask:(TTask*)_selTask project:(TProject*)_selProject];
+    [self selectTask:(TTask*)_curTask project:(TProject*)_curProject];
 	
 	[self updateProminentDisplay];
 	
@@ -417,7 +434,6 @@
             }
         }
     }        
-	_projects_lastTask = [[NSMutableDictionary alloc] initWithCapacity:[_projects count]];   
     
     // check projects for duplicate names
     NSEnumerator *projectEnum = [_projects objectEnumerator];
@@ -1170,7 +1186,7 @@
 			TProject *project = (TProject*) _selProject;
 			// assert _selTask != nil
 			// assert _selProject != nil
-			if (_selTask == _curTask) {
+			if (self.selectedTask == _curTask) {
 				[self stopTimer];
 			}
 			TTask *delTask = (TTask*)_selTask;
@@ -1582,6 +1598,7 @@
 #pragma mark TableView Data Source
 
 - (NSArray*) determineCurrentTasks {
+	NSLog(@"DetermineCurrentTasks: selPro %@ (%@), selTask %@", _selProject, [_selProject name],_selTask);
 	if (_selProject == nil)
 		return nil;
 	else if (ONLY_NON_NULL_TASKS_FOR_OVERVIEW) {
@@ -1837,15 +1854,6 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == tvProjects) {
-		// Save the last task for the old project
-		if (_selProject != nil) {
-			NSNumber *index = [NSNumber numberWithInt:[self selectedTaskRow]];
-			if ([self selectedTaskRow] >= 0) {
-				[_projects_lastTask setObject:index forKey:[_selProject name]];
-			}
-		}
-        
-        
 		// Update the new selection
 		// first remove the cached tasks
 		[_filteredTasks release];
@@ -1876,16 +1884,6 @@
 		self.currentTasks = tasks;
 		// apply the current filter if any
 		[self applyFilterToCurrentTasks];
-		
-		if (_selProject != nil && [tasks count] > 0) {
-			NSNumber *lastTask = [_projects_lastTask objectForKey:[_selProject name]];
-			if (lastTask == nil || [lastTask intValue] == -1) {
-				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-			} else {
-				[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:[lastTask intValue]] byExtendingSelection:NO];
-			}
-		}
-		
 		[self updateProminentDisplay];
 	}
 	

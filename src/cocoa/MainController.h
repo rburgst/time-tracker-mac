@@ -99,7 +99,6 @@
 	NSMutableArray *_projects;
 	IBOutlet TMetaProject *_metaProject;
 	TMetaTask *_metaTask;
-	NSMutableDictionary *_projects_lastTask;
 	id<IProject> _selProject;
 	id<ITask> _selTask;
 	NSArray *_filteredTasks;
