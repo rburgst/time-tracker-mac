@@ -65,6 +65,8 @@
 		D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5B0A2C70D24D15A004DBF70 /* pickdatetool.png */; };
 		D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */; };
 		D5C9939C11636AFB00AFCE6E /* ChangeLog.yml in Resources */ = {isa = PBXBuildFile; fileRef = D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */; };
+		D5CB9CFA11E2054400E3283E /* TaskEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CB9CF911E2054400E3283E /* TaskEditorController.m */; };
+		D5CB9D0011E2055D00E3283E /* TaskEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5CB9CFE11E2055D00E3283E /* TaskEditor.xib */; };
 		D5E58E400D243A21003020AA /* dayofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3A0D243A21003020AA /* dayofftool.png */; };
 		D5E58E410D243A21003020AA /* daytool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3B0D243A21003020AA /* daytool.png */; };
 		D5E58E420D243A21003020AA /* monthofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3C0D243A21003020AA /* monthofftool.png */; };
@@ -182,6 +184,9 @@
 		D5C934DA112C8E7800559D60 /* TTParsedPredicate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTParsedPredicate.h; sourceTree = "<group>"; };
 		D5C934DB112C8E7800559D60 /* TTParsedPredicate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTParsedPredicate.m; sourceTree = "<group>"; };
 		D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.yml; sourceTree = "<group>"; };
+		D5CB9CF811E2054400E3283E /* TaskEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskEditorController.h; sourceTree = "<group>"; };
+		D5CB9CF911E2054400E3283E /* TaskEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskEditorController.m; sourceTree = "<group>"; };
+		D5CB9CFF11E2055D00E3283E /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/TaskEditor.xib; sourceTree = "<group>"; };
 		D5E58E3A0D243A21003020AA /* dayofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dayofftool.png; path = Graphics/dayofftool.png; sourceTree = "<group>"; };
 		D5E58E3B0D243A21003020AA /* daytool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = daytool.png; path = Graphics/daytool.png; sourceTree = "<group>"; };
 		D5E58E3C0D243A21003020AA /* monthofftool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = monthofftool.png; path = Graphics/monthofftool.png; sourceTree = "<group>"; };
@@ -262,6 +267,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D5CB9CFE11E2055D00E3283E /* TaskEditor.xib */,
 				D555336D115C140F000D3B99 /* dsa_pub.pem */,
 				D5A7616D10C1C24A004B88C7 /* MainMenu.xib */,
 				B163D4040B646239007D0E2C /* AUTHORS.txt */,
@@ -311,6 +317,8 @@
 		D546686110B81E00001982C1 /* cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				D5CB9CF811E2054400E3283E /* TaskEditorController.h */,
+				D5CB9CF911E2054400E3283E /* TaskEditorController.m */,
 				D546686210B81E00001982C1 /* CaseInsensitivePredicateTemplate.h */,
 				D546686310B81E00001982C1 /* CaseInsensitivePredicateTemplate.m */,
 				D546686410B81E00001982C1 /* MainController.h */,
@@ -440,6 +448,7 @@
 				D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */,
 				D555336E115C140F000D3B99 /* dsa_pub.pem in Resources */,
 				D5C9939C11636AFB00AFCE6E /* ChangeLog.yml in Resources */,
+				D5CB9D0011E2055D00E3283E /* TaskEditor.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +496,7 @@
 				D5C934DC112C8E7800559D60 /* TTParsedPredicate.m in Sources */,
 				D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */,
 				D588FB9111B1C93300D7A8B0 /* TTaskNameTransformer.m in Sources */,
+				D5CB9CFA11E2054400E3283E /* TaskEditorController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +527,14 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		D5CB9CFE11E2055D00E3283E /* TaskEditor.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D5CB9CFF11E2055D00E3283E /* English */,
+			);
+			name = TaskEditor.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -530,6 +548,7 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"\"$(SRCROOT)/BWToolkit\"",
+					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -559,6 +578,7 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"\"$(SRCROOT)/BWToolkit\"",
+					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -587,6 +607,7 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"\"$(SRCROOT)/BWToolkit\"",
+					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
