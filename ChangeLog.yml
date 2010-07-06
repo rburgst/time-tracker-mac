@@ -6,6 +6,7 @@
       - added preliminary support for closing tasks (time is not counted against project)
       - CSV export now uses UTF-8 which should fix some issues with foreign characters
       - fixed display of time recordings when filter is selected
+      - added filters for "last month" and "this month"
       
 - version: 1.3.6
   date: 2010-04-30
