@@ -1,2 +1,5 @@
 build
 Time Tracker.xcodeproj/rainer.pbxuser
+appcast/timetracker.*html
+appcast/logo.png
+appcast/timetracker.css
