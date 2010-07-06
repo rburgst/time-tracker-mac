@@ -33,7 +33,16 @@
     SearchQuery *query = [[SearchQuery alloc] initWithTitle:@"None" predicate:nil];
     [iSearchQueries addObject:query];
     [query release];
+
+	NSPredicate *lastMonthPred = [provider predicateWithSingleMonthFromToday:1];
+    query = [[SearchQuery alloc] initWithTitle:@"Last month" predicate:lastMonthPred];
+    [iSearchQueries addObject:query];
+    [query release];
     
+    query = [[SearchQuery alloc] initWithTitle:@"This month" predicate:[provider predicateWithSingleMonthFromToday:0]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
     NSPredicate *lastWeekPred = [provider predicateWithSingleWeekFromToday:1];
     query = [[SearchQuery alloc] initWithTitle:@"Last week" predicate:lastWeekPred];
     [iSearchQueries addObject:query];
