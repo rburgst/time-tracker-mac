@@ -11,11 +11,11 @@
 			<string key="com.brandonwalkin.BWToolkit">1.2.5</string>
 		</dictionary>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="2208"/>
 			<integer value="333"/>
+			<integer value="228"/>
 			<integer value="593"/>
 			<integer value="2203"/>
-			<integer value="228"/>
+			<integer value="2208"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4160,7 +4160,7 @@
 									<double key="NSSize">13</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<string key="NSAlternateContents">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
+								<string key="NSAlternateContents">http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-stable.xml</string>
 								<object class="NSMutableString" key="NSKeyEquivalent">
 									<characters key="NS.bytes"/>
 								</object>
@@ -4168,7 +4168,7 @@
 								<int key="NSPeriodicInterval">75</int>
 								<object class="NSMenuItem" key="NSMenuItem" id="964709734">
 									<reference key="NSMenu" ref="189931622"/>
-									<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml</string>
+									<string key="NSTitle">http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-stable.xml</string>
 									<string key="NSKeyEquiv"/>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -4222,7 +4222,7 @@
 										<reference ref="964709734"/>
 										<object class="NSMenuItem" id="767191061">
 											<reference key="NSMenu" ref="189931622"/>
-											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-beta.xml</string>
+											<string key="NSTitle">http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-beta.xml</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
 											<int key="NSMnemonicLoc">2147483647</int>
@@ -4237,7 +4237,7 @@
 										</object>
 										<object class="NSMenuItem" id="716312361">
 											<reference key="NSMenu" ref="189931622"/>
-											<string key="NSTitle">http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</string>
+											<string key="NSTitle">http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-test.xml</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSMnemonicLoc">2147483647</int>
 											<reference key="NSOnImage" ref="491348762"/>
@@ -8593,7 +8593,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA</b
 				<boolean value="YES" key="595.ImportedFromIB2"/>
 				<string key="596.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="596.ImportedFromIB2"/>
-				<string key="599.IBEditorWindowLastContentRect">{{104, 729}, {606, 63}}</string>
+				<string key="599.IBEditorWindowLastContentRect">{{406, 753}, {601, 63}}</string>
 				<string key="599.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="599.ImportedFromIB2"/>
 				<string key="600.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>

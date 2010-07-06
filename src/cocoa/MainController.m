@@ -48,6 +48,14 @@
 // property keys for user defaults
 #define PREFKEY_DECIMAL_HOURS @"decimalHours"
 
+#define URL_APPCAST_OLD_STABLE @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml"
+#define URL_APPCAST_OLD_BETA @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-beta.xml"
+#define URL_APPCAST_OLD_TEST @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml"
+
+#define URL_APPCAST_STABLE @"http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-stable.xml"
+#define URL_APPCAST_BETA @"http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-beta.xml"
+#define URL_APPCAST_TEST @"http://time-tracker-mac.googlecode.com/hg/appcast/timetracker-test.xml"
+
 - (id) init
 {
     if ((self = [super init]) == nil) {
@@ -335,6 +343,19 @@
 	[self applyFilter];
 }
 
+-(NSString*) migrateUpdateURL:(NSString*)oldURL {
+	if ([oldURL isEqualToString:URL_APPCAST_OLD_STABLE]) {
+		return URL_APPCAST_STABLE;
+	}
+	if ([oldURL isEqualToString:URL_APPCAST_OLD_BETA]) {
+		return URL_APPCAST_BETA;
+	}
+	if ([oldURL isEqualToString:URL_APPCAST_OLD_TEST]) {
+		return URL_APPCAST_TEST;
+	}
+	return oldURL;
+}
+
 -(void) loadData
 {
     NSData *theData = nil;
@@ -392,11 +413,11 @@
         } else {
             _enableStandbyDetection = YES;
         }
-        NSString* update = [rootObject valueForKey:@"updateURL"];
+        NSString* update = [self migrateUpdateURL:[rootObject valueForKey:@"updateURL"]];
         if (update != nil) {
             self.updateURL = update;            
         } else {
-            self.updateURL = @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml";
+            self.updateURL = URL_APPCAST_STABLE;
         }
         // restore the lruCache
         indexData = [rootObject valueForKey:@"lruIndexes"];
@@ -408,7 +429,7 @@
 		if (theData != nil) {
 			projects = (NSMutableArray *)[[NSMutableArray arrayWithArray: [NSUnarchiver unarchiveObjectWithData:theData]] retain];
 		}
-       self.updateURL = @"http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-stable.xml";
+       self.updateURL = URL_APPCAST_STABLE;
 	}
     
 	if (projects != nil) {
