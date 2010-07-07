@@ -12,6 +12,10 @@
 @implementation TProject
 
 @synthesize name = _name;
+@synthesize closed = _closed;
+
+#pragma mark -
+#pragma mark object lifecycle
 
 - (id) init
 {
@@ -21,67 +25,17 @@
 	return self;
 }
 
-- (NSMutableArray *) tasks
+- (void) dealloc 
 {
-	return _tasks;
+	[_tasks release];
+	_tasks = nil;
+	[super dealloc];
 }
-
-- (void) addTask: (TTask *) task
-{
-	[_tasks addObject: task];
-	[task setParentProject:self];
-}
-
-- (NSInteger) totalTime
-{
-	return _totalTime;
-}
-
-- (void) updateTotalTime
-{
-	_totalTime = 0;
-	int i;
-	for (i = 0; i < [_tasks count]; i++) {
-		TTask *task = [_tasks objectAtIndex: i];
-		if (!task.closed) {
-			_totalTime += [task totalTime];
-		}
-	}
-}
-
-- (NSMutableArray *) matchingTasks:(NSPredicate*) filter
-{
-	NSMutableArray *result = [NSMutableArray array];
-	// this needs to be performance tuned but it does the job for now
-	NSEnumerator *enumTasks = [_tasks objectEnumerator];
-	id task;
-	while ((task = [enumTasks nextObject]) != nil) {
-		if ([[task matchingWorkPeriods:filter] count] > 0) {
-			[result addObject:task];
-		}
-	}
-	return result;
-}
-
-- (int) filteredTime:(NSPredicate*) filter
-{
-	if (filter == nil) {
-		return [self totalTime];
-	}
-	int result = 0;
-	NSEnumerator *enumTasks = [_tasks objectEnumerator];
-	id<ITask> task;
-	while ((task = [enumTasks nextObject]) != nil) {
-		if (!task.closed) {
-			result += [task filteredTime:filter];
-		}
-	}
-	return result;
-}
+#pragma mark -
+#pragma mark persistence
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    //[super encodeWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         [coder encodeObject:_name forKey:@"PName"];
         [coder encodeObject:_tasks forKey:@"PTasks"];
@@ -94,7 +48,6 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    //self = [super initWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
         _name = [[coder decodeObjectForKey:@"PName"] retain];
@@ -117,6 +70,8 @@
     return self;
 }
 
+#pragma mark -
+#pragma mark CSV export
 - (NSString*)serializeData:(NSString*)separatorChar
 {
 	NSMutableString* result = [NSMutableString string];
@@ -129,6 +84,9 @@
 	}
 	return [[result retain] autorelease];
 }
+
+#pragma mark -
+#pragma mark model API
 
 - (id<IProject>) removeTask:(TTask*)task {
 	[[self tasks] removeObject:task];
@@ -180,5 +138,93 @@
         }
         i++;
     }
+}
+
+
+/** 
+ * Evaluates all time records in this project which match the filter and their
+ * tasks are not closed.
+ * @param filter	the filter predicate which to match WorkPeriods
+ * @param closed	only evaluate project have the matching closed state
+ */
+- (int) filteredTime:(NSPredicate*) filter closed:(BOOL) closed
+{
+	if (filter == nil) {
+		return [self totalTime];
+	}
+	int result = 0;
+	NSEnumerator *enumTasks = [_tasks objectEnumerator];
+	id<ITask> task;
+	while ((task = [enumTasks nextObject]) != nil) {
+		if (closed) {
+			result += [task filteredTime:filter];
+		}
+	}
+	return result;
+}
+
+/** 
+ * Evaluates all time records in this project which match the filter and their
+ * tasks are not closed. This will only collect times for not closed Tasks.
+ * @param filter	the filter predicate which to match WorkPeriods
+ */
+- (int) filteredTime:(NSPredicate*) filter
+{
+	return [self filteredTime:filter closed:NO];
+}
+
+- (NSMutableArray *) tasks
+{
+	return _tasks;
+}
+
+- (void) addTask: (TTask *) task
+{
+	[_tasks addObject: task];
+	[task setParentProject:self];
+}
+
+- (NSInteger) totalTime
+{
+	return _totalTime;
+}
+
+- (void) updateTotalTime
+{
+	_totalTime = 0;
+	int i;
+	for (i = 0; i < [_tasks count]; i++) {
+		TTask *task = [_tasks objectAtIndex: i];
+		if (!task.closed) {
+			_totalTime += [task totalTime];
+		}
+	}
+}
+
+- (NSInteger) closedTime
+{
+	NSInteger result = 0;
+	int i;
+	for (i = 0; i < [_tasks count]; i++) {
+		TTask *task = [_tasks objectAtIndex: i];
+		if (task.closed) {
+			result += [task totalTime];
+		}
+	}
+	return result;
+}
+
+- (NSMutableArray *) matchingTasks:(NSPredicate*) filter
+{
+	NSMutableArray *result = [NSMutableArray array];
+	// this needs to be performance tuned but it does the job for now
+	NSEnumerator *enumTasks = [_tasks objectEnumerator];
+	id task;
+	while ((task = [enumTasks nextObject]) != nil) {
+		if ([[task matchingWorkPeriods:filter] count] > 0) {
+			[result addObject:task];
+		}
+	}
+	return result;
 }
 @end

@@ -14,6 +14,7 @@
 	NSString *_name;
 	NSMutableArray *_tasks;
 	int _totalTime;
+	BOOL _closed;
 }
 
 - (NSMutableArray *) tasks;
@@ -21,6 +22,7 @@
 
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
 - (int) filteredTime:(NSPredicate*) filter;
+- (int) filteredTime:(NSPredicate*) filter closed:(BOOL) closed;
 
 - (NSInteger) totalTime;
 - (void) updateTotalTime;
@@ -28,6 +30,8 @@
 - (id<IProject>) removeTask:(TTask*)task;
 
 @property(retain,nonatomic) NSString *name;
+@property(readonly) NSInteger closedTime;
+@property BOOL closed;
 
 - (void) deDuplicateTaskNames;
 @end

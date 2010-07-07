@@ -18,4 +18,6 @@
 - (BOOL) doesTaskNameExist:(NSString*)name;
 - (void)moveTask:(TTask *)task toIndex:(NSInteger)index;
 - (NSMutableArray *) matchingTasks:(NSPredicate*) filter;
+
+@property(readonly) NSInteger closedTime;
 @end

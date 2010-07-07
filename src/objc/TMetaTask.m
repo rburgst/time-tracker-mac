@@ -35,7 +35,21 @@
 	TTask *task = nil;
 	int result = 0;
 	while ((task = [enumTasks nextObject]) != nil) {
-		result += [task totalTime];
+		if (!task.closed) {
+			result += [task totalTime];
+		}
+	}
+	return result;
+}
+
+- (NSInteger) closedTime {
+	NSEnumerator *enumTasks = [_tasks objectEnumerator];
+	TTask *task = nil;
+	int result = 0;
+	while ((task = [enumTasks nextObject]) != nil) {
+		if (task.closed) {
+			result += [task totalTime];
+		}
 	}
 	return result;
 }

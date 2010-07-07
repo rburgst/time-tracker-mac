@@ -12,16 +12,27 @@
 @implementation TMetaProject
 
 
-- (int) totalTime
+- (NSInteger) calculateTime:(BOOL)closed
 {
-	int result = 0;
+	NSInteger result = 0;
 	NSEnumerator *enumProjects = [_projects objectEnumerator];
 	TProject *project = nil;
 	while ((project = [enumProjects nextObject]) != nil) {
-		result += [project totalTime];
+		if (project.closed == closed) {
+			result += [project totalTime];
+		}
 	}
 	return result;
+}
 
+- (int) totalTime
+{
+	return [self calculateTime:NO];
+}
+
+- (NSInteger) closedTime 
+{
+	return [self calculateTime:YES];
 }
 
 - (void) updateTotalTime
