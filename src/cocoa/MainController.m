@@ -20,9 +20,9 @@
 
 
 @interface MainController (PrivateMethods)
-- (void)initializeTableViews;
-- (NSArray*) determineCurrentTasks;
-
+	- (void)initializeTableViews;
+	- (NSArray*) determineCurrentTasks;
+	- (void) reloadTasks;
 @end
 
 
@@ -169,7 +169,6 @@
 
 	//[tvTasks reloadData];
 	[tvProjects reloadData];
-	[self applyFilterToCurrentTasks];
 	
 	[workPeriodController setFilterPredicate:pred];
 		
@@ -656,6 +655,7 @@
 	[wp setEndTime: [dtpEditWorkPeriodEndTime dateValue]];
 	[wp setComment: [[[NSAttributedString alloc] initWithString:[dtpEditWorkPeriodComment string]] autorelease]];
 	
+	BOOL doRefilter = NO;
 	// move the workperiod to a different task / project
 	if ([_taskPopupButton indexOfSelectedItem] > 0) {
         int projectIndex = [_projectPopupButton indexOfSelectedItem];
@@ -663,12 +663,23 @@
         int taskIndex = [_taskPopupButton indexOfSelectedItem] - 1;
 		TTask *selectedTask = [[selectedProject tasks] objectAtIndex:taskIndex];
 		[self moveWorkPeriodToNewTask:wp task:selectedTask];
+		// in this case we need to update all the task filters, etc.
+		// since the work period has moved from one project to another and we need to 
+		// make sure that the task display in the upper right corner refreshes.
+		doRefilter = YES;
 	}
 	
 	[_selTask updateTotalTime];
 	[_selProject updateTotalTime];
 	[tvProjects reloadData];
 	[self reloadWorkPeriods];
+	// reload the tasks as well
+	if (doRefilter) {
+		[self updateTaskFilterCache];
+	} else {
+		// only make sure that the totals are updated.
+		[self reloadTasks];
+	}
 	[NSApp stopModal];
 	[panelEditWorkPeriod orderOut: self];
 }
@@ -1085,6 +1096,11 @@
 	//[workPeriodController rearrangeObjects];
 }
 
+- (void) reloadTasks 
+{
+	self.currentTasks = [self determineCurrentTasks];	
+}
+
 /** 
  * This method will update the cached tasks to be displayed when a filter
  * is selected. 
@@ -1097,6 +1113,7 @@
 		_filteredTasks = [[_selProject matchingTasks:[self filterPredicate]] retain];
 	} 
 	self.currentTasks = [self determineCurrentTasks];
+	[self applyFilterToCurrentTasks];
 }
                 
 - (BOOL) doesProjectNameExist:(NSString*)name {
@@ -1901,8 +1918,7 @@
 			}
 		}
         
-		NSArray *tasks = [self determineCurrentTasks];
-		self.currentTasks = tasks;
+		[self reloadTasks];
 		// apply the current filter if any
 		[self applyFilterToCurrentTasks];
 		[self updateProminentDisplay];
