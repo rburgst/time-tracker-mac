@@ -156,7 +156,7 @@
 	NSEnumerator *enumTasks = [_tasks objectEnumerator];
 	id<ITask> task;
 	while ((task = [enumTasks nextObject]) != nil) {
-		if (closed) {
+		if (closed == _closed) {
 			result += [task filteredTime:filter];
 		}
 	}
