@@ -1093,7 +1093,6 @@
 - (void)reloadWorkPeriods
 {
 	[workPeriodController setContent:[_selTask workPeriods]];
-	//[workPeriodController rearrangeObjects];
 }
 
 - (void) reloadTasks 
@@ -1187,10 +1186,9 @@
     [parentTask removeWorkPeriod:selPeriod];
     [_selTask updateTotalTime];
     [_selProject updateTotalTime];
-/*    [tvWorkPeriods deselectAll: self];
-    [tvWorkPeriods reloadData];*/
-	[workPeriodController removeObject:selPeriod];
-    [tvTasks reloadData];
+	// reload the workperiods and tasks
+	[self reloadWorkPeriods];
+	[self reloadTasks];
     [tvProjects reloadData];
 		
     [self reloadWorkPeriods];
