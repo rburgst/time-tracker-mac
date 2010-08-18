@@ -99,6 +99,7 @@
     _startMenu = [[NSMenu alloc] initWithTitle:@"TimeTracker"];
     _startTaskMenuDelegate = [[StartTaskMenuDelegate alloc] initWithController:self];
     [_startMenu setDelegate:_startTaskMenuDelegate];
+//	[_startMenu setTarget:self];
     [self loadData];
 
 	return self;
@@ -484,6 +485,7 @@
 	[statusItem setTarget: self];
 	[statusItem setAction: @selector (clickedStartStopTimer:)];
     [statusItem setLength:NSVariableStatusItemLength];
+	statusItem.menu = _startMenu;
 
 	NSBundle *bundle = [NSBundle mainBundle];
 
@@ -584,6 +586,7 @@
 	[self applyFilter];
 	// hide the window
 	[sheet orderOut:nil];
+	statusItem.menu = _startMenu;
 }
 
 - (void) openEditWorkPeriodPanel:(TWorkPeriod*) wp {
@@ -686,6 +689,9 @@
 
 - (void) showIdleNotification
 {
+	// prevent someone from starting a new task while the popup is visible.
+	statusItem.menu = nil;
+	
     [NSApp beginSheet:panelIdleNotification modalForWindow:mainWindow modalDelegate:self 
        didEndSelector:@selector(notificationDidEnd:returnCode:contextInfo:) contextInfo:nil];
 /*
@@ -1325,7 +1331,6 @@
 
 	// assert timer != nil
 	[timer setFireDate: [NSDate dateWithTimeIntervalSinceNow: 1]];
-//	[NSApp stopModal];
     [NSApp endSheet:panelIdleNotification returnCode:NSOKButton];
 }
 
@@ -1375,7 +1380,6 @@
 		// assert statusItem != nil
 		[statusItem setImage:playItemImage];
 		[statusItem setAlternateImage:playItemHighlightImage];
-        [statusItem setMenu:_startMenu];
 		
 		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Start Timer"];
@@ -1390,7 +1394,6 @@
 		// assert statusItem != nil
 		[statusItem setImage:stopItemImage];
 		[statusItem setAlternateImage:stopItemHighlightImage];
-        [statusItem setMenu:_startMenu];
 		
 		// assert startMenuItem != nil
 		[startMenuItem setTitle:@"Stop Timer"];
