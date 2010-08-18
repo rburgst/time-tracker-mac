@@ -1,4 +1,13 @@
 ---
+- version: 1.3.8
+  date: 2010-07-20
+  changes:
+      - IMPORTANT! requires Mac OS 10.5 or higher
+	  - fixed refresh of display after deleting a recording
+	  - migrated appcast update urls to new mercurial site
+	  - fixed calculation of filtered time (regression introduced by project closing support)
+	  - fixed issue 69: TT hangs when starting a task using the system menu while inactivity popup is shown
+	  
 - version: 1.3.7
   date: 2010-07-10
   changes: 
