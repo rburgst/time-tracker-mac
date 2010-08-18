@@ -6,11 +6,18 @@
 		<description>This appcast is for testing only-- it will always contain a fake update that is newer than every Time Tracker release.</description>
 		<language>en</language>
 		<item>
+          <title>Time Tracker 1.3.8</title>
+          <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.8.html</description>
+          <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.8.html</sparkle:releaseNotesLink>
+          <pubDate>Tue, 17 Aug 2010 00:00:00 -0800</pubDate>
+          <enclosure type="application/octet-stream" sparkle:version="9.9.8" sparkle:dsaSignature="MCwCFEVtgYv+oaUUXtClyycGoVOup2KZAhQC2BZi1Ia/rSr8L/WSIaFan73nnQ==" length="2803337" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.8.zip"/>
+        </item>
+		<item>
           <title>Time Tracker 1.3.7</title>
           <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.7.html</description>
           <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.7.html</sparkle:releaseNotesLink>
           <pubDate>Sat, 10 Jul 2010 00:00:00 -0800</pubDate>
-          <enclosure type="application/octet-stream" sparkle:version="9.9.8" sparkle:dsaSignature="MCwCFFuFPa2/k0y9TH+wUvke+UYbW8YQAhQ+rMZRH54xNbXhTqRIAn+EKFH/ZA==" length="2801610" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.7.zip"/>
+          <enclosure type="application/octet-stream" sparkle:version="1.3.7" sparkle:dsaSignature="MCwCFFuFPa2/k0y9TH+wUvke+UYbW8YQAhQ+rMZRH54xNbXhTqRIAn+EKFH/ZA==" length="2801610" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.7.zip"/>
         </item>
         
 		<item>
