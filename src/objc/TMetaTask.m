@@ -62,12 +62,26 @@
 		[task updateTotalTime];
 	}
 }
+
 - (void) setTasks:(NSArray*)tasks {
 	if (_tasks == tasks) {
 		return;
 	}
+    
+    // unregister old KVO observers
+    for (TTask* task in _tasks) {
+        [task removeObserver:self forKeyPath:@"filteredDuration"];
+    }
+    
 	[_tasks release];
 	_tasks = [tasks retain];
+    
+    // add KVO for filtered time of the subtasks
+    for (TTask* task in _tasks) {
+        [task addObserver:self forKeyPath:@"filteredDuration" 
+                  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) 
+                  context:task];
+    }
 }
 
 
@@ -162,4 +176,15 @@
 	// should not be called actually
 	assert(NO);
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                               ofObject:(id)object
+                                 change:(NSDictionary *)change
+                                context:(void *)context {
+    // one of our kids updated its filter duration, so tell the UI that
+    // we also updated our duration
+    [self willChangeValueForKey:@"filteredDuration"];
+    [self didChangeValueForKey:@"filteredDuration"];
+}
+
 @end
