@@ -1094,6 +1094,12 @@
 	[_metaTask setTasks:[_selProject tasks]];
 	
 	self.selectedTask = _metaTask;
+    
+    // now refresh the UI and make sure that the record is selected
+	[taskController setSelectionIndex:0];
+	NSIndexSet *taskIndexes = [NSIndexSet indexSetWithIndex:0];
+	[tvTasks selectRowIndexes:taskIndexes byExtendingSelection:NO];
+
 }
 
 - (void)reloadWorkPeriods
@@ -1103,7 +1109,7 @@
 
 - (void) reloadTasks 
 {
-	self.currentTasks = [self determineCurrentTasks];	
+	self.currentTasks = [self determineCurrentTasks];
 }
 
 /** 
@@ -1920,6 +1926,8 @@
 		}
         
 		[self reloadTasks];
+        // we have changed the selected project, select the metatask by default
+        [self selectAndUpdateMetaTask];
 		// apply the current filter if any
 		[self applyFilterToCurrentTasks];
 		[self updateProminentDisplay];
