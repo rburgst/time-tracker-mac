@@ -4,3 +4,4 @@ appcast/timetracker.*html
 appcast/logo.png
 appcast/timetracker.css
 Time Tracker.xcodeproj/rainer.perspectivev3
+.DS_Store
