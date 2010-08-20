@@ -356,6 +356,11 @@
 	return oldURL;
 }
 
+-(void) createDefaultProjectAndTask {
+    [self createProject];
+    [self createTask];
+}
+
 -(void) loadData
 {
     NSData *theData = nil;
@@ -457,12 +462,10 @@
     }        
     
     // check projects for duplicate names
-    NSEnumerator *projectEnum = [_projects objectEnumerator];
     int i = 0;
     int j = 0;
     int uniqueMaker = 1;
-    TProject *project;
-    while ((project = [projectEnum nextObject]) != nil) {
+    for (TProject *project in _projects) {
         for (j = 0; j < i; j++) {
             TProject *checkProject = [_projects objectAtIndex:j];
             if ([[checkProject name] isEqualToString:[project name]]) {
@@ -473,6 +476,10 @@
         // now also check for duplicate task names and fix them
         [project deDuplicateTaskNames];
         i++;
+    }
+    
+    if ([_projects count] == 0) {
+        [self createDefaultProjectAndTask];        
     }
 }
 
