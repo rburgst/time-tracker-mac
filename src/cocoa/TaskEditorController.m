@@ -49,6 +49,15 @@
 // ============================
 
 - (IBAction)applyAndClose:(id) sender {
+    if (![self.task.name isEqualToString:self.taskName]) {
+        // the name was changed
+        if ([self.task.parentProject doesTaskNameExist:self.taskName]) {
+            NSRunAlertPanel(@"A Task with that name already exists", 
+                        @"Please choose a different name",
+                        @"OK", nil/*@"NO"*/, /*ThirdButtonHere:*/nil
+                        /*, args for a printf-style msg go here */);
+        }
+    }
 	self.task.name = self.taskName;
 	self.task.closed = self.completed;
 	NSLog(@"applying new name: %@, completd %d",self.task.name, self.task.closed);
