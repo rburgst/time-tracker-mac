@@ -1,4 +1,13 @@
 ---
+- version: 1.3.9
+  date: 2010-09-08
+  changes:
+      - IMPORTANT! requires Mac OS 10.5 or higher
+      - fixed the problem where "all tasks" was not updating the time in realtime.
+      - fix the problem where after selecting a different project the "all tasks" didnt show the correct time (but the time from the previously selected project)
+      - fixed issue 70 czech localization added (trial)
+      - fixed issue 65 drag and drop support was broken for tasks
+
 - version: 1.3.8
   date: 2010-08-17
   changes:
