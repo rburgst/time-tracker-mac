@@ -109,7 +109,11 @@
 }
 
 
-
+/**
+ * Checks whether a given task name already exists. 
+ * @param name  the task name to search for
+ * @return YES if the task name already exists.
+ */
 - (BOOL) doesTaskNameExist:(NSString*)name {
     NSEnumerator *enumTasks = [_tasks objectEnumerator];
     TTask *task;
@@ -140,6 +144,23 @@
     }
 }
 
+/**
+ * Checks all existing task names for name collisions and proposes
+ * a name that wont collide.
+ * @param baseName  the default name for a potential new task
+ * @return a unique task name
+ */
+- (NSString*) findUniqueTaskNameBasedOn:(NSString*) baseName {
+    NSString *curTaskName = baseName;
+    NSInteger uniqueMaker = 1;
+    for (TTask* task in _tasks) {
+        while ([task.name isEqualToString:curTaskName]) {
+            uniqueMaker++;
+            curTaskName = [NSString stringWithFormat:@"%@ %d", baseName, uniqueMaker];
+        }
+    }
+    return curTaskName;
+}
 
 /** 
  * Evaluates all time records in this project which match the filter and their
