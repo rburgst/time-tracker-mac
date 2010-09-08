@@ -33,6 +33,7 @@
 @synthesize updateURL = _updateURL;
 @synthesize decimalHours = _decimalHours;
 @synthesize selectedTask = _selTask;
+@synthesize selectedProject = _selProject;
 @synthesize taskEditorController = _taskEditorController;
 
 // this flag toggles whether we show tasks in the "All Projects View"
@@ -236,7 +237,7 @@
     // calling the setter will automatically perform the key value observing
     self.selectedTask = task;
     // TODO use setters here too.
-    _selProject = project;
+    self.selectedProject = project;
     [self addTaskToLruCache:task];
 	
 	// select the project in table view
@@ -357,8 +358,10 @@
 }
 
 -(void) createDefaultProjectAndTask {
-    [self createProject];
-    [self createTask];
+    TProject *project = [self createProject];
+    self.selectedProject = project;
+    TTask *task = [self createTask];
+    [self selectTask:task project:project];
 }
 
 -(void) loadData
@@ -976,7 +979,7 @@
 	[tvProjects editColumn:[tvProjects columnWithIdentifier:@"ProjectName"] row:index withEvent:nil select:YES];
 }
 
-- (void)createProject
+- (TProject*)createProject
 {
 	TProject *proj = [TProject new];
 	[_projects addObject: proj];
@@ -985,6 +988,7 @@
 	int index = [_projects count];
 	[tvProjects selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	[mainWindow makeFirstResponder:tvProjects];
+    return proj;
 }
 
 - (IBAction)clickedAddTask:(id)sender
@@ -1079,22 +1083,29 @@
     }*/
 }
 
-- (void)createTask
+- (TTask*)createTask
 {
 	// assert _selProject != nil
-	if (_selProject == nil) return;
+	if (_selProject == nil) return nil;
 	
 	TTask *task = [TTask new];
+    TProject* project = (TProject*) _selProject;
 
-	[(TProject*)_selProject addTask: task];
+    NSString *taskName = [project findUniqueTaskNameBasedOn:task.name];
+    task.name = taskName;
+	[project addTask: task];
     [task release];
-	[tvTasks reloadData];
+    
+    [self selectTask:task project:project];
+    return task;
+/*	[tvTasks reloadData];
 	
 	self.currentTasks = [self determineCurrentTasks];
 	//[taskController setContent:self.currentTasks];
 	int index = [[_selProject tasks] count];
 	[tvTasks selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 	[mainWindow makeFirstResponder:tvTasks];
+  */  
 }
 
 - (void)selectAndUpdateMetaTask {

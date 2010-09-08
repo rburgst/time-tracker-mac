@@ -165,8 +165,8 @@
 - (void) stopTimer:(NSDate*)endTime;
 - (void) stopTimer;
 - (void) startTimer;
-- (void) createTask;
-- (void) createProject;
+- (TTask*) createTask;
+- (TProject*) createProject;
 - (int)  idleTime;
 - (void) saveData;
 - (void) loadData;
@@ -215,6 +215,7 @@
 @property(retain, nonatomic) NSString *updateURL;
 @property BOOL decimalHours;
 @property(retain, nonatomic) id<ITask> selectedTask;
+@property(retain, nonatomic) id<IProject> selectedProject;
 @property(retain, nonatomic) NSArray* currentTasks;
 @property(retain, nonatomic) TaskEditorController* taskEditorController;
 
