@@ -209,6 +209,7 @@
 -(void) setEnableStandbyDetection:(BOOL)enable;
 -(BOOL) enableStandbyDetection;
 
+-(void) reloadTasks;
 
 @property(readonly) BOOL timerRunning;
 @property(retain, nonatomic) NSPredicate* extraFilterPredicate;

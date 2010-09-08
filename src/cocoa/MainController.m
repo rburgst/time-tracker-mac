@@ -22,7 +22,6 @@
 @interface MainController (PrivateMethods)
 	- (void)initializeTableViews;
 	- (NSArray*) determineCurrentTasks;
-	- (void) reloadTasks;
 @end
 
 
