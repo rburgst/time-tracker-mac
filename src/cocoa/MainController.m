@@ -102,6 +102,7 @@
 //	[_startMenu setTarget:self];
     [self loadData];
 
+    NSLog(@"Have MetaProject: %@, retainCount %d",_metaProject, [_metaProject retainCount]);
 	return self;
 }
 
@@ -1088,7 +1089,7 @@
 	if (_selProject == nil) return nil;
 	
 	TTask *task = [TTask new];
-    TProject* project = (TProject*) _selProject;
+    TProject* project = (TProject*) self.selectedProject;
 
     NSString *taskName = [project findUniqueTaskNameBasedOn:task.name];
     task.name = taskName;
@@ -1924,9 +1925,9 @@
 		_taskNameTransformer.showProjectName = NO;
 
 		if ([self selectedProjectRow] == -2) {
-			_selProject = nil;
+			self.selectedProject = nil;
 		} else if ([self selectedProjectRow] == -1) {
-			_selProject = _metaProject;
+			self.selectedProject = _metaProject;
 			// all projects was selected, so show the project column
 			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
 				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:NO];
@@ -1936,7 +1937,7 @@
 			[self updateTaskFilterCache];
 		} else {
 			// user has selected a valid project
-			_selProject = [_projects objectAtIndex: [self selectedProjectRow]];
+			self.selectedProject = [_projects objectAtIndex: [self selectedProjectRow]];
 			if ([NSTableColumn instancesRespondToSelector:@selector(setHidden:)]) {
 				[[tvWorkPeriods tableColumnWithIdentifier:@"Project"] setHidden:YES];
 			}
