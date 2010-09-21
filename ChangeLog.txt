@@ -1,3 +1,32 @@
+=== 1.3.10 ===  2010-09-20
+
+  * IMPORTANT! requires Mac OS 10.5 or higher
+  * fixed a potential segfault when starting a recording after having "all
+    projects" selected
+  * fixed issue 75 adding a recording via the plus while last week filter is
+    on does not show the recording until restart
+
+=== 1.3.9 ===  2010-09-08
+
+  * IMPORTANT! requires Mac OS 10.5 or higher
+  * fixed the problem where "all tasks" was not updating the time in
+    realtime.
+  * fix the problem where after selecting a different project the "all
+    tasks" didnt show the correct time (but the time from the previously
+    selected project)
+  * fixed issue 70 czech localization added (trial)
+  * fixed issue 65 drag and drop support was broken for tasks
+
+=== 1.3.8 ===  2010-08-17
+
+  * IMPORTANT! requires Mac OS 10.5 or higher
+  * fixed refresh of display after deleting a recording
+  * migrated appcast update urls to new mercurial site
+  * fixed calculation of filtered time (regression introduced by project
+    closing support)
+  * fixed issue 69 TT hangs when starting a task using the system menu while
+    inactivity popup is shown
+
 === 1.3.7 ===  2010-07-10
 
   * IMPORTANT! requires Mac OS 10.5 or higher
