@@ -71,6 +71,8 @@
         [_startTime release];
         _startTime = nil;
         _startTime = [startTime retain];
+		// reset the start date otherwise our filter is all wrong
+		self.date = nil;
         [self updateTotalTime];        
     }
 }
