@@ -6,6 +6,13 @@
 		<description>This appcast is for beta testing only, beta versions will be made available on this appcast.</description>
 		<language>en</language>
         <item>
+          <title>Time Tracker 1.3.10</title>
+          <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.10.html</description>
+          <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.10.html</sparkle:releaseNotesLink>
+          <pubDate>Mon, 20 Sep 2010 00:00:00 -0800</pubDate>
+          <enclosure url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.10.zip" type="application/octet-stream" sparkle:version="1.3.10" sparkle:dsaSignature="MCwCFAQv8KmA+jf8wQ+RicWyu3TyshE2AhQ19P6bAFajKOVrSvFs37exveCm3w==" length="3244554"/>
+        </item>
+        <item>
           <title>Time Tracker 1.3.9</title>
           <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.9.html</description>
           <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.9.html</sparkle:releaseNotesLink>
