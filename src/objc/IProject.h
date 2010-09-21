@@ -7,7 +7,7 @@
  *
  */
 
-@protocol IProject<NSObject>
+@protocol IProject<NSObject, NSCoding>
 
 - (NSInteger) totalTime;
 - (void) updateTotalTime;
