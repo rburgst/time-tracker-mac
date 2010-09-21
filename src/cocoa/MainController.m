@@ -701,7 +701,7 @@
 {
 	// prevent someone from starting a new task while the popup is visible.
 	statusItem.menu = nil;
-	
+	NSLog(@"Showing idle notification for mainWindow %@", mainWindow);
     [NSApp beginSheet:panelIdleNotification modalForWindow:mainWindow modalDelegate:self 
        didEndSelector:@selector(notificationDidEnd:returnCode:contextInfo:) contextInfo:nil];
 /*
