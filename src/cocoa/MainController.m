@@ -1175,7 +1175,9 @@
 	[_taskPopupButton removeAllItems];
 	NSEnumerator *enumTasks = [[project tasks] objectEnumerator];
 	TTask *task = nil;
-	[_taskPopupButton addItemWithTitle:@"Select"];
+	[_taskPopupButton addItemWithTitle:
+		NSLocalizedString(@"Select", 
+						  @"the SELECT label in the edit workperiod dialog which will allow the user to assign the current recording to another task ")];
 	while ((task = [enumTasks nextObject]) != nil) {
 		[_taskPopupButton addItemWithTitle:[task name]];
 	}
@@ -1955,6 +1957,7 @@
 		NSArray *tasks = [self currentTasks];
 		
 		if ([self selectedTaskRow] == -2) {
+			NSLog(@"selecting null task");
 			self.selectedTask = nil;
 		} else if ([self selectedTaskRow] == -1) {
 			[self selectAndUpdateMetaTask];
