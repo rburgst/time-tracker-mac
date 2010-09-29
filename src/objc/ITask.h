@@ -20,6 +20,8 @@
 - (int) taskId;
 - (BOOL) closed;
 - (void) updateTotalBySeconds:(int)diffInSeconds sender:(id)theSender;
-- (void) setFilterPredicate:(NSPredicate*)predicate;
 - (int) filteredDuration;
+
+@property(retain, nonatomic) NSPredicate* filterPredicate;
+
 @end
