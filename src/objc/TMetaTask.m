@@ -171,14 +171,19 @@
 	[self didChangeValueForKey:@"filteredDuration"];
 }
 
+-(NSPredicate *)filterPredicate {
+    if ([_tasks count] == 0) {
+        return nil;
+    } else {
+        return [[_tasks objectAtIndex:0] filterPredicate];
+    }
+}
+
 -(int) filteredDuration {
 	int result = 0;
-	NSEnumerator *enumerator = [_tasks objectEnumerator];
-	id<ITask> aTask;
 	
-	while (aTask = [enumerator nextObject])
-	{
-		result += aTask.filteredDuration;
+    for (id<ITask> task in _tasks) {
+		result += task.filteredDuration;
 	}
 	return result;
 }
