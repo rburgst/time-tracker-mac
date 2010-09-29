@@ -131,6 +131,7 @@
     BOOL _enableStandbyDetection;
     TWorkPeriod *_currentEditingWP;
     BOOL _decimalHours;
+	BOOL _showIdleNotification;
 	StartTaskMenuDelegate* _startTaskMenuDelegate;
 }
 

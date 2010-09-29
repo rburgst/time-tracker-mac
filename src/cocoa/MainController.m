@@ -699,6 +699,8 @@
 
 - (void) showIdleNotification
 {
+	// reset the flag
+	_showIdleNotification = NO;
 	// prevent someone from starting a new task while the popup is visible.
 	statusItem.menu = nil;
 	NSLog(@"Showing idle notification for mainWindow %@", mainWindow);
@@ -722,13 +724,18 @@
 	// determine if the computer was on standby
 	NSDate *lastEndTime = [_curWorkPeriod endTime];
 	NSDate *curTime = [NSDate date];
-	if (_enableStandbyDetection && [curTime timeIntervalSinceDate:lastEndTime] > 60) {
-		[timer setFireDate: [NSDate distantFuture]];
-		// time jumped by 60 seconds, probably the computer was on standby
-		[_lastNonIdleTime release];
-		_lastNonIdleTime = [lastEndTime retain];
-		[self showIdleNotification];
-		return;
+	if (_enableStandbyDetection && [curTime timeIntervalSinceDate:lastEndTime] > 5) {
+        if ([mainWindow attachedSheet] != nil) {
+            // dont show idle notification just now, wait until the sheet did end
+            _showIdleNotification = YES;
+        } else {
+            [timer setFireDate: [NSDate distantFuture]];
+            // time jumped by 60 seconds, probably the computer was on standby
+            [_lastNonIdleTime release];
+            _lastNonIdleTime = [lastEndTime retain];
+            [self showIdleNotification];
+            return;
+        }
 	}
 	[_curWorkPeriod setEndTime: curTime];
 	[_curTask updateTotalTime];
@@ -741,9 +748,18 @@
 		[_lastNonIdleTime release];
 		_lastNonIdleTime = [[NSDate date] retain];
 	}
-	if (idleTime > _idleTimeoutSeconds) {
-		[timer setFireDate: [NSDate distantFuture]];
-		[self showIdleNotification];
+	
+	if (idleTime > _idleTimeoutSeconds || _showIdleNotification) {
+		// if there is a sheet already open, if yes, then simply 
+		// remember that we should show the popup and move on
+		if ([mainWindow attachedSheet] != nil) {
+			// there is currently a sheet open (probably the user is editing a recording)
+			// so remember that we should pop up the notification later.
+			_showIdleNotification = YES;
+		} else {
+			[timer setFireDate: [NSDate distantFuture]];
+			[self showIdleNotification];
+		}
 	}
 	
 	[self updateProminentDisplay];
