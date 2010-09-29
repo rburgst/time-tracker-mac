@@ -724,7 +724,7 @@
 	// determine if the computer was on standby
 	NSDate *lastEndTime = [_curWorkPeriod endTime];
 	NSDate *curTime = [NSDate date];
-	if (_enableStandbyDetection && [curTime timeIntervalSinceDate:lastEndTime] > 5) {
+	if (_enableStandbyDetection && [curTime timeIntervalSinceDate:lastEndTime] > 60) {
         if ([mainWindow attachedSheet] != nil) {
             // dont show idle notification just now, wait until the sheet did end
             _showIdleNotification = YES;
