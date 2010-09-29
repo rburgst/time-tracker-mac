@@ -119,11 +119,11 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 -(void) copyObjectsInArrangedObjectsFromIndexes:(NSIndexSet*)indexSet toIndex:(unsigned int)insertIndex
 {	
     NSArray		*objects = [self arrangedObjects];
-	int			copyFromIndex = [indexSet lastIndex];
+	NSInteger   copyFromIndex = [indexSet lastIndex];
 	
     int			aboveInsertIndexCount = 0;
     id			object;
-    int			copyIndex;
+    NSInteger	copyIndex;
 	
     while (NSNotFound != copyFromIndex)
 	{
