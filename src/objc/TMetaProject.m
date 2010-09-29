@@ -11,6 +11,16 @@
 
 @implementation TMetaProject
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+	assert(@"not supported");
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+	assert(@"not supported");
+}
 
 - (NSInteger) calculateTime:(BOOL)closed
 {
