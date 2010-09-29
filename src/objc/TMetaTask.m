@@ -11,6 +11,17 @@
 
 @implementation TMetaTask
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+	assert(@"not supported");
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+	assert(@"not supported");
+}
+
 - (NSString *) name {
 	return @"All Tasks";
 }
@@ -74,7 +85,7 @@
     }
     
 	[_tasks release];
-	_tasks = [tasks retain];
+	_tasks = [tasks copy];
     
     // add KVO for filtered time of the subtasks
     for (TTask* task in _tasks) {
