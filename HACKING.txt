@@ -13,9 +13,6 @@ This file contains information for developing and testing Time Tracker.
 
 2. Update the ChangeLog.yml.
 
-3. Test the code
-    3a. Run "rake spec" and verify that there are no errors or failures.
-    3b. Run "rake features" and verify that there are no failures or pending steps.
 
 4. Build the Time Tracker.zip release file:
     4a. Run `rake build_release`.  This will create "build/Release/Time Tracker-$(CURRENT_PROJECT_VERSION).zip".
