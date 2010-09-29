@@ -6,6 +6,7 @@
 //
 
 #import "TaskEditorController.h"
+#import "TProject.h"
 
 @implementation TaskEditorController
 
