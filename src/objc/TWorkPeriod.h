@@ -33,6 +33,7 @@
 @property(retain, nonatomic) NSDate* endTime;
 @property(retain, nonatomic) NSDate* date;
 @property(retain, nonatomic) NSAttributedString* comment;
+@property(readonly) NSString* strComment;
 @property(retain, nonatomic) TTask* parentTask;
 
 - (void) updateTotalTime;

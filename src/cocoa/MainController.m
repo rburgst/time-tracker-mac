@@ -600,17 +600,13 @@
 }
 
 - (void) openEditWorkPeriodPanel:(TWorkPeriod*) wp {
-    [dtpEditWorkPeriodStartTime setDateValue: [wp startTime]];
-	[dtpEditWorkPeriodEndTime setDateValue: [wp endTime]];
-	[dtpEditWorkPeriodComment setString: [[wp comment] string]];
-    //	[changeProjectController setSelectionIndex:[_projects indexOfObject:[[wp parentTask] parentProject]]];
-	[self provideProjectsForEditWpDialog:[[wp parentTask] parentProject]];
-	[self provideTasksForEditWpDialog:[[wp parentTask] parentProject]];
-	[_taskPopupButton selectItemWithTitle:[[wp parentTask] name]];
+    [dtpEditWorkPeriodStartTime setDateValue: wp.startTime];
+	[dtpEditWorkPeriodEndTime setDateValue: wp.endTime];
+	[dtpEditWorkPeriodComment setString: wp.strComment];
+	[self provideProjectsForEditWpDialog:wp.parentTask.parentProject];
+	[self provideTasksForEditWpDialog:wp.parentTask.parentProject];
+	[_taskPopupButton selectItemWithTitle:wp.parentTask.name];
     
-    /*	[panelEditWorkPeriod makeKeyAndOrderFront: self];
-     [NSApp runModalForWindow: panelEditWorkPeriod];
-     */
 	[NSApp beginSheet:panelEditWorkPeriod modalForWindow:mainWindow modalDelegate:self 
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:wp];
     
