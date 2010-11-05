@@ -134,13 +134,13 @@
             // nothing to filter
             return nil;
         } else if (_extraFilterPredicate == nil) {
-            finalPredicateTemplate = [generalPredicate retain];
+            finalPredicateTemplate = generalPredicate;
         } else if (generalPredicate == nil) {
-            finalPredicateTemplate = [_extraFilterPredicate retain];
+            finalPredicateTemplate = _extraFilterPredicate;
         } else {
-            finalPredicateTemplate = [[NSCompoundPredicate 
+            finalPredicateTemplate = [NSCompoundPredicate 
                             andPredicateWithSubpredicates:
-                                [NSArray arrayWithObjects:generalPredicate, _extraFilterPredicate, nil]] retain];
+                                [NSArray arrayWithObjects:generalPredicate, _extraFilterPredicate, nil]];
         }
         // now fill in the variables
         _currentPredicate = [[TTParsedPredicate producePredicateFromTemplate:finalPredicateTemplate] retain];
@@ -528,6 +528,13 @@
 	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"startTime" ascending:YES] autorelease]];
 	[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"parentTask.name" ascending:YES] autorelease]];
 	[workPeriodController setSortDescriptors:descriptors];
+    
+    NSArray *projectSortDescriptors = 
+        [NSArray arrayWithObjects:
+         [[[NSSortDescriptor alloc] initWithKey:@"manual" ascending:NO] autorelease],            [[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES] autorelease], 
+         nil];
+    [tvProjects setSortDescriptors:projectSortDescriptors];
+    //[projectSortDescriptors release];
 	[tvProjects reloadData];
 }
 
@@ -771,6 +778,7 @@
     if (notification.object == [NSApp mainWindow]) {
         [[notification object] setExcludedFromWindowsMenu:YES];        
     }
+	[mainWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -1811,6 +1819,12 @@
 	return nil;
 }
 
+- (void)tableView:(NSTableView *)tableView sortDescriptorsDidChange:(NSArray *)oldDescriptors 
+{
+    NSLog(@"sortdescriptorsdidchange");
+    [tvProjects reloadData];
+}
+
 #pragma mark NSTableViewDataSource methods
 
 - (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes 
@@ -1991,7 +2005,6 @@
 	
 	NSLog(@"selected project: %@, task: %@", _selProject, self.selectedTask);
 }
-
 
 
 #pragma mark ----
