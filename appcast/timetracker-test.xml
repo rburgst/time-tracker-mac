@@ -5,6 +5,13 @@
 		<link>http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</link>
 		<description>This appcast is for testing only-- it will always contain a fake update that is newer than every Time Tracker release.</description>
 		<language>en</language>
+        <item>
+          <title>Time Tracker 1.3.11</title>
+          <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.11.html</description>
+          <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.11.html</sparkle:releaseNotesLink>
+          <pubDate>Mon, 18 Oct 2010 00:00:00 -0800</pubDate>
+          <enclosure url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.11.zip" type="application/octet-stream" sparkle:version="1.3.11" sparkle:dsaSignature="MCwCFAPDsgc6bpWYHP+N8TC0u/RRBGJsAhQcs3gYCyBWVWREF8ICMnoSlOtvIQ==" length="2965434"/>
+        </item>
 		<item>
           <title>Time Tracker 1.3.8</title>
           <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.8.html</description>
