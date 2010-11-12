@@ -778,7 +778,8 @@
     if (notification.object == [NSApp mainWindow]) {
         [[notification object] setExcludedFromWindowsMenu:YES];        
     }
-	[mainWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+//	[mainWindow setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+	[mainWindow setLevel:NSNormalWindowLevel];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -1246,6 +1247,44 @@
     [self reloadWorkPeriods];
 }
 
+- (void) deleteSelectedTask {
+    // only allow deletion or real projects, not inside of all projects
+    if ([_selProject isKindOfClass: [TProject class]]) {
+        // dont allow the deletion of metatasks
+        if ([_selTask isKindOfClass:[TMetaTask class]]) {
+            return;
+        }
+        TProject *project = (TProject*) _selProject;
+        // assert _selTask != nil
+        // assert _selProject != nil
+        
+        // we are currently recording on that task, so stop recording
+        if (self.selectedTask == _curTask) {
+            [self stopTimer];
+        }
+        TTask *delTask = (TTask*)_selTask;
+        [tvTasks deselectAll: self];
+        [project.tasks removeObject: delTask];
+        [project updateTotalTime];
+        [self reloadTasks];
+        [tvProjects reloadData];
+    }
+}
+
+- (void) deleteSelectedProject {
+    if ([_selProject isKindOfClass:[TMetaProject class]]) {
+        return;
+    }
+    // assert _selProject != nil
+    if ([_selProject isEqual:_curProject] || [_selTask isEqual: _curProject]) {
+        [self stopTimer];
+    }
+    TProject *delProject = (TProject*)_selProject;
+    [tvProjects deselectAll: self];
+    [_projects removeObject: delProject];
+    [tvProjects reloadData];    
+}
+
 - (IBAction)clickedDelete:(id)sender
 {
 	if ([mainWindow firstResponder] == tvWorkPeriods) {
@@ -1267,36 +1306,10 @@
 		return;
 	}
 	if ([mainWindow firstResponder] == tvTasks) {
-		if ([_selProject isKindOfClass: [TProject class]]) {
-			if ([_selTask isKindOfClass:[TMetaTask class]]) {
-				return;
-			}
-			TProject *project = (TProject*) _selProject;
-			// assert _selTask != nil
-			// assert _selProject != nil
-			if (self.selectedTask == _curTask) {
-				[self stopTimer];
-			}
-			TTask *delTask = (TTask*)_selTask;
-			[tvTasks deselectAll: self];
-			[[project tasks] removeObject: delTask];
-			[project updateTotalTime];
-			[tvTasks reloadData];
-			[tvProjects reloadData];
-		}
+        [self deleteSelectedTask];
 	}
 	if ([mainWindow firstResponder] == tvProjects) {
-		if ([_selProject isKindOfClass:[TMetaProject class]]) {
-			return;
-		}
-		// assert _selProject != nil
-		if ([_selProject isEqual:_curProject] || [_selTask isEqual: _curProject]) {
-			[self stopTimer];
-		}
-		TProject *delProject = (TProject*)_selProject;
-		[tvProjects deselectAll: self];
-		[_projects removeObject: delProject];
-		[tvProjects reloadData];
+        [self deleteSelectedProject];
 	}
 }
 
