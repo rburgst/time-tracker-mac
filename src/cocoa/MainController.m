@@ -818,7 +818,7 @@
 {
     TTask *task = [wp parentTask];
     TProject *project = [task parentProject];
-    NSString *prefix = [NSString stringWithFormat:@"\"%@\"%@\"%@\"%@", [project name], _csvSeparatorChar, [task name], _csvSeparatorChar];
+    NSString *prefix = [NSString stringWithFormat:@"\"%@\"%@\"%@\"", [project name], _csvSeparatorChar, [task name]];
     return [wp serializeData:prefix separator:_csvSeparatorChar];
 }
 
