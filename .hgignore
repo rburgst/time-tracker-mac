@@ -5,3 +5,5 @@ appcast/logo.png
 appcast/timetracker.css
 Time Tracker.xcodeproj/rainer.perspectivev3
 .DS_Store
+Time Tracker.xcodeproj/xcuserdata
+Time Tracker.xcodeproj/project.xcworkspace
