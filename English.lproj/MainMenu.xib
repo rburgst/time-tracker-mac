@@ -11,8 +11,8 @@
 			<string key="com.brandonwalkin.BWToolkit">1.2.5</string>
 		</dictionary>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="227"/>
 			<integer value="274"/>
+			<integer value="224"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -875,6 +875,11 @@
 																									<bool key="NSIsResizeable">YES</bool>
 																									<bool key="NSIsEditable">YES</bool>
 																									<reference key="NSTableView" ref="712991445"/>
+																									<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
+																										<string key="NSKey">name</string>
+																										<bool key="NSAscending">YES</bool>
+																										<string key="NSSelector">compare:</string>
+																									</object>
 																								</object>
 																								<object class="NSTableColumn" id="640555844">
 																									<string key="NSIdentifier">TotalTime</string>
@@ -908,7 +913,7 @@
 																							<reference key="NSBackgroundColor" ref="553457887"/>
 																							<reference key="NSGridColor" ref="445522209"/>
 																							<double key="NSRowHeight">16</double>
-																							<int key="NSTvFlags">-683671552</int>
+																							<int key="NSTvFlags">1405091840</int>
 																							<reference key="NSDelegate"/>
 																							<reference key="NSDataSource"/>
 																							<string key="NSAutosaveName">projecttable</string>
@@ -1078,7 +1083,7 @@
 																							<reference key="NSBackgroundColor" ref="553457887"/>
 																							<reference key="NSGridColor" ref="445522209"/>
 																							<double key="NSRowHeight">16</double>
-																							<int key="NSTvFlags">1396703232</int>
+																							<int key="NSTvFlags">1405091840</int>
 																							<reference key="NSDelegate"/>
 																							<reference key="NSDataSource"/>
 																							<string key="NSAutosaveName">tasktable</string>
