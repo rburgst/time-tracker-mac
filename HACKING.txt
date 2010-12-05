@@ -13,7 +13,10 @@ and run as you please.
 == Release Packaging ==
 
 1. Make sure the version number is updated:
-    1a. Update CURRENT_PROJECT_VERSION for "All Configurations" in the Project Info within XCode.
+    1a. Update CURRENT_PROJECT_VERSION for "All Configurations" in the 
+        Project Info within XCode. To be on the safe side do it for the 
+        generic project as well as for the Time Tracker target in the "Targets"
+        section.
 
 2. Update the ChangeLog.yml.
 
