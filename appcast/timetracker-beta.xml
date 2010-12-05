@@ -5,12 +5,12 @@
 		<link>http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-beta.xml</link>
 		<description>This appcast is for beta testing only, beta versions will be made available on this appcast.</description>
 		<language>en</language>
-		<item>
+        <item>
           <title>Time Tracker 1.3.12</title>
           <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.12.html</description>
           <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.12.html</sparkle:releaseNotesLink>
           <pubDate>Thu, 02 Dec 2010 00:00:00 -0800</pubDate>
-          <enclosure type="application/octet-stream" sparkle:version="1.3.12" sparkle:dsaSignature="MCwCFB/l38xngkysJT5+GwxpdAltRzVgAhQD+LAbcQw/0qhN1fq0gbr4HjxChQ==" length="2965353" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.12.zip"/>
+          <enclosure type="application/octet-stream" sparkle:version="1.3.12" sparkle:dsaSignature="MCwCFEjL+9O+QvQt8ZJvscdlUMs+iKatAhR5/eQ4ZIqZJB+AGIWJVhZPRdrjSQ==" length="2965332" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.12.zip"/>
         </item>
 		<item>
           <title>Time Tracker 1.3.11</title>

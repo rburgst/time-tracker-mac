@@ -6,6 +6,13 @@
 		<description>This appcast is for testing only-- it will always contain a fake update that is newer than every Time Tracker release.</description>
 		<language>en</language>
         <item>
+          <title>Time Tracker 1.3.12</title>
+          <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.12.html</description>
+          <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.12.html</sparkle:releaseNotesLink>
+          <pubDate>Thu, 02 Dec 2010 00:00:00 -0800</pubDate>
+          <enclosure type="application/octet-stream" sparkle:version="1.3.12" sparkle:dsaSignature="MCwCFEjL+9O+QvQt8ZJvscdlUMs+iKatAhR5/eQ4ZIqZJB+AGIWJVhZPRdrjSQ==" length="2965332" url="http://time-tracker-mac.googlecode.com/files/Time Tracker-1.3.12.zip"/>
+        </item>
+        <item>
           <title>Time Tracker 1.3.11</title>
           <description>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.11.html</description>
           <sparkle:releaseNotesLink>http://time-tracker-mac.googlecode.com/files/timetracker-1.3.11.html</sparkle:releaseNotesLink>
