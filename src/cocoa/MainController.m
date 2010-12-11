@@ -15,7 +15,9 @@
 #import "TTPredicateEditorViewController.h"
 #import "SearchQuery.h"
 #import "TTParsedPredicate.h"
+#ifndef APPSTORE
 #import <Sparkle/Sparkle.h>
+#endif
 #import "TaskEditorController.h"
 
 
@@ -34,6 +36,7 @@
 @synthesize selectedTask = _selTask;
 @synthesize selectedProject = _selProject;
 @synthesize taskEditorController = _taskEditorController;
+@synthesize currentFilterCreationDate = _currentFilterCreationDate;
 
 // this flag toggles whether we show tasks in the "All Projects View"
 // that have no matching time entries (1 means that these will NOT be shown)
@@ -110,6 +113,7 @@
 {
     NSPredicate *generalPredicate = nil;
 	if (_currentPredicate == nil && _filterMode != FILTER_MODE_NONE) {
+		self.currentFilterCreationDate = [NSDate date];
 		[self determineFilterStartDate];
 		[self determineFilterEndDate];
 
@@ -155,6 +159,7 @@
 {
 	[_currentPredicate release];
 	_currentPredicate = nil;
+	self.currentFilterCreationDate = nil;
 }
 
 - (void) applyFilterToCurrentTasks {
@@ -338,10 +343,16 @@
 	// assert _curTask == nil
 }
 
-- (IBAction)filterComments: (id)sender
-{
+/// Called when the currently selected filter should be reapplied due to some change in
+/// date, data, etc.
+- (void) refreshCurrentFilterPredicate {
 	[self invalidateFilterPredicate];
 	[self applyFilter];
+}
+
+- (IBAction)filterComments: (id)sender
+{
+	[self refreshCurrentFilterPredicate];
 }
 
 -(NSString*) migrateUpdateURL:(NSString*)oldURL {
@@ -585,8 +596,8 @@
 			[self setFilterMode: FILTER_MODE_NONE];
 			[_tbPickDateItem setLabel:@"Pick Date"];
 		}
-		[self invalidateFilterPredicate];
-		[self applyFilter];
+
+		[self refreshCurrentFilterPredicate];
 	} else {
 		if (returnCode == NSOKButton) {
 			[self clickedChangeWorkPeriod:contextInfo];
@@ -599,8 +610,7 @@
 
 - (void)notificationDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-	[self invalidateFilterPredicate];
-	[self applyFilter];
+	[self refreshCurrentFilterPredicate];
 	// hide the window
 	[sheet orderOut:nil];
 	statusItem.menu = _startMenu;
@@ -780,6 +790,18 @@
     }
 //	[mainWindow setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
 	[mainWindow setLevel:NSNormalWindowLevel];
+	if (self.currentFilterCreationDate != nil) {
+		// make sure that when we reactivate the app we check if the day filter is out of date
+		NSCalendar *cur = [NSCalendar currentCalendar];
+		NSDateComponents *comps = [cur components:NSWeekdayCalendarUnit fromDate:self.currentFilterCreationDate toDate:[NSDate date] options:0];
+		if ([comps weekdayOrdinal] > 0) {
+			NSLog(@"need to refresh filter, its %d days old", [comps day]);
+			// ok our current filter is out of date, so refresh it
+			[self refreshCurrentFilterPredicate];
+		} else {
+			NSLog(@"no update necessary");
+		}
+	}
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -1038,8 +1060,6 @@
 			break;
 	}
 	_filterEndDate = [[[NSCalendar currentCalendar] dateByAddingComponents:comps toDate:_filterStartDate options:0] retain];
-	//NSLog(@"startTime >= %@ AND endTime <= %@", _filterStartDate, _filterEndDate);
-	//NSLog(@"objects %@", [workPeriodController content]);
 	return _filterEndDate;
 }
 
@@ -1091,8 +1111,7 @@
             _filterMode = FILTER_MODE_NONE;
         }
 
-        [self invalidateFilterPredicate];
-        [self applyFilter];
+        [self refreshCurrentFilterPredicate];
     }    
 }
 -(void)predicateSelected:(NSPredicate *)predicate {
@@ -1596,8 +1615,9 @@
         _updateURL = nil;
         _updateURL = [updateURL retain];
     }
-
+#ifndef APPSTORE
     [[SUUpdater sharedUpdater] setFeedURL:[NSURL URLWithString:updateURL]];
+#endif
 }
 
 -(NSString*) csvSeparatorChar
@@ -2031,6 +2051,7 @@
 #pragma mark Object lifetime
 
 -(void) dealloc {
+	self.currentFilterCreationDate = nil;
     [_highlightCol release];
     [_normalCol release];
     [_highlightBgCol release];

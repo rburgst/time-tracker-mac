@@ -116,6 +116,9 @@
 	
 	NSDate *_lastNonIdleTime;
 	NSDate *_selectedfilterDate;
+	// remembers when the filter was created so that we 
+	// can invalidate it once you cross over to the next day.
+	NSDate *_currentFilterCreationDate;
 	int timeSinceSave;
 	int _filterMode;
 
@@ -220,6 +223,7 @@
 @property(retain, nonatomic) id<IProject> selectedProject;
 @property(retain, nonatomic) NSArray* currentTasks;
 @property(retain, nonatomic) TaskEditorController* taskEditorController;
+@property(retain, nonatomic) NSDate* currentFilterCreationDate;
 
 @end
 
