@@ -101,12 +101,14 @@ static id staticInstance;
     NSDate *now = [self now];
 	NSCalendar *gregorian = [NSCalendar currentCalendar];
 	NSDateComponents *rangeStartComps = [gregorian 
-                                         components:NSYearCalendarUnit|NSWeekCalendarUnit|NSWeekdayCalendarUnit
+                                         components:NSWeekdayCalendarUnit
                                          fromDate:now];
-	[rangeStartComps setWeekday:[gregorian firstWeekday]];
-	NSDate *rangeStart = [gregorian dateFromComponents:rangeStartComps];
-	rangeStart = [rangeStart addTimeInterval:-(weeks * 3600 * 24 * 7)];
-	return rangeStart;
+	NSInteger weekdayDelta = [rangeStartComps weekday] - [gregorian firstWeekday];
+	
+	if (weekdayDelta < 0) {
+		weekdayDelta += 7;
+	}
+	return [self dateWithDaysFromToday:(weeks * 7 + weekdayDelta)];
 }
 
 - (NSDate *)weekEndDateWithWeeksFromToday:(NSInteger)weeks {
