@@ -1,7 +1,20 @@
+=== 1.3.13 ===  2011-01-03
+
+  * fixed issue 91 - the filter was not reapplied if you left TT running
+    past midnight and it showed yesterdays entries in when having the
+    today filter.
+  * fixed issue 95 - replaced BWtoolkit styled but broken ok button with std
+    button
+  * general UI overhaul where a bunch of small annyoing issues were cleaned
+    up
+  * fixed a bug where on new years the last week/this week filters produced
+    empty results
+
 === 1.3.12 ===  2010-12-02
 
   * IMPORTANT! requires Mac OS 10.5 or higher
   * Superfluous ";" character in exported CSV
+  * fixed wrong version number (v1.3.12a)
 
 === 1.3.11 ===  2010-10-18
 
