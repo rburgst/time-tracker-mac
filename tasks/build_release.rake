@@ -5,7 +5,7 @@ require 'builder'
 #task :build_release => [:spec, :features, :changelog] do
 desc "Builds the release package which can be uploaded"
 task :build_release => [:changelog] do
-  sh "xcodebuild -configuration Release -target 'Release Package' -arch 'i386 x86_64 ppc' clean build"
+  sh "xcodebuild -configuration Release -target 'Release Package' -arch 'i386 x86_64 ppc' -project 'Time Tracker.xcodeproj' clean build"
 end
 
 task :changelog => ['ChangeLog.txt']
