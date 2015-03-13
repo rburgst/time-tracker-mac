@@ -1,0 +1,1 @@
+Issue tracking has been moved back from uservoice to Google Code since I prefer updating issues via SVN commit messages. So if you are having problems review the already raised issues and if you have a new one, please create one and be as precise as you can.
