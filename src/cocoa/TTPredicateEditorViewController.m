@@ -7,14 +7,15 @@
 
 #import "TTPredicateEditorViewController.h"
 #import "SearchQuery.h"
-#import <BWToolkitFramework/BWSplitView.h>
+//#import <BWToolkitFramework/BWSplitView.h>
 @implementation TTPredicateEditorViewController
 
 @synthesize delegate = _delegate;
 @synthesize predicateValid = _predicateValid;
 
 -(void)updateEditorFrame {
-    BWSplitView *split = (BWSplitView*) _container.superview;
+    if (true) return;
+/*    BWSplitView *split = (BWSplitView*) _container.superview;
     BOOL collapsed = [split collapsibleSubviewCollapsed];
     if (collapsed) {
         return;
@@ -34,7 +35,7 @@
     // now make sure that the container frame (splitview) is correctly updated as well.
     frame = _container.frame;
     frame.size.height = editorHeight + 2;
-    [_container setFrame:frame];
+    [_container setFrame:frame];*/
 }
 
 -(void) awakeFromNib {    
@@ -117,10 +118,11 @@
         if (self.predicateValid) {
             [_editor addRow:self];            
         } else {
+            /* RBUR: rmeoved to make it compile
             BWSplitView *split = (BWSplitView*) _container.superview;
             if (!split.collapsibleSubviewCollapsed) {
                 [split toggleCollapse:split.toggleCollapseButton];
-            }
+            }*/
         }
     }
     

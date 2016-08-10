@@ -75,8 +75,6 @@
 		D5E58E440D243A21003020AA /* weekofftool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3E0D243A21003020AA /* weekofftool.png */; };
 		D5E58E450D243A21003020AA /* weektool.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E58E3F0D243A21003020AA /* weektool.png */; };
 		D5E913AF123833D00044A9C4 /* TTaskMover.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E913AE123833D00044A9C4 /* TTaskMover.m */; };
-		D5FEF87910BDD87900915321 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; };
-		D5FEF8D110BDDA2100915321 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,7 +104,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D5FEF8D110BDDA2100915321 /* BWToolkitFramework.framework in CopyFiles */,
 				B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,11 +143,6 @@
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
 		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		D5235F3712382604005D0C38 /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = cs; path = cs.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		D5235F3812382610005D0C38 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/TaskEditor.xib; sourceTree = "<group>"; };
-		D5235F391238261F005D0C38 /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D5351418128404100033CE36 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		D53514191284041B0033CE36 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/TaskEditor.xib; sourceTree = "<group>"; };
 		D546669610B76A1A001982C1 /* SearchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchQuery.h; path = src/objc/SearchQuery.h; sourceTree = "<group>"; };
 		D546669710B76A1A001982C1 /* SearchQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchQuery.m; path = src/objc/SearchQuery.m; sourceTree = "<group>"; };
 		D546686210B81E00001982C1 /* CaseInsensitivePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseInsensitivePredicateTemplate.h; sourceTree = "<group>"; };
@@ -216,7 +208,6 @@
 				2C4528A70909AACB003C0369 /* Carbon.framework in Frameworks */,
 				2C4528B20909AAE5003C0369 /* IOKit.framework in Frameworks */,
 				B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */,
-				D5FEF87910BDD87900915321 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +433,6 @@
 			knownRegions = (
 				en,
 				English,
-				cs,
 				German,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Time Tracker */;
@@ -550,7 +540,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C165DFE840E0CC02AAC07 /* English */,
-				D5235F391238261F005D0C38 /* cs */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -559,8 +548,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				D5A7616E10C1C24A004B88C7 /* English */,
-				D5235F3712382604005D0C38 /* cs */,
-				D5351418128404100033CE36 /* German */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -569,8 +556,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				D5CB9CFF11E2055D00E3283E /* English */,
-				D5235F3812382610005D0C38 /* cs */,
-				D53514191284041B0033CE36 /* German */,
 			);
 			name = TaskEditor.xib;
 			sourceTree = "<group>";

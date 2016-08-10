@@ -285,16 +285,16 @@
 	_curProject = _selProject;
 	_curTask = _selTask;
 	
-	timer = [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector (timerFunc:)
-					userInfo: nil repeats: YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector (timerFunc:)
+                                           userInfo:nil repeats:YES];
 	
 	[self updateStartStopState];
 	
 	_curWorkPeriod = [TWorkPeriod new];
-	[_curWorkPeriod setStartTime: [NSDate date]];
-	[_curWorkPeriod setEndTime: [NSDate date]];
+    [_curWorkPeriod setStartTime:[NSDate date]];
+    [_curWorkPeriod setEndTime:[NSDate date]];
 	
-	[(TTask*)_curTask addWorkPeriod: _curWorkPeriod];
+    [(TTask *) _curTask addWorkPeriod:_curWorkPeriod];
 	//[tvWorkPeriods reloadData];	
 	// make sure the controller knows about the new object
 	[workPeriodController rearrangeObjects];
@@ -636,9 +636,9 @@
     [self openEditWorkPeriodPanel:wp];
 }
 
-- (void) doubleClickTask: (id) sender {
-	id<ITask> task = self.selectedTask;
-	if ([task isKindOfClass:[TMetaTask class]]) {
+- (void)doubleClickTask:(id)sender {
+    id <ITask> task = self.selectedTask;
+    if ([task isKindOfClass:[TMetaTask class]] || task == nil) {
 		NSBeep();
 		return;
 	}
@@ -920,16 +920,41 @@
     }
     [rootObject setValue:[NSNumber numberWithBool:_decimalHours] forKey:PREFKEY_DECIMAL_HOURS];
     
-	[NSKeyedArchiver archiveRootObject: rootObject toFile: path];
+    BOOL successfullySaved = FALSE;
+    NSError *error = nil;
+    // First write to temp file
+    NSString *tempPath = [path stringByAppendingString:@".temp"];
+    if ([NSKeyedArchiver archiveRootObject:rootObject toFile:tempPath]) {
+        // then delete the old copy
+        NSFileManager *manager = [NSFileManager defaultManager];
+        if ([manager removeItemAtPath:path error:&error]) {
+            // Then copy file over to the right place
+            if ([manager moveItemAtPath:tempPath toPath:path error:&error]) {
+                successfullySaved = TRUE;
+            }
+        }
+    }
 	
+    if (!successfullySaved) {
+        if (error) {
+            NSLog(@"Error saving file %@", error);
+        }
+        [[NSAlert alertWithMessageText:@"Error saving data"
+                        defaultButton:@"Dismiss"
+                      alternateButton:nil
+                          otherButton:nil
+            informativeTextWithFormat:@"Detailed error: %@", error] runModal];
+    }
+
 	timeSinceSave = 0;
 	
     if (_autosaveCsv && _autosaveCsvFilename != nil) {
         NSString *data = [self serializeData];
         [data writeToFile:_autosaveCsvFilename 
                atomically:YES 
-                 encoding:NSISOLatin1StringEncoding 
-                    error:NULL];
+                 encoding:NSUTF8StringEncoding
+                    error:&error];
+        NSLog(@"saved file %@ error: %@", _autosaveCsvFilename, error);
     }
 }
 

@@ -8,6 +8,7 @@ and run as you please.
 == Prerequisites == 
 * Rubygems
 * gem install text-format
+* gem install builder
 * PowerPC XCode build symbols (you should have this if you have a default XCode install)
 
 == Release Packaging ==

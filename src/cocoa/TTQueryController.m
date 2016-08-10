@@ -52,6 +52,30 @@
     [iSearchQueries addObject:query];
     [query release];
     
+	query = [[SearchQuery alloc] initWithTitle:@"Seven Days ago" predicate:[provider predicateWithSingleDayFromToday:7]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
+	query = [[SearchQuery alloc] initWithTitle:@"Six Days ago" predicate:[provider predicateWithSingleDayFromToday:6]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
+	query = [[SearchQuery alloc] initWithTitle:@"Five Days ago" predicate:[provider predicateWithSingleDayFromToday:5]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
+	query = [[SearchQuery alloc] initWithTitle:@"Four Days ago" predicate:[provider predicateWithSingleDayFromToday:4]];
+    [iSearchQueries addObject:query];
+    [query release];
+    
+    query = [[SearchQuery alloc] initWithTitle:@"Three Days ago" predicate:[provider predicateWithSingleDayFromToday:3]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
+	query = [[SearchQuery alloc] initWithTitle:@"Two Days ago" predicate:[provider predicateWithSingleDayFromToday:2]];
+    [iSearchQueries addObject:query];
+    [query release];
+	
     query = [[SearchQuery alloc] initWithTitle:@"Yesterday" predicate:[provider predicateWithSingleDayFromToday:1]];
     [iSearchQueries addObject:query];
     [query release];
