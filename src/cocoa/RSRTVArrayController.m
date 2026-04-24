@@ -175,11 +175,8 @@ NSString *kRSRTVMovedRowsType = @"com.red-sweater.RSRTVArrayController";
 			// Get the object we're moving
 			object = [objects objectAtIndex:removeIndex];
 
-			// In case nobody else is retaining the object, we need to keep it alive while we move it 		
-			[object retain];
 			[self removeObjectAtArrangedObjectIndex:removeIndex];
 			[self insertObject:object atArrangedObjectIndex:insertIndex];
-			[object release];
 		}
 		index = [indexSet indexLessThanIndex:index];
     }

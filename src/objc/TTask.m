@@ -124,8 +124,8 @@ static int _maxTaskId = 1;
     //self = [super initWithCoder:coder];
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        _name = [[coder decodeObjectForKey:CODERKEY_TASKNAME] retain];
-        _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObjectForKey:CODERKEY_WORKPERIODS]] retain];
+        _name = [coder decodeObjectForKey:CODERKEY_TASKNAME];
+        _workPeriods = [NSMutableArray arrayWithArray: [coder decodeObjectForKey:CODERKEY_WORKPERIODS]];
         int taskId = [coder decodeIntForKey:CODERKEY_TASK_ID];
         if (taskId <= 0) {
             taskId = _maxTaskId + 1;
@@ -135,8 +135,8 @@ static int _maxTaskId = 1;
         [self setTaskId:taskId];
     } else {
         // Must decode keys in same order as encodeWithCoder:
-        _name = [[coder decodeObject] retain];
-        _workPeriods = [[NSMutableArray arrayWithArray: [coder decodeObject]] retain];
+        _name = [coder decodeObject];
+        _workPeriods = [NSMutableArray arrayWithArray: [coder decodeObject]];
     }
 	// update back links
 	NSEnumerator *enumerator = [_workPeriods objectEnumerator];
@@ -181,8 +181,7 @@ static int _maxTaskId = 1;
 		return;
 	}
 	[self willChangeValueForKey:@"filteredDuration"];
-	[_filterPredicate release];
-	_filterPredicate = [predicate retain];
+	_filterPredicate = predicate;
 	[self didChangeValueForKey:@"filteredDuration"];
 }
 

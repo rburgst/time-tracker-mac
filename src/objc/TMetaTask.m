@@ -29,7 +29,7 @@
 - (NSMutableArray *) workPeriods {
 	NSEnumerator *enumTasks = [_tasks objectEnumerator];
 	TTask *task = nil;
-	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *result = [[NSMutableArray alloc] init];
 	while ((task = [enumTasks nextObject]) != nil) {
 		[result addObjectsFromArray:[task workPeriods]];
 	}
@@ -83,15 +83,14 @@
     for (TTask* task in _tasks) {
         [task removeObserver:self forKeyPath:@"filteredDuration"];
     }
-    
-	[_tasks release];
+
 	_tasks = [tasks copy];
     
     // add KVO for filtered time of the subtasks
     for (TTask* task in _tasks) {
-        [task addObserver:self forKeyPath:@"filteredDuration" 
-                  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld) 
-                  context:task];
+        [task addObserver:self forKeyPath:@"filteredDuration"
+                  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
+                  context:(__bridge void *)task];
     }
 }
 

@@ -16,17 +16,13 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUFeedURL</key>
-	<string>http://time-tracker-mac.googlecode.com/svn/appcast/timetracker-test.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
 </dict>
 </plist>

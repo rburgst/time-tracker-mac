@@ -73,11 +73,7 @@
 /* For some unkown reasons automatic implementation of the setter is bogus. */
 
 -(void) setTaskName:(NSString*)name {
-	if (name == _taskName) {
-		return;
-	}
-	[_taskName release];
-	_taskName = [name retain];
+	_taskName = name;
 }
 
 @end

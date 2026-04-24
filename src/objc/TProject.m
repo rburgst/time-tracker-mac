@@ -25,12 +25,7 @@
 	return self;
 }
 
-- (void) dealloc 
-{
-	[_tasks release];
-	_tasks = nil;
-	[super dealloc];
-}
+
 #pragma mark -
 #pragma mark persistence
 
@@ -50,12 +45,12 @@
 {
     if ( [coder allowsKeyedCoding] ) {
         // Can decode keys in any order
-        _name = [[coder decodeObjectForKey:@"PName"] retain];
-        _tasks = [[NSMutableArray arrayWithArray: [coder decodeObjectForKey:@"PTasks"]] retain];
+        _name = [coder decodeObjectForKey:@"PName"];
+        _tasks = [NSMutableArray arrayWithArray: [coder decodeObjectForKey:@"PTasks"]];
     } else {
         // Must decode keys in same order as encodeWithCoder:
-        _name = [[coder decodeObject] retain];
-        _tasks = [[NSMutableArray arrayWithArray: [coder decodeObject]] retain];
+        _name = [coder decodeObject];
+        _tasks = [NSMutableArray arrayWithArray: [coder decodeObject]];
     }
 	[self updateTotalTime];
 	
@@ -82,7 +77,7 @@
 	{
 		[result appendString:[anObject serializeData:prefix separator:separatorChar]];
 	}
-	return [[result retain] autorelease];
+	return result;
 }
 
 #pragma mark -

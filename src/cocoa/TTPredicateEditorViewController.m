@@ -42,7 +42,7 @@
     [_editor addRow:self];
     [_editor addRow:self];
 
-    _container = [[[_editor enclosingScrollView] superview] retain]; 
+    _container = [[_editor enclosingScrollView] superview];
     // cause a layout
     [self updateEditorFrame];
 }
@@ -192,10 +192,5 @@
     return YES;
 }
 
-#pragma mark lifecycle methods
--(void) dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSViewFrameDidChangeNotification object:_editor];
-    [_container release];
-    [super dealloc];
-}
+
 @end

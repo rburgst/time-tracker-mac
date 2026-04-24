@@ -23,7 +23,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2C4528A70909AACB003C0369 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C4528A60909AACB003C0369 /* Carbon.framework */; };
 		2C4528B20909AAE5003C0369 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C4528B10909AAE5003C0369 /* IOKit.framework */; };
 		2C9DB948090675EB0039C62A /* addprojecttool.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C9DB944090675EB0039C62A /* addprojecttool.png */; };
 		2C9DB949090675EB0039C62A /* addtasktool.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C9DB945090675EB0039C62A /* addtasktool.png */; };
@@ -42,8 +41,6 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		B19BDFBC0B5C953700465046 /* Time Tracker.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D1107320486CEB800E47090 /* Time Tracker.app */; };
-		B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; };
-		B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1AB15820CEBC9A50025CF12 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D546669810B76A1A001982C1 /* SearchQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D546669710B76A1A001982C1 /* SearchQuery.m */; };
 		D546686E10B81E00001982C1 /* CaseInsensitivePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686310B81E00001982C1 /* CaseInsensitivePredicateTemplate.m */; };
 		D546686F10B81E00001982C1 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686510B81E00001982C1 /* MainController.m */; };
@@ -53,7 +50,6 @@
 		D546687310B81E00001982C1 /* TTQueryController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546686D10B81E00001982C1 /* TTQueryController.m */; };
 		D5488F3B1139C84A00E1C28C /* WeekdayPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */; };
 		D54CEB3810C0828200CD8B31 /* DatePredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */; };
-		D555336E115C140F000D3B99 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = D555336D115C140F000D3B99 /* dsa_pub.pem */; };
 		D57299A710C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */; };
 		D581A8140CFF3BBA006A0DC1 /* TMetaProject.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8110CFF3BBA006A0DC1 /* TMetaProject.m */; };
 		D581A8150CFF3BBA006A0DC1 /* TMetaTask.m in Sources */ = {isa = PBXBuildFile; fileRef = D581A8130CFF3BBA006A0DC1 /* TMetaTask.m */; };
@@ -98,16 +94,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B1AB15990CEBC9E00025CF12 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				B1AB159D0CEBC9FC0025CF12 /* Sparkle.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -117,7 +104,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		2C4528A60909AACB003C0369 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		2C4528B10909AAE5003C0369 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		2C9DB944090675EB0039C62A /* addprojecttool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addprojecttool.png; path = Graphics/addprojecttool.png; sourceTree = "<group>"; };
 		2C9DB945090675EB0039C62A /* addtasktool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = addtasktool.png; path = Graphics/addtasktool.png; sourceTree = "<group>"; };
@@ -135,14 +121,12 @@
 		2C9EC93D0905A9F6000651F2 /* TimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeIntervalFormatter.h; path = src/objc/TimeIntervalFormatter.h; sourceTree = "<group>"; };
 		2C9EC93E0905A9F6000651F2 /* TimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeIntervalFormatter.m; path = src/objc/TimeIntervalFormatter.m; sourceTree = "<group>"; };
 		2C9EC9530905ABAE000651F2 /* TWorkPeriod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TWorkPeriod.m; path = src/objc/TWorkPeriod.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* Time Tracker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Time Tracker_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Time Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B163D4040B646239007D0E2C /* AUTHORS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AUTHORS.txt; sourceTree = "<group>"; };
 		B163D4050B646239007D0E2C /* LICENSE-GPL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "LICENSE-GPL.txt"; sourceTree = "<group>"; };
 		B19BDFC10B5C956700465046 /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = SOURCE_ROOT; };
 		B19BDFC20B5C956700465046 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = SOURCE_ROOT; };
-		B1AB15820CEBC9A50025CF12 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		D546669610B76A1A001982C1 /* SearchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchQuery.h; path = src/objc/SearchQuery.h; sourceTree = "<group>"; };
 		D546669710B76A1A001982C1 /* SearchQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchQuery.m; path = src/objc/SearchQuery.m; sourceTree = "<group>"; };
 		D546686210B81E00001982C1 /* CaseInsensitivePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseInsensitivePredicateTemplate.h; sourceTree = "<group>"; };
@@ -161,7 +145,6 @@
 		D5488F3A1139C84A00E1C28C /* WeekdayPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeekdayPredicateTemplate.m; sourceTree = "<group>"; };
 		D54CEB3610C0828200CD8B31 /* DatePredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePredicateTemplate.h; sourceTree = "<group>"; };
 		D54CEB3710C0828200CD8B31 /* DatePredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePredicateTemplate.m; sourceTree = "<group>"; };
-		D555336D115C140F000D3B99 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		D56D802E10B5F21F00C3729B /* ITask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ITask.h; path = src/objc/ITask.h; sourceTree = "<group>"; };
 		D57299A510C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkPeriodMainPredicateTemplate.h; sourceTree = "<group>"; };
 		D57299A610C2A92700B8CB4F /* WorkPeriodMainPredicateTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkPeriodMainPredicateTemplate.m; sourceTree = "<group>"; };
@@ -205,9 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				2C4528A70909AACB003C0369 /* Carbon.framework in Frameworks */,
 				2C4528B20909AAE5003C0369 /* IOKit.framework in Frameworks */,
-				B1AB15830CEBC9A50025CF12 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,8 +198,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D5FEF87810BDD87900915321 /* BWToolkitFramework.framework */,
-				2C4528A60909AACB003C0369 /* Carbon.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -259,7 +238,6 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* Time Tracker_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -269,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				D5235F36123825D0005D0C38 /* en */,
-				D555336D115C140F000D3B99 /* dsa_pub.pem */,
 				B163D4040B646239007D0E2C /* AUTHORS.txt */,
 				B163D4050B646239007D0E2C /* LICENSE-GPL.txt */,
 				D5C9939B11636AFB00AFCE6E /* ChangeLog.yml */,
@@ -284,7 +261,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B1AB15820CEBC9A50025CF12 /* Sparkle.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -406,7 +382,6 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				B1AB15990CEBC9E00025CF12 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -469,7 +444,6 @@
 				D5B0A2C80D24D15A004DBF70 /* pickdateofftool.png in Resources */,
 				D5B0A2C90D24D15A004DBF70 /* pickdatetool.png in Resources */,
 				D5A7616F10C1C24A004B88C7 /* MainMenu.xib in Resources */,
-				D555336E115C140F000D3B99 /* dsa_pub.pem in Resources */,
 				D5C9939C11636AFB00AFCE6E /* ChangeLog.yml in Resources */,
 				D5CB9D0011E2055D00E3283E /* TaskEditor.xib in Resources */,
 			);
@@ -567,34 +541,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_IDENTIFIER = com.slooz.timetracker;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1.3.13;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"\"$(SRCROOT)/BWToolkit\"",
-					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
-					"\"$(SRCROOT)/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Time Tracker_Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PREBINDING = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "${BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = "Time Tracker";
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
@@ -602,32 +571,27 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_IDENTIFIER = com.slooz.timetracker;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.3.13;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"\"$(SRCROOT)/BWToolkit\"",
-					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
-					"\"$(SRCROOT)/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Time Tracker_Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PREBINDING = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "${BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = "Time Tracker";
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 				WRAPPER_EXTENSION = app;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -635,27 +599,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_IDENTIFIER = com.slooz.timetracker;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1.3.13;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"\"$(SRCROOT)/BWToolkit\"",
-					"\"$(SRCROOT)/BWToolkit/BWToolkit.ibplugin/Contents/Frameworks\"",
-					"\"$(SRCROOT)/BWToolkit.ibplugin/Contents/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Time Tracker_Prefix.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "${BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = "Time Tracker";
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Default;
@@ -664,6 +625,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -682,11 +644,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 				ZERO_LINK = YES;
 			};
 			name = Debug;
@@ -695,6 +657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -712,10 +675,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 			};
 			name = Release;
 		};
@@ -723,6 +686,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -740,10 +704,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386 ppc";
+				VALID_ARCHS = "x86_64 arm64";
 			};
 			name = Default;
 		};
