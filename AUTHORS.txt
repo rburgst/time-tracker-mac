@@ -1,3 +1,6 @@
+Updated via Claude to compile on ARM processor
+Kem Tekinay <ktekinay at mactechnologies dot com>
+
 Some more enhancements
 Rainer Burgstaller <rburgst@gmail.com>
 
