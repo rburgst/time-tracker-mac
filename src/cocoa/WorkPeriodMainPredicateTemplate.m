@@ -22,6 +22,5 @@
 
 -(void) dealloc {
     self._templateViews = nil;
-    [super dealloc];
 }
 @end

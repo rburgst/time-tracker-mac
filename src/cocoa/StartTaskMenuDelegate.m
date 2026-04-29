@@ -42,11 +42,9 @@
         NSMenuItem *editItem = [[NSMenuItem alloc] initWithTitle:@"Edit current timer" action:@selector(clickedEditCurrentWorkperiod:) keyEquivalent:@""];
         [editItem setTarget:_controller];
         [menu addItem:editItem];
-        [editItem release];
         NSMenuItem *stopItem = [[NSMenuItem alloc] initWithTitle:@"Stop current timer" action:@selector(clickedStartStopTimer:) keyEquivalent:@""];
         [stopItem setTarget:_controller];
         [menu addItem:stopItem];
-        [stopItem release];
         
     }
     // now fill with new ones
@@ -68,7 +66,6 @@
     if (shouldShowMenu) {
         NSMenuItem *startItem = [[NSMenuItem alloc] initWithTitle:@"Start:" action:nil keyEquivalent:@""];
         [menu addItem:startItem];
-        [startItem release];
     }
     
     if (task != nil) {
@@ -78,10 +75,9 @@
         [item setRepresentedObject:task];
         [item setTarget:self];
         [menu addItem:item];
-        [item release];        
     }
-    
-    NSEnumerator *enumItems = [[_controller lruTasks] objectEnumerator];    
+
+    NSEnumerator *enumItems = [[_controller lruTasks] objectEnumerator];
 
     while ((task = [enumItems nextObject]) != nil) {
         TProject *project = [task parentProject];
@@ -90,7 +86,6 @@
         [item setRepresentedObject:task];
         [item setTarget:self];
         [menu addItem:item];
-        [item release];
     }                               
 }
 

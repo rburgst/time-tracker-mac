@@ -22,8 +22,7 @@ static id staticInstance;
 
 - (void)setNow:(NSDate *)aNow
 {
-  [masterNow release];
-  masterNow = [aNow retain];
+  masterNow = aNow;
 }
 
 - (NSDate *)now
@@ -38,16 +37,10 @@ static id staticInstance;
   }
 }
 
-- (void)dealloc
-{
-  [masterNow release];
-  [super dealloc];
-}
-
 #pragma mark day functions
 -(NSDate*) dateWithMidnight:(NSDate*)dateWithTime {
     NSCalendar *cal = [NSCalendar currentCalendar];
-    NSUInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSUInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
     NSDateComponents *date00 = [cal components:unitFlags fromDate:dateWithTime];
     return [cal dateFromComponents:date00];
 }
@@ -58,7 +51,6 @@ static id staticInstance;
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:-days];
     NSDate *startDate = [cal dateByAddingComponents:components toDate:now options:0];
-    [components release];
     return startDate;
 }
 
@@ -100,8 +92,8 @@ static id staticInstance;
 - (NSDate *)weekStartDateWithWeeksFromToday:(NSInteger)weeks {
     NSDate *now = [self now];
 	NSCalendar *gregorian = [NSCalendar currentCalendar];
-	NSDateComponents *rangeStartComps = [gregorian 
-                                         components:NSWeekdayCalendarUnit
+	NSDateComponents *rangeStartComps = [gregorian
+                                         components:NSCalendarUnitWeekday
                                          fromDate:now];
 	NSInteger weekdayDelta = [rangeStartComps weekday] - [gregorian firstWeekday];
 	
@@ -153,8 +145,8 @@ static id staticInstance;
 - (NSDate *)monthStartDateWithMonthsFromToday:(NSInteger) months {
     NSDate *now = [self now];
 	NSCalendar *gregorian = [NSCalendar currentCalendar];
-	NSDateComponents *rangeStartComps = [gregorian 
-                                         components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit
+	NSDateComponents *rangeStartComps = [gregorian
+                                         components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay
                                          fromDate:now];
 	[rangeStartComps setDay:1];
 	[rangeStartComps setMonth:[rangeStartComps month] - months];

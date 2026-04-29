@@ -58,7 +58,7 @@
 {
 	NSEnumerator *enumProjects = [_projects objectEnumerator];
 	TProject *project = nil;
-	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *result = [[NSMutableArray alloc] init];
 	while ((project = [enumProjects nextObject]) != nil) {
 		[result addObjectsFromArray:[project tasks]];
 	}
@@ -72,10 +72,7 @@
 
 - (void) setProjects:(NSMutableArray*) projects
 {
-	if (_projects != nil) {
-		[_projects release];
-	}
-	_projects = [projects retain];
+	_projects = projects;
 }
 
 - (TProject*) projectForTask:(TTask*)task returnIndex:(int*)taskIndex {
@@ -123,7 +120,7 @@
 		return [self tasks];
 	}
 	NSEnumerator *enumProjects = [_projects objectEnumerator];
-	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *result = [[NSMutableArray alloc] init];
 
 	id project;
 	while ((project = [enumProjects nextObject]) != nil) {
