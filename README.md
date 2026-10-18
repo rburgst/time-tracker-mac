@@ -12,6 +12,18 @@ Time Tracker is a native macOS application for recording time against projects a
 
 The project currently targets macOS 12.0 or later.
 
+## Download and launch
+
+Download the latest ZIP from the [GitHub Releases page](https://github.com/rburgst/time-tracker-mac/releases), then open it to extract `Time Tracker.app`. You can move the app to Applications.
+
+The release build is ad-hoc signed and is not notarized by Apple. The first time you open it, macOS may block it:
+
+1. Try to open **Time Tracker** once from Finder.
+2. Open **Apple menu > System Settings > Privacy & Security** and scroll to the **Security** section.
+3. Click **Open Anyway** for Time Tracker, then confirm **Open** in the next alert.
+
+Only do this if you downloaded the app from the project's GitHub Releases page and trust its source. Once approved, you can open it normally from Applications or Finder. See [Apple's instructions](https://support.apple.com/en-gb/guide/mac-help/mh40617/27/mac/27) for details.
+
 ### From Terminal
 
 With Xcode and its command-line tools installed, build the app from the repository root:
@@ -46,4 +58,4 @@ Time records are stored in `~/Library/Application Support/TimeTracker/data.plist
 
 ## Development notes
 
-See [HACKING.txt](HACKING.txt) for the current developer workflow. The historical release-publishing procedure there has been removed because it refers to retired services and build tooling.
+See [HACKING.txt](HACKING.txt) for the developer workflow and current release packaging and publishing steps.

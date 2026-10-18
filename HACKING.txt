@@ -26,6 +26,49 @@ The built application is at:
 
     build/Build/Products/Debug/Time Tracker.app
 
-The old release packaging and publishing instructions have been retired. They
-depended on PowerPC build settings, Google Code hosting, and credentials for
-services that are no longer part of the supported development workflow.
+Release packaging and publishing
+--------------------------------
+
+The `Release Package` Xcode scheme builds the app and creates a versioned ZIP.
+Build a universal archive for Intel and Apple Silicon from the repository root:
+
+    xcodebuild -project "Time Tracker.xcodeproj" \
+      -scheme "Release Package" \
+      -configuration Release \
+      -sdk macosx \
+      -derivedDataPath build/release-derived \
+      ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
+      MACOSX_DEPLOYMENT_TARGET=12.0 CODE_SIGNING_ALLOWED=NO \
+      build
+
+Set the version to the value in `CURRENT_PROJECT_VERSION` in the Xcode project.
+The Xcode target creates `Time Tracker-<version>.zip` under
+`build/release-derived/Build/Products/Release/`. Copy it to `build/Release/`
+with `-universal` added to the filename. Before publishing, verify the ZIP
+contains `Time Tracker.app` and that its executable includes both `arm64` and
+`x86_64` architectures.
+
+For a new release, set `VERSION` to the project's `CURRENT_PROJECT_VERSION`,
+then copy the archive and create a version tag on the intended commit:
+
+    VERSION=1.3.14
+    mkdir -p build/Release
+    cp "build/release-derived/Build/Products/Release/Time Tracker-${VERSION}.zip" \
+      "build/Release/Time Tracker-${VERSION}-universal.zip"
+    TAG="v${VERSION}-macos-27"
+    git tag -a "$TAG" -m "Time Tracker ${VERSION} macOS release"
+    git push origin master
+    git push origin "$TAG"
+
+Create the GitHub release and upload the ZIP with `gh release create`. Include
+the supported macOS version, architectures, and the first-launch steps from
+the README in the release notes. For example:
+
+    gh release create "$TAG" "build/Release/Time Tracker-${VERSION}-universal.zip" \
+      --title "Time Tracker ${VERSION} for macOS" \
+      --notes-file release-notes.md
+
+Releases are ad-hoc signed and are not notarized by Apple. Tell users to
+approve the app only if they trust the release source. For details, see
+Apple's guidance at
+https://support.apple.com/en-gb/guide/mac-help/mh40617/27/mac/27.
