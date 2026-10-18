@@ -547,6 +547,7 @@
 {
 	[tvWorkPeriods setTarget: self];
 	[tvWorkPeriods setDoubleAction: @selector(doubleClickWorkPeriod:)];
+	[tvTasks setTarget: self];
     
 	[tvProjects reloadData];
     
@@ -610,10 +611,26 @@
 	statusItem.menu = _startMenu;
 }
 
+- (void)taskEditorSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	[sheet orderOut:nil];
+	[tvTasks reloadData];
+	[self updateProminentDisplay];
+}
+
 - (void) openEditWorkPeriodPanel:(TWorkPeriod*) wp {
     [dtpEditWorkPeriodStartTime setDateValue: wp.startTime];
 	[dtpEditWorkPeriodEndTime setDateValue: wp.endTime];
 	[dtpEditWorkPeriodComment setString: wp.strComment];
+	NSRange commentRange = NSMakeRange(0, dtpEditWorkPeriodComment.string.length);
+	if (commentRange.length > 0) {
+		[dtpEditWorkPeriodComment.textStorage addAttribute:NSForegroundColorAttributeName
+										value:[NSColor textColor]
+										range:commentRange];
+	}
+	NSMutableDictionary *typingAttributes = [dtpEditWorkPeriodComment.typingAttributes mutableCopy];
+	typingAttributes[NSForegroundColorAttributeName] = [NSColor textColor];
+	dtpEditWorkPeriodComment.typingAttributes = typingAttributes;
 	[self provideProjectsForEditWpDialog:wp.parentTask.parentProject];
 	[self provideTasksForEditWpDialog:wp.parentTask.parentProject];
 	[_taskPopupButton selectItemWithTitle:wp.parentTask.name];
@@ -916,13 +933,16 @@
     // First write to temp file
     NSString *tempPath = [path stringByAppendingString:@".temp"];
     if ([NSKeyedArchiver archiveRootObject:rootObject toFile:tempPath]) {
-        // then delete the old copy
         NSFileManager *manager = [NSFileManager defaultManager];
-        if ([manager removeItemAtPath:path error:&error]) {
-            // Then copy file over to the right place
-            if ([manager moveItemAtPath:tempPath toPath:path error:&error]) {
-                successfullySaved = TRUE;
-            }
+        if ([manager fileExistsAtPath:path]) {
+            successfullySaved = [manager replaceItemAtURL:[NSURL fileURLWithPath:path]
+                                             withItemAtURL:[NSURL fileURLWithPath:tempPath]
+                                            backupItemName:nil
+                                                   options:0
+                                          resultingItemURL:nil
+                                                     error:&error];
+        } else {
+            successfullySaved = [manager moveItemAtPath:tempPath toPath:path error:&error];
         }
     }
 	
@@ -1051,10 +1071,10 @@
 
 - (IBAction)clickedAddTask:(id)sender
 {
-	[self createTask];
-
-	int index = [[_selProject tasks] count];
-	[tvTasks editColumn:[tvTasks columnWithIdentifier:@"TaskName"] row:index withEvent:nil select:YES];
+	TTask *task = [self createTask];
+	if (task != nil) {
+		[self.taskEditorController openSheet:self forWindow:mainWindow withTask:task];
+	}
 }
 
 -(NSDate*) determineFilterEndDate

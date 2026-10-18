@@ -13,6 +13,7 @@
 	TTask *_task;
 	NSString* _taskName;
 	BOOL _completed;
+	IBOutlet NSTextField *_taskNameField;
 }
 
 @property(nonatomic,retain) TTask* task;

@@ -141,6 +141,7 @@
 // actions
 - (IBAction)clickedAddProject:(id)sender;
 - (IBAction)clickedAddTask:(id)sender;
+- (void)taskEditorSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (IBAction)clickedStartStopTimer:(id)sender;
 - (IBAction)clickedDelete:(id)sender;
 - (IBAction)clickedChangeWorkPeriod:(id)sender;

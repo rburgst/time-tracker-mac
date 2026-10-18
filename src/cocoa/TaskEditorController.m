@@ -33,7 +33,12 @@
 	NSWindow *sheet = [self window];
 
 	[sheet setAlphaValue:1];
-	[NSApp beginSheet:sheet modalForWindow:parentWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
+	[NSApp beginSheet:sheet
+		modalForWindow:parentWindow
+		modalDelegate:sender
+		didEndSelector:@selector(taskEditorSheetDidEnd:returnCode:contextInfo:)
+		contextInfo:nil];
+	[sheet makeFirstResponder:_taskNameField];
 }
 
 

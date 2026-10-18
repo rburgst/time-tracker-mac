@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="TaskEditorController">
             <connections>
                 <outlet property="window" destination="7" id="31"/>
+                <outlet property="_taskNameField" destination="22" id="50"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
