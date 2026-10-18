@@ -1,42 +1,49 @@
-# time-tracker-mac
+# Time Tracker
 
-## HowToUse  
-A very brief introduction on how to use TimeTracker. 
+Time Tracker is a native macOS application for recording time against projects and tasks.
 
-### Getting Started
-In order to get started with TimeTracker do the following:
+## Build and run
 
-1. Start TimeTracker
-2. Create a project by clicking on the "New Project" button in the toolbar and give it a meaningful name
-3. select your new project
-4. create a task within your new project and give it a meaningful name
-5. select the task within the project
-6. Now the green recording button will become active and you can start recording your times
+### In Xcode
 
-### Using the status bar
+1. Open `Time Tracker.xcodeproj`.
+2. Select the **Time Tracker** scheme and **My Mac** as the run destination.
+3. Choose **Product > Run** (⌘R). Xcode builds and launches the application.
 
-The status bar allows you to quickly start/stop recording of your last recently used tasks. You can configure the number of last tasks TimeTracker will record in the settings screen. Furthermore, you can also start the currently selected task / project from the main window.
+The project currently targets macOS 12.0 or later.
 
-## FAQ
+### From Terminal
 
-#### Where is the data stored?
-Old versions of TimeTracker stored the data in `<userhome>/Library/Preferences/com.slooz.timetracker.plist`. In fact this is still used but only for settings.
+With Xcode and its command-line tools installed, build the app from the repository root:
 
-Newer versions of TimeTracker store their data in `<userhome>/Library/Application Support/TimeTracker/data.plist`. In this file all your recordings are stored.
+```sh
+xcodebuild \
+  -project "Time Tracker.xcodeproj" \
+  -scheme "Time Tracker" \
+  -configuration Debug \
+  -destination 'platform=macOS' \
+  -derivedDataPath build \
+  build
+```
 
-If you want to move to a new computer or backup your data, you only need to store the data.plist file.
+Launch the built app with:
 
-#### Is Power PC still supported?
-In fact it is, only a few versions dropped the support but 1.3.11 will add it back in. Newer version wont anymore.
+```sh
+open "build/Build/Products/Debug/Time Tracker.app"
+```
 
-#### What is the minimum OS version?
-TimeTracker requires at least OSX 10.5.
+## Getting started
 
-#### Is it possible to import from XLS or CSV?
-Nope.
+1. Create a project using **New Project** in the toolbar.
+2. Select the project, then create a task in it.
+3. Select the task and click the green recording button to start tracking time.
 
-#### How do I edit a task / project / recording?
-Just double click.
+The menu bar status item can start and stop recently used tasks. The number of recent tasks is configurable in the application settings.
 
-#### How do I delete a task/recording?
-Select the item and hit the backspace key.
+## Data and export
+
+Time records are stored in `~/Library/Application Support/TimeTracker/data.plist`. Back up this file to preserve recorded data. The application can export records to CSV; it does not import XLS or CSV files.
+
+## Development notes
+
+See [HACKING.txt](HACKING.txt) for the current developer workflow. The historical release-publishing procedure there has been removed because it refers to retired services and build tooling.
